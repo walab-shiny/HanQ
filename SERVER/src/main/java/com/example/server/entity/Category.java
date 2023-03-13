@@ -19,4 +19,7 @@ public class Category {
     private String name;
     @OneToMany(mappedBy = "category")
     private List<EventCategory> events = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User likes;
 }
