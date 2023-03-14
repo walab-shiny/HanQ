@@ -1,6 +1,6 @@
-import { SnackbarProvider } from "notistack";
-import ThemeProvider from "./theme";
-import Router from "./Router";
+import { SnackbarProvider } from 'notistack';
+import ThemeProvider from './theme';
+import Router from './Router';
 
 function App() {
   return (
