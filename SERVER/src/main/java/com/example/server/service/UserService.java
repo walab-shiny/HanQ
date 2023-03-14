@@ -1,6 +1,7 @@
 package com.example.server.service;
 
 import com.example.server.dto.LoginUserDto;
+import com.example.server.dto.UserDto;
 import com.example.server.entity.User;
 import com.example.server.repository.UserRepository;
 import com.example.server.token.DecodedToken;
@@ -26,5 +27,9 @@ public class UserService {
         }
         dto.setUserId(saved.getId());
         return ResponseEntity.ok(dto);
+    }
+    public ResponseEntity<UserDto> getUser(int id) {
+        User saved = userRepository.findById(id).orElseThrow();
+        return ResponseEntity.ok(saved.toDto());
     }
 }
