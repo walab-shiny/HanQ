@@ -118,3 +118,6 @@ fabric.properties
 
 # dotenv
 .env
+
+# application.properties
+application.properties

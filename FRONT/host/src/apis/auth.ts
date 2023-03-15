@@ -6,3 +6,8 @@ export const loginWithCredential = async (credential: string) => {
   });
   return response;
 };
+
+export const getUserInfoByUserId = async (userId: number) => {
+  const response = await axios.get(`${process.env.REACT_APP_SERVER}/api/user/${userId}`);
+  return response.data;
+};

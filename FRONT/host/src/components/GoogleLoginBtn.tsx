@@ -1,11 +1,14 @@
 import { GoogleLogin } from '@react-oauth/google';
+import { useSetRecoilState } from 'recoil';
 import { loginWithCredential } from '../apis/auth';
+import { authState } from '../store/auth';
 
 export default function GoogleLoginBtn() {
-  const handleLogin = (credential?: string) => {
+  const setUserId = useSetRecoilState(authState);
+  const handleLogin = async (credential?: string) => {
     if (credential) {
-      console.log(credential);
-      console.log(loginWithCredential(credential));
+      const response = await loginWithCredential(credential);
+      setUserId(response.data.userId);
     } else {
       console.error('no credential');
     }
