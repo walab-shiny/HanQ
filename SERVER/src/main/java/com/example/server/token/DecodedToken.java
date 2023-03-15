@@ -19,7 +19,7 @@ public class DecodedToken {
     public static DecodedToken getDecodedToken(String tokenString) {
         String[] pieces = tokenString.split("\\.");
         String b64payload = pieces[1];
-        String jsonString = new String(Base64.decodeBase64(b64payload + "="), StandardCharsets.UTF_8);
+        String jsonString = new String(Base64.decodeBase64URLSafe(b64payload), StandardCharsets.UTF_8);
 
         return new Gson().fromJson(jsonString,DecodedToken.class);
     }
