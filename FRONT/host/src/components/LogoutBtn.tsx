@@ -4,10 +4,14 @@ import { useResetRecoilState } from 'recoil';
 import { authState } from '../store/auth';
 
 export default function LogoutBtn() {
-  const resetUserId = useResetRecoilState(authState);
+  const resetCredential = useResetRecoilState(authState);
+  const removeCredential = () => {
+    localStorage.removeItem('credential');
+    resetCredential();
+  };
   const handleLogout = () => {
     googleLogout();
-    resetUserId();
+    removeCredential();
   };
   return <Button onClick={handleLogout}>Logout</Button>;
 }
