@@ -18,12 +18,8 @@ public class DecodedToken {
 
     public static DecodedToken getDecodedToken(String tokenString) {
         String[] pieces = tokenString.split("\\.");
-        StringBuilder b64payload = new StringBuilder(pieces[1]);
-        System.out.println("b64payload.length() = " + b64payload.length());
-        while(b64payload.length()%4!=0) {
-            b64payload.append("=");
-        }
-        String jsonString = new String(Base64.decodeBase64(b64payload.toString()), StandardCharsets.UTF_8);
+        String b64payload = pieces[1];
+        String jsonString = new String(Base64.decodeBase64(b64payload + "="), StandardCharsets.UTF_8);
 
         return new Gson().fromJson(jsonString,DecodedToken.class);
     }
