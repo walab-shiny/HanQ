@@ -1,5 +1,6 @@
 import { Box } from "@mui/material";
 import CardList from "../components/Dashboard/CardList";
+import ChartList from "../components/Dashboard/ChartList";
 import Header from "../components/Dashboard/Header";
 import Logo from "../components/Dashboard/Logo";
 import MenuList from "../components/Dashboard/MenuList";
@@ -16,14 +17,12 @@ export default function Dashboard() {
         <Logo />
         <MenuList />
       </Box>
-      <Box
-        display="flex"
-        alignItems="flex-start"
-        flexDirection="column"
-        gap={1}
-      >
+      <Box display="flex" flexDirection="column" flexGrow={1} gap={1}>
         <Header />
-        <CardList />
+        <Box display="flex" justifyContent="space-evenly">
+          <CardList />
+          <ChartList />
+        </Box>
       </Box>
     </Box>
   );

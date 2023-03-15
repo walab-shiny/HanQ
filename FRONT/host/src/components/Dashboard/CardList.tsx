@@ -1,7 +1,5 @@
 import Box from "@mui/material/Box";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 
@@ -12,9 +10,9 @@ export default function CardList() {
     "행사 관리 페이지 바로가기 =>",
   ];
   return (
-    <Box width="50%">
+    <Box>
       {notis.map((noti, idx) => (
-        <Box width="100%" m={3}>
+        <Box m={3}>
           <Card>
             <CardContent>
               <Typography variant="h5" component="div">

@@ -23,7 +23,6 @@ export default function MenuList() {
     <Box
       sx={{
         width: "100%",
-        // maxWidth: "calc(18vw)",
         bgcolor: "background.paper",
         flexGrow: 1,
       }}
