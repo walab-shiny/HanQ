@@ -1,7 +1,7 @@
-import Paper from "@mui/material/Paper";
-import InputBase from "@mui/material/InputBase";
-import IconButton from "@mui/material/IconButton";
-import SearchIcon from "@mui/icons-material/Search";
+import Paper from '@mui/material/Paper';
+import InputBase from '@mui/material/InputBase';
+import IconButton from '@mui/material/IconButton';
+import SearchIcon from '@mui/icons-material/Search';
 
 export default function Search() {
   return (
@@ -9,14 +9,14 @@ export default function Search() {
       <Paper
         component="form"
         sx={{
-          p: "2px 4px",
+          p: '2px 4px',
           ml: 15,
-          display: "flex",
-          alignItems: "center",
-          width: "calc(30vw)",
+          display: 'flex',
+          alignItems: 'center',
+          width: 'calc(30vw)',
         }}
       >
-        <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
+        <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
           <SearchIcon />
         </IconButton>
         <InputBase

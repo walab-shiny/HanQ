@@ -1,13 +1,13 @@
-import { Box } from "@mui/material";
-import ReactApexChart from "react-apexcharts";
+import { Box } from '@mui/material';
+import ReactApexChart from 'react-apexcharts';
 
 export default function Apex() {
   return (
-    <Box width={"calc(8vw)"}>
+    <Box width={'calc(8vw)'}>
       <ReactApexChart
         type="donut"
         series={[25, 75]}
-        labels={["미참석", "참석"]}
+        labels={['미참석', '참석']}
         options={{
           chart: {
             height: 10,

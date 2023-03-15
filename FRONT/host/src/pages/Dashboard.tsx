@@ -1,9 +1,9 @@
-import { Box } from "@mui/material";
-import CardList from "../components/Dashboard/CardList";
-import ChartList from "../components/Dashboard/ChartList";
-import Header from "../components/Dashboard/Header";
-import Logo from "../components/Dashboard/Logo";
-import MenuList from "../components/Dashboard/MenuList";
+import { Box } from '@mui/material';
+import CardList from '../components/Dashboard/CardList';
+import ChartList from '../components/Dashboard/ChartList';
+import Header from '../components/Dashboard/Header';
+import Logo from '../components/Dashboard/Logo';
+import MenuList from '../components/Dashboard/MenuList';
 
 export default function Dashboard() {
   return (
@@ -11,8 +11,8 @@ export default function Dashboard() {
       <Box
         display="flex"
         flexDirection="column"
-        width={"calc(18vw)"}
-        sx={{ bgcolor: "background.paper" }}
+        width={'calc(18vw)'}
+        sx={{ bgcolor: 'background.paper' }}
       >
         <Logo />
         <MenuList />

@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import { Typography } from '@mui/material';
 
 export default function Logo() {
   return (
@@ -6,10 +6,10 @@ export default function Logo() {
       <Typography
         sx={{
           fontSize: 25,
-          fontWeight: "900",
+          fontWeight: '900',
           margin: 3,
           mb: 1,
-          color: "primary.main",
+          color: 'primary.main',
         }}
       >
         HanQ
