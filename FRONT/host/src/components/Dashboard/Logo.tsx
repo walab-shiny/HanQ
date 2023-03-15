@@ -5,10 +5,11 @@ export default function Logo() {
     <>
       <Typography
         sx={{
-          fontSize: 20,
-          fontWeight: "bold",
+          fontSize: 25,
+          fontWeight: "900",
           margin: 3,
           mb: 1,
+          color: "primary.main",
         }}
       >
         HanQ
