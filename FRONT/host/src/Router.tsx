@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import Dashboard from './pages/Dashboard';
+import Event from './pages/Event';
 import Login from './pages/Login';
 import { authState } from './store/auth';
 
@@ -10,7 +11,10 @@ function Router() {
     <BrowserRouter>
       <Routes>
         {userId ? (
-          <Route path="/" element={<Dashboard />} />
+          <>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/event" element={<Event />} />
+          </>
         ) : (
           <Route path="*" element={<Login />} />
         )}
