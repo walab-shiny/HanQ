@@ -1,6 +1,8 @@
 package com.example.server.entity;
 
+import com.example.server.dto.UserDto;
 import com.example.server.entity.base.BaseEntity;
+import com.example.server.token.DecodedToken;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -34,4 +36,22 @@ public class User extends BaseEntity {
     private List<Event> events = new ArrayList<>();
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="likes")
     private List<Category> categories = new ArrayList<>();
+
+    public User(DecodedToken token) {
+        this.email = token.getEmail();
+        this.token = token.getSub();
+        this.name = token.getName();
+    }
+    public UserDto toDto() {
+        UserDto dto = new UserDto();
+        dto.setId(this.id);
+        dto.setEmail(this.email);
+        dto.setName(this.name);
+        dto.setToken(this.token);
+        // later fix
+//        dto.setDepartmentId(this.department.getId());
+//        dto.setRoleId(this.role.getId());
+//        dto.setStudentId(this.studentId);
+        return dto;
+    }
 }

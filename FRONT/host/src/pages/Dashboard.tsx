@@ -15,10 +15,10 @@ export default function Dashboard() {
         sx={{ bgcolor: 'background.paper' }}
       >
         <Logo />
-        <MenuList />
+        <MenuList page={0} />
       </Box>
       <Box display="flex" flexDirection="column" flexGrow={1} gap={1}>
-        <Header />
+        <Header page={'대시보드'} />
         <Box display="flex" justifyContent="space-evenly">
           <CardList />
           <ChartList />

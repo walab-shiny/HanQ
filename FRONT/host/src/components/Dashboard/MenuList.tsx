@@ -8,9 +8,14 @@ import MenuBookIcon from '@mui/icons-material/MenuBook';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import PersonIcon from '@mui/icons-material/Person';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-export default function MenuList() {
-  const [selectedIndex, setSelectedIndex] = useState(0);
+interface propsType {
+  page: number;
+}
+
+export default function MenuList(props: propsType) {
+  const [selectedIndex, setSelectedIndex] = useState(props.page);
 
   const handleListItemClick = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -18,6 +23,8 @@ export default function MenuList() {
   ) => {
     setSelectedIndex(index);
   };
+
+  const navigate = useNavigate();
 
   return (
     <Box
@@ -30,7 +37,10 @@ export default function MenuList() {
       <List component="nav" aria-label="main mailbox folders">
         <ListItemButton
           selected={selectedIndex === 0}
-          onClick={(event) => handleListItemClick(event, 0)}
+          onClick={(event) => {
+            handleListItemClick(event, 0);
+            navigate('/');
+          }}
           sx={{ padding: 1.5, margin: 1, borderRadius: 1 }}
         >
           <ListItemIcon>
@@ -41,7 +51,10 @@ export default function MenuList() {
 
         <ListItemButton
           selected={selectedIndex === 1}
-          onClick={(event) => handleListItemClick(event, 1)}
+          onClick={(event) => {
+            handleListItemClick(event, 1);
+            navigate('/event');
+          }}
           sx={{ padding: 1.5, margin: 1, borderRadius: 1 }}
         >
           <ListItemIcon>
@@ -51,7 +64,10 @@ export default function MenuList() {
         </ListItemButton>
         <ListItemButton
           selected={selectedIndex === 2}
-          onClick={(event) => handleListItemClick(event, 2)}
+          onClick={(event) => {
+            handleListItemClick(event, 1);
+            // navigate('/event');
+          }}
           sx={{ padding: 1.5, margin: 1, borderRadius: 1 }}
         >
           <ListItemIcon>
@@ -61,7 +77,10 @@ export default function MenuList() {
         </ListItemButton>
         <ListItemButton
           selected={selectedIndex === 3}
-          onClick={(event) => handleListItemClick(event, 3)}
+          onClick={(event) => {
+            handleListItemClick(event, 1);
+            // navigate('/event');
+          }}
           sx={{ padding: 1.5, margin: 1, borderRadius: 1 }}
         >
           <ListItemIcon>
