@@ -18,6 +18,8 @@ public class User extends BaseEntity {
     private int id;
     @Column
     private Long studentId;
+    @Column
+    private boolean isStudent = true;
     @OneToOne
     private Role role;
     @OneToOne
