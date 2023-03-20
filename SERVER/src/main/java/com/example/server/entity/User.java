@@ -19,11 +19,15 @@ public class User extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column
-    private Long studentId;
+    private Long studentNum;
     @Column
-    private boolean isStudent = true;
+    private Boolean isStudent = true;
+    @Column
+    private Boolean isRegistered=false;
     @OneToOne
     private Role role;
+    @Column
+    private String affiliation;
     @OneToOne
     private Department department;
     @Column
@@ -40,20 +44,44 @@ public class User extends BaseEntity {
     private List<Category> categories = new ArrayList<>();
 
     public User(DecodedToken token) {
+        if(token.getName().contains("학부생"))
+            this.name = token.getFamily_name();
+        else {
+            this.name = token.getName();
+            this.isStudent=false;
+        }
         this.email = token.getEmail();
         this.token = token.getSub();
-        this.name = token.getName();
+    }
+    public void setStudentNum(Long studentNum) {
+        this.studentNum = studentNum;
+        this.isRegistered = true;
+    }
+    public void setAffiliation(String affiliation) {
+        this.affiliation = affiliation;
+        this.isStudent = false;
+        this.isRegistered = true;
+    }
+    public void setDepartment(Department department) {
+        this.department = department;
     }
     public UserDto toDto() {
         UserDto dto = new UserDto();
         dto.setId(this.id);
         dto.setEmail(this.email);
         dto.setName(this.name);
+        dto.setIsStudent(this.isStudent);
+        if(dto.getIsStudent()) {
+            dto.setStudentNum(this.studentNum);
+            dto.setDepartmentId(this.department.getId());
+        }
+        else {
+            dto.setAffiliation(this.affiliation);
+        }
         dto.setToken(this.token);
+        dto.setIsRegistered(this.isRegistered);
         // later fix
-//        dto.setDepartmentId(this.department.getId());
 //        dto.setRoleId(this.role.getId());
-//        dto.setStudentId(this.studentId);
         return dto;
     }
 }

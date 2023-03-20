@@ -15,6 +15,7 @@ public class DecodedToken {
     private String sub;
     private String name;
     private String email;
+    private String family_name;
 
     public static DecodedToken getDecodedToken(String tokenString) {
         String[] pieces = tokenString.split("\\.");
