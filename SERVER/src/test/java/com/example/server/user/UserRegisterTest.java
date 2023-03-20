@@ -52,23 +52,23 @@ public class UserRegisterTest {
 
     }
 
+//    @Test
+//    @Order(2)
+//    public void registerOther() {
+//        ResponseEntity<UserDto> dto = userService.registerOther(new RegisterOtherDto(1,"전산전자공학부 임원단"));
+//        System.out.println("dto.toString() = " + dto.toString());
+//        assertThat(Objects.requireNonNull(dto.getBody()).getIsRegistered()).isEqualTo(true);
+//        assertThat(dto.getBody().getAffiliation()).isEqualTo("전산전자공학부 임원단");
+//        assertThat(dto.getBody().getIsStudent()).isEqualTo(false);
+//    }
+
     @Test
     @Order(2)
-    public void registerOther() {
-        ResponseEntity<UserDto> dto = userService.registerOther(new RegisterOtherDto(1,"전산전자공학부 임원단"));
-        System.out.println("dto.toString() = " + dto.toString());
-        assertThat(Objects.requireNonNull(dto.getBody()).getIsRegistered()).isEqualTo(true);
-        assertThat(dto.getBody().getAffiliation()).isEqualTo("전산전자공학부 임원단");
-        assertThat(dto.getBody().getIsStudent()).isEqualTo(false);
+    public void registerStudent() {
+        ResponseEntity<UserDto> dto = userService.registerStudent(new RegisterStudentDto(1, 22000328L, 1));
+        assertThat(Objects.requireNonNull(dto.getBody()).getDepartmentId()).isEqualTo(1);
+        assertThat(dto.getBody().getStudentNum()).isEqualTo(22000328L);
+        assertThat(dto.getBody().getIsRegistered()).isEqualTo(true);
     }
-
-//    @Test
-//    @Order(3)
-//    public void registerStudent() {
-//        ResponseEntity<UserDto> dto = userService.registerStudent(new RegisterStudentDto(1, 22000328L, 1));
-//        assertThat(Objects.requireNonNull(dto.getBody()).getDepartmentId()).isEqualTo(1);
-//        assertThat(dto.getBody().getStudentNum()).isEqualTo(22000328L);
-//        assertThat(dto.getBody().getIsRegistered()).isEqualTo(true);
-//    }
 
 }
