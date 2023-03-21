@@ -35,6 +35,7 @@ public class UserService {
             saved = userRepository.findUserByToken(token.getSub());
         }
         dto.setUserId(saved.getId());
+        dto.setStudent(saved.getIsStudent());
         return ResponseEntity.ok(dto);
     }
     @Transactional
@@ -43,7 +44,7 @@ public class UserService {
         return ResponseEntity.ok(saved.toDto());
     }
     @Transactional
-    public ResponseEntity<UserDto> registerStudent(@RequestBody RegisterStudentDto dto) {
+    public ResponseEntity<UserDto> registerStudent(RegisterStudentDto dto) {
         User user = userRepository.findById(dto.getUserId()).orElseThrow();
         Department department = departmentRepository.findById(dto.getDepartmentId()).orElseThrow();
         user.setDepartment(department);
@@ -51,7 +52,7 @@ public class UserService {
         return ResponseEntity.ok(user.toDto());
     }
     @Transactional
-    public ResponseEntity<UserDto> registerOther(@RequestBody RegisterOtherDto dto) {
+    public ResponseEntity<UserDto> registerOther(RegisterOtherDto dto) {
         User user = userRepository.findById(dto.getUserId()).orElseThrow();
         user.setAffiliation(dto.getAffiliation());
         return ResponseEntity.ok(user.toDto());

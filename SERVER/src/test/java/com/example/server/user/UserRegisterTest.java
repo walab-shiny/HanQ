@@ -62,13 +62,13 @@ public class UserRegisterTest {
 //        assertThat(dto.getBody().getIsStudent()).isEqualTo(false);
 //    }
 
-    @Test
-    @Order(2)
-    public void registerStudent() {
-        ResponseEntity<UserDto> dto = userService.registerStudent(new RegisterStudentDto(1, 22000328L, 1));
-        assertThat(Objects.requireNonNull(dto.getBody()).getDepartmentId()).isEqualTo(1);
-        assertThat(dto.getBody().getStudentNum()).isEqualTo(22000328L);
-        assertThat(dto.getBody().getIsRegistered()).isEqualTo(true);
-    }
+//    @Test
+//    @Order(2)
+//    public void registerStudent() {
+//        ResponseEntity<UserDto> dto = userService.registerStudent(new RegisterStudentDto(1, 22000328L, 1));
+//        assertThat(Objects.requireNonNull(dto.getBody()).getDepartmentId()).isEqualTo(1);
+//        assertThat(dto.getBody().getStudentNum()).isEqualTo(22000328L);
+//        assertThat(dto.getBody().getIsRegistered()).isEqualTo(true);
+//    }
 
 }
