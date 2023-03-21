@@ -1,6 +1,6 @@
 package com.example.server.entity;
 
-import com.example.server.dto.AdminCreateDto;
+import com.example.server.dto.AdminCreateLoginDto;
 import com.example.server.dto.AdminDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,7 +19,7 @@ public class Admin {
     private String username;
     private String password;
 
-    public Admin(AdminCreateDto dto) {
+    public Admin(AdminCreateLoginDto dto) {
         this.username = dto.getUsername();
         this.password = DigestUtils.sha256Hex(dto.getPassword());
     }
