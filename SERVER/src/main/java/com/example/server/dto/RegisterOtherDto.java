@@ -1,12 +1,13 @@
 package com.example.server.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class LoginUserDto {
+@AllArgsConstructor
+public class RegisterOtherDto {
     private int userId;
-    private boolean isRegistered;
-    private boolean isStudent;
+    private String affiliation;
 }

@@ -1,8 +1,7 @@
 package com.example.server.controller;
 
-import com.example.server.dto.LoginUserDto;
-import com.example.server.dto.TokenDto;
-import com.example.server.dto.UserDto;
+import com.example.server.dto.*;
+import com.example.server.entity.User;
 import com.example.server.service.UserService;
 import com.example.server.token.DecodedToken;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +19,14 @@ public class UserController {
     @PostMapping
     public ResponseEntity<LoginUserDto> login(@RequestBody TokenDto dto) throws UnsupportedEncodingException {
         return userService.login(DecodedToken.getDecodedToken(dto.getCredential()));
+    }
+    @PostMapping("/student")
+    public ResponseEntity<UserDto> registerStudent(@RequestBody RegisterStudentDto dto) {
+        return userService.registerStudent(dto);
+    }
+    @PostMapping("/other")
+    public ResponseEntity<UserDto> registerOther(@RequestBody RegisterOtherDto dto) {
+        return userService.registerOther(dto);
     }
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> getUser(@PathVariable int id) {

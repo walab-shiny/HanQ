@@ -3,16 +3,16 @@ import { useRecoilValue } from 'recoil';
 import Dashboard from './pages/Dashboard';
 import Event from './pages/Event';
 import EventDetail from './pages/EventDetail';
-import Report from './pages/Report';
 import Login from './pages/Login';
+import Report from './pages/Report';
 import { authState } from './store/auth';
 
 function Router() {
-  const userId = useRecoilValue(authState);
+  const credential = useRecoilValue(authState);
   return (
     <BrowserRouter>
       <Routes>
-        {userId ? (
+        {credential ? (
           <>
             <Route path="/" element={<Dashboard />} />
             <Route path="/event" element={<Event />} />
