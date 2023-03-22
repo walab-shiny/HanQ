@@ -1,5 +1,3 @@
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Box, Button, Typography } from '@mui/material';
 import Search from './Search';
 import { useRecoilValue } from 'recoil';
