@@ -90,14 +90,7 @@ export default function AddEventDialog(props: Props) {
           sx={{ mb: 3 }}
         />
         <DialogContentText pb={1}>개최일</DialogContentText>
-        <TextField
-          InputProps={{ disableUnderline: true }}
-          fullWidth
-          hiddenLabel
-          size="small"
-          type="date"
-          sx={{ mb: 3 }}
-        />
+        <TextField fullWidth hiddenLabel size="small" type="date" sx={{ mb: 3 }} />
         <DialogContentText pb={1}>최대 인원수</DialogContentText>
         <TextField
           autoFocus
@@ -109,14 +102,7 @@ export default function AddEventDialog(props: Props) {
           sx={{ mb: 3 }}
         />
         <DialogContentText pb={1}>지각허용시간</DialogContentText>
-        <TextField
-          InputProps={{ disableUnderline: true }}
-          fullWidth
-          hiddenLabel
-          size="small"
-          type="time"
-          sx={{ mb: 3 }}
-        />
+        <TextField fullWidth hiddenLabel size="small" type="time" sx={{ mb: 3 }} />
         <DialogContentText pb={1}>사진</DialogContentText>
         <input type="file" accept="image/x-png, image/gif, image/jpeg" />
       </DialogContent>
