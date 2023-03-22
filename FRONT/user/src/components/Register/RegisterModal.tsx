@@ -51,7 +51,7 @@ export default function RegisterModal({ open }: Props) {
   } = useForm<IFormData>({ defaultValues: { departmentId: 1 } });
   const onValid = async (data: IFormData) => {
     if (user) {
-      if (user.isRegistered) {
+      if (user.isStudent) {
         const response = await studentRegister(user.id, +data.studentId, data.departmentId);
         setUser(response);
       } else {
