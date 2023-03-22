@@ -1,9 +1,11 @@
 export interface IUser {
-  departmentId: number;
-  email: string;
   id: number;
-  name: string;
+  studentNum: number;
+  isStudent: boolean;
+  departmentId: number;
   roleId: number;
-  studentId: number;
-  token: string;
+  isRegistered: boolean;
+  name: string;
+  email: string;
+  affiliation: string;
 }
