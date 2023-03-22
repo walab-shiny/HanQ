@@ -77,12 +77,14 @@ public class User extends BaseEntity {
         dto.setEmail(this.email);
         dto.setName(this.name);
         dto.setIsStudent(this.isStudent);
-        if(dto.getIsStudent()) {
-            dto.setStudentNum(this.studentNum);
-            dto.setDepartmentId(this.department.getId());
-        }
-        else {
-            dto.setAffiliation(this.affiliation);
+        if(this.isRegistered) {
+            if(dto.getIsStudent()) {
+                dto.setStudentNum(this.studentNum);
+                dto.setDepartmentId(this.department.getId());
+            }
+            else {
+                dto.setAffiliation(this.affiliation);
+            }
         }
         dto.setToken(this.token);
         dto.setIsRegistered(this.isRegistered);
