@@ -65,8 +65,8 @@ export default function MenuList(props: propsType) {
         <ListItemButton
           selected={selectedIndex === 2}
           onClick={(event) => {
-            handleListItemClick(event, 1);
-            // navigate('/event');
+            handleListItemClick(event, 2);
+            navigate('/report');
           }}
           sx={{ padding: 1.5, margin: 1, borderRadius: 1 }}
         >
@@ -78,7 +78,7 @@ export default function MenuList(props: propsType) {
         <ListItemButton
           selected={selectedIndex === 3}
           onClick={(event) => {
-            handleListItemClick(event, 1);
+            handleListItemClick(event, 3);
             // navigate('/event');
           }}
           sx={{ padding: 1.5, margin: 1, borderRadius: 1 }}
