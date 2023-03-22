@@ -25,7 +25,6 @@ public class UserService {
     @Transactional
     public ResponseEntity<LoginUserDto> login(DecodedToken token) {
         LoginUserDto dto = new LoginUserDto();
-        dto.setRegistered(userRepository.existsUserByToken(token.getSub()));
         User saved;
         if(!dto.isRegistered()) {
             User user = new User(token);
@@ -35,6 +34,7 @@ public class UserService {
             saved = userRepository.findUserByToken(token.getSub());
         }
         dto.setUserId(saved.getId());
+        dto.setRegistered(saved.getIsRegistered());
         dto.setStudent(saved.getIsStudent());
         return ResponseEntity.ok(dto);
     }
