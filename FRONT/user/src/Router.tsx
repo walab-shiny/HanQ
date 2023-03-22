@@ -1,13 +1,23 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import ThemeModeToggle from './components/Header/ThemeModeToggle';
-import Main from './pages/Main';
+import { useRecoilValue } from 'recoil';
+import Dashboard from './pages/Dashboard';
+import Event from './pages/Event';
+import Login from './pages/Login';
+import { authState } from './store/auth';
 
 function Router() {
+  const credential = useRecoilValue(authState);
   return (
     <BrowserRouter>
-      <ThemeModeToggle />
       <Routes>
-        <Route path="/" element={<Main />} />
+        {credential ? (
+          <>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/event" element={<Event />} />
+          </>
+        ) : (
+          <Route path="*" element={<Login />} />
+        )}
       </Routes>
     </BrowserRouter>
   );
