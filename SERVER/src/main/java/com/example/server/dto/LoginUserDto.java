@@ -8,4 +8,5 @@ import lombok.Setter;
 public class LoginUserDto {
     private int userId;
     private boolean isRegistered;
+    private boolean isStudent;
 }

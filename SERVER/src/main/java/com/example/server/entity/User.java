@@ -26,6 +26,8 @@ public class User extends BaseEntity {
     private Boolean isRegistered=false;
     @OneToOne
     private Role role;
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<HostAuthRequest> requests = new ArrayList<>();
     @Column
     private String affiliation;
     @OneToOne
@@ -65,6 +67,10 @@ public class User extends BaseEntity {
     public void setDepartment(Department department) {
         this.department = department;
     }
+
+    public void setRequest(HostAuthRequest request) {
+        this.requests.add(request);
+    }
     public UserDto toDto() {
         UserDto dto = new UserDto();
         dto.setId(this.id);
@@ -84,4 +90,5 @@ public class User extends BaseEntity {
 //        dto.setRoleId(this.role.getId());
         return dto;
     }
+
 }
