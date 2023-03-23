@@ -24,7 +24,7 @@ export function responsiveFontSizes({ sm, md, lg }) {
 
 // ----------------------------------------------------------------------
 
-const FONT_PRIMARY = 'Pretendard, sans-serif'; // 멋사 국문 Font
+const FONT_PRIMARY = 'Public Sans, sans-serif'; // Google Font
 // const FONT_SECONDARY = 'CircularStd, sans-serif'; // Local Font
 
 const typography = {
@@ -33,8 +33,7 @@ const typography = {
   fontWeightMedium: 600,
   fontWeightBold: 700,
   h1: {
-    fontFamily: 'roc-grotesk-wide, sans-serif',
-    fontWeight: 700,
+    fontWeight: 800,
     lineHeight: 80 / 64,
     fontSize: pxToRem(40),
     ...responsiveFontSizes({ sm: 52, md: 58, lg: 64 }),
@@ -42,14 +41,13 @@ const typography = {
   h2: {
     fontWeight: 800,
     lineHeight: 64 / 48,
-    fontSize: 24,
+    fontSize: pxToRem(32),
     ...responsiveFontSizes({ sm: 40, md: 44, lg: 48 }),
   },
   h3: {
     fontWeight: 700,
-    lineHeight: 1.7,
+    lineHeight: 1.5,
     fontSize: pxToRem(24),
-    color: '#FF731D',
     ...responsiveFontSizes({ sm: 26, md: 30, lg: 32 }),
   },
   h4: {
@@ -66,8 +64,7 @@ const typography = {
   },
   h6: {
     fontWeight: 700,
-    lineHeight: 1.7,
-    color: '#000000',
+    lineHeight: 28 / 18,
     fontSize: pxToRem(17),
     ...responsiveFontSizes({ sm: 18, md: 18, lg: 18 }),
   },
@@ -100,7 +97,7 @@ const typography = {
     textTransform: 'uppercase',
   },
   button: {
-    fontWeight: 600,
+    fontWeight: 700,
     lineHeight: 24 / 14,
     fontSize: pxToRem(14),
     textTransform: 'capitalize',

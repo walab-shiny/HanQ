@@ -1,10 +1,15 @@
 import { Button } from '@mui/material';
 import { googleLogout } from '@react-oauth/google';
+import React from 'react';
 import { useResetRecoilState } from 'recoil';
 import { authState } from '../store/auth';
 import { userState } from '../store/user';
 
-export default function LogoutBtn() {
+interface Props {
+  children: React.ReactNode;
+}
+
+export default function LogoutBtn({ children }: Props) {
   const resetCredential = useResetRecoilState(authState);
   const resetUser = useResetRecoilState(userState);
   const removeCredential = () => {
@@ -17,5 +22,10 @@ export default function LogoutBtn() {
     googleLogout();
     removeCredential();
   };
-  return <Button onClick={handleLogout}>Logout</Button>;
+
+  return (
+    <Button variant="contained" color="error" onClick={handleLogout}>
+      {children}
+    </Button>
+  );
 }

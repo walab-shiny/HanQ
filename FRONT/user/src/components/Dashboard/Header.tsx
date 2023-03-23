@@ -1,5 +1,3 @@
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Box, Button, Typography } from '@mui/material';
 import Search from './Search';
 import { useRecoilValue } from 'recoil';
@@ -36,7 +34,7 @@ export default function Header(props: IHeader) {
         >
           회원 정보 조회
         </Button>
-        <LogoutBtn />
+        <LogoutBtn>로그아웃</LogoutBtn>
       </Box>
     </Box>
   );
