@@ -26,7 +26,7 @@ public class UserService {
     public ResponseEntity<LoginUserDto> login(DecodedToken token) {
         LoginUserDto dto = new LoginUserDto();
         User saved;
-        if(!dto.isRegistered()) {
+        if(!userRepository.existsUserByToken(token.getSub())) {
             User user = new User(token);
             saved = userRepository.save(user);
         }

@@ -20,17 +20,13 @@ export default function GoogleLoginBtn() {
       saveCredential(credential);
       const response = await loginWithCredential(credential);
       const userId = response.userId;
-      const registered = response.registered;
-      if (registered) {
-        const userInfo = await getUserInfoByUserId(userId);
-        setUser(userInfo);
-      } else {
-        console.info('회원가입 하기');
-      }
+      const userInfo = await getUserInfoByUserId(userId);
+      setUser(userInfo);
     } else {
       console.error('no credential');
     }
   };
+
   return (
     <GoogleLogin
       onSuccess={(credentialResponse) => handleLogin(credentialResponse.credential)}

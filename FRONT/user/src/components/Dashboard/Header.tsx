@@ -34,7 +34,7 @@ export default function Header(props: IHeader) {
         >
           회원 정보 조회
         </Button>
-        <LogoutBtn />
+        <LogoutBtn>로그아웃</LogoutBtn>
       </Box>
     </Box>
   );
