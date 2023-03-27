@@ -39,9 +39,8 @@ public class UserService {
         return ResponseEntity.ok(dto);
     }
     @Transactional
-    public ResponseEntity<UserDto> getUser(int id) {
-        User saved = userRepository.findById(id).orElseThrow();
-        return ResponseEntity.ok(saved.toDto());
+    public User getUser(int id) {
+        return userRepository.findById(id).orElseThrow();
     }
     @Transactional
     public ResponseEntity<UserDto> registerStudent(RegisterStudentDto dto) {

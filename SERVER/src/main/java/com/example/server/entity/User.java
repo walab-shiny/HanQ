@@ -1,5 +1,6 @@
 package com.example.server.entity;
 
+import com.example.server.dto.HostDto;
 import com.example.server.dto.UserDto;
 import com.example.server.entity.base.BaseEntity;
 import com.example.server.token.DecodedToken;
@@ -7,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,14 +26,16 @@ public class User extends BaseEntity {
     private Boolean isStudent = true;
     @Column
     private Boolean isRegistered=false;
-    @OneToOne
-    private Role role;
+    @Column
+    private Boolean isHost=false;
     @OneToMany(mappedBy = "user",fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<HostAuthRequest> requests = new ArrayList<>();
     @Column
     private String affiliation;
     @OneToOne
     private Department department;
+    @Column
+    private LocalDate hostUntil;
     @Column
     private String name;
     @Column
@@ -68,8 +72,17 @@ public class User extends BaseEntity {
         this.department = department;
     }
 
-    public void setRequest(HostAuthRequest request) {
+    public void addRequest(HostAuthRequest request) {
         this.requests.add(request);
+    }
+    public Boolean getIsHost() {
+        return this.isHost;
+    }
+    public void makeHost() {
+        this.isHost = true;
+    }
+    public void setHostUntil(String date) {
+        this.hostUntil = LocalDate.parse(date);
     }
     public UserDto toDto() {
         UserDto dto = new UserDto();
@@ -88,8 +101,15 @@ public class User extends BaseEntity {
         }
         dto.setToken(this.token);
         dto.setIsRegistered(this.isRegistered);
-        // later fix
-//        dto.setRoleId(this.role.getId());
+        dto.setIsHost(this.isHost);
+        return dto;
+    }
+    public HostDto toHostDto() {
+        HostDto dto = new HostDto();
+        dto.setId(this.id);
+        dto.setIsHost(this.isHost);
+        if(!(this.hostUntil ==null))
+            dto.setHostUntil(this.hostUntil);
         return dto;
     }
 

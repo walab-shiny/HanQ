@@ -25,7 +25,7 @@ public class HostAuthRequest extends BaseEntity {
 
     public void setUser(User user) {
         this.user = user;
-        user.setRequest(this);
+        user.addRequest(this);
     }
     public HostAuthRequest(CreateHostRequestDto dto) {
         this.content = dto.getContent();
@@ -36,8 +36,9 @@ public class HostAuthRequest extends BaseEntity {
     public void writeResponse(String response) {
         this.response = response;
     }
-    public void accept() {
+    public void accept(User user) {
         this.status = 2;
+        user.makeHost();
     }
     public void decline() {
         this.status=0;

@@ -30,6 +30,6 @@ public class UserController {
     }
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> getUser(@PathVariable int id) {
-        return userService.getUser(id);
+        return ResponseEntity.ok(userService.getUser(id).toDto());
     }
 }

@@ -8,6 +8,7 @@ import com.example.server.repository.DepartmentRepository;
 import com.example.server.service.DepartmentService;
 import com.example.server.service.UserService;
 import com.example.server.token.DecodedToken;
+import com.mysql.cj.log.Log;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -74,6 +75,17 @@ public class UserRegisterTest {
         ResponseEntity<UserDto> dto = userService.registerStudent(new RegisterStudentDto(1, 22000328L, 1));
         assertThat(Objects.requireNonNull(dto.getBody()).getDepartmentId()).isEqualTo(1);
         assertThat(dto.getBody().getStudentNum()).isEqualTo(22000328L);
+        assertThat(dto.getBody().getIsRegistered()).isEqualTo(true);
+    }
+    @Test
+    @Order(3)
+    public void registerOther() {
+        ResponseEntity<LoginUserDto> login = userService.login(DecodedToken.getDecodedToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4MzI0Nzg0NzM0NyIsIm5hbWUiOiJBaWRhbiBCYWUiLCJlbWFpbCI6InRoaWNraXNod2hhcmY5QGdtYWlsLmNvbSJ9.SNI8TKVzPyjEsH3UMVEvDV7dEKUk4RihRdno-gbeKVc"));
+        assertThat(Objects.requireNonNull(login.getBody()).getUserId()).isEqualTo(2);
+        assertThat(login.getBody().isStudent()).isEqualTo(false);
+        assertThat(login.getBody().isRegistered()).isEqualTo(false);
+        ResponseEntity<UserDto> dto = userService.registerOther(new RegisterOtherDto(2,"전산전자공학부 임원단"));
+        assertThat(Objects.requireNonNull(dto.getBody()).getAffiliation()).isEqualTo("전산전자공학부 임원단");
         assertThat(dto.getBody().getIsRegistered()).isEqualTo(true);
     }
 
