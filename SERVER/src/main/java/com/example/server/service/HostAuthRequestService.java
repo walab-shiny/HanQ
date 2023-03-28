@@ -28,14 +28,17 @@ public class HostAuthRequestService {
         HostAuthRequest request = new HostAuthRequest(dto);
         User user = userRepository.findById(dto.getUserId()).orElseThrow();
         request.setUser(user);
-        user.setRequest(request);
+        user.addRequest(request);
         return hostAuthRequestRepository.save(request).toDto();
     }
     // accept 및 decline api 에 대한 보호 생각하기
     @Transactional
     public HostAuthRequestDto acceptRequest(AcceptHostRequestDto dto) {
         HostAuthRequest request = hostAuthRequestRepository.findById(dto.getId()).orElseThrow();
-        request.accept();
+        if(!dto.getDuration().isEmpty()) {
+            request.getUser().setHostUntil(dto.getDuration());
+        }
+        request.accept(request.getUser());
         return request.toDto();
     }
     @Transactional
@@ -45,12 +48,17 @@ public class HostAuthRequestService {
         request.writeResponse(dto.getResponse());
         return request.toDto();
     }
+
     @Transactional
-    public List<HostAuthRequestDto> showRequests() {
+    public HostAuthRequestDto getRequest(int id) {
+        return hostAuthRequestRepository.findById(id).orElseThrow().toDto();
+    }
+    @Transactional
+    public List<HostAuthRequestDto> getRequests() {
         return hostAuthRequestRepository.findAll().stream().map(HostAuthRequest::toDto).collect(Collectors.toList());
     }
     @Transactional
-    public List<HostAuthRequestDto> showRequests(int status) {
+    public List<HostAuthRequestDto> getRequests(int status) {
         return hostAuthRequestRepository.findAllByStatus(status).stream().map(HostAuthRequest::toDto).collect(Collectors.toList());
     }
 

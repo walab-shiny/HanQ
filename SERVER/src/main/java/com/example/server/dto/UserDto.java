@@ -1,8 +1,8 @@
 package com.example.server.dto;
 
-import com.example.server.entity.Department;
-import com.example.server.entity.Role;
 import lombok.*;
+
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -14,11 +14,11 @@ public class UserDto {
     private Long studentNum=0L;
     private Boolean isStudent=false;
     private int departmentId=0;
-    private int roleId=0;
     private String affiliation="none";
     private Boolean isRegistered=false;
     private String name="";
     private String email="";
     private String token="";
+    private Boolean isHost=false;
 
 }
