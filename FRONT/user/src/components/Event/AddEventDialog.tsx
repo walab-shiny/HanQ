@@ -17,6 +17,16 @@ interface Props {
   onClose: (value: void) => void;
 }
 
+interface IForm {
+  category: string;
+  name: string;
+  location: string;
+  content: string;
+  startTime: string;
+  endTime: string;
+  maxUsers: string;
+}
+
 export default function AddEventDialog(props: Props) {
   const { onClose, open } = props;
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -31,7 +41,7 @@ export default function AddEventDialog(props: Props) {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm({ mode: 'onChange' });
+  } = useForm<IForm>({ mode: 'onChange' });
 
   const onValid = (data: any) => {
     console.log(data);
@@ -69,6 +79,8 @@ export default function AddEventDialog(props: Props) {
             required: '행사명은 필수 입력 항목입니다.',
           })}
           sx={{ mb: 3 }}
+          helperText={errors.name?.message}
+          error={Boolean(errors.name?.message)}
         />
         <DialogContentText pb={1}>장소</DialogContentText>
         <TextField
@@ -79,6 +91,8 @@ export default function AddEventDialog(props: Props) {
           hiddenLabel
           size="small"
           {...register('location', { required: '행사 장소는 필수 입력 항목입니다.' })}
+          helperText={errors.location?.message}
+          error={Boolean(errors.location?.message)}
           sx={{ mb: 3 }}
         />
         <DialogContentText pb={1}>설명</DialogContentText>
@@ -99,7 +113,9 @@ export default function AddEventDialog(props: Props) {
           size="small"
           type="datetime-local"
           sx={{ mb: 3 }}
-          {...register('start-time', { required: '행사 장소는 필수 입력 항목입니다.' })}
+          {...register('startTime', { required: '행사 장소는 필수 입력 항목입니다.' })}
+          helperText={errors.startTime?.message}
+          error={Boolean(errors.startTime?.message)}
         />
         <DialogContentText pb={1}>끝시간</DialogContentText>
         <TextField
@@ -107,7 +123,7 @@ export default function AddEventDialog(props: Props) {
           size="small"
           type="datetime-local"
           sx={{ mb: 3 }}
-          {...register('end-time')}
+          {...register('endTime')}
         />
         <DialogContentText pb={1}>최대 인원수</DialogContentText>
         <TextField
@@ -117,7 +133,7 @@ export default function AddEventDialog(props: Props) {
           fullWidth
           size="small"
           sx={{ mb: 3 }}
-          {...register('max-users')}
+          {...register('maxUsers')}
         />
         <DialogContentText pb={1}>사진</DialogContentText>
         <input type="file" accept="image/x-png, image/gif, image/jpeg" />
