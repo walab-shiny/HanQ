@@ -1,6 +1,7 @@
-import { Box, Button, Card, Chip, Container, Divider, Typography } from '@mui/material';
+import { Box, Card, Chip, Container, Divider, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { getAllRequests, getPendingRequests } from '../apis/request';
+import LogoutBtn from '../components/LogoutBtn';
 import AcceptModal from '../components/Request/AcceptModal';
 import DeclineModal from '../components/Request/DeclineModal';
 
@@ -40,15 +41,13 @@ export default function Main() {
       >
         <Typography variant="h3">행사 주최 권한 요청 관리</Typography>
         <Box>
-          <Button variant="contained" onClick={() => {}}>
-            로그아웃
-          </Button>
+          <LogoutBtn>로그아웃</LogoutBtn>
         </Box>
       </Box>
       <Box sx={{ display: 'flex', gap: 4, pb: 8 }}>
-        <Box sx={{ height: 16 }} />
         <Box sx={{ width: 1 }}>
           <Typography variant="h5">대기중인 요청</Typography>
+          <Box sx={{ height: 16 }} />
           <Box
             sx={{
               display: 'grid',

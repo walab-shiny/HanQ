@@ -1,6 +1,8 @@
 import { Box, Button, Card, InputLabel, TextField } from '@mui/material';
+import { useSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
+import { getUserInfoByUserId } from '../../apis/auth';
 import { requestHostAuth } from '../../apis/request';
 import { userState } from '../../store/user';
 
@@ -9,7 +11,8 @@ interface IFormData {
 }
 
 export default function RequestHostAuth() {
-  const user = useRecoilValue(userState);
+  const { enqueueSnackbar } = useSnackbar();
+  const [user, setUser] = useRecoilState(userState);
   const {
     register,
     handleSubmit,
@@ -17,8 +20,15 @@ export default function RequestHostAuth() {
   } = useForm<IFormData>();
   const onValid = async (formData: IFormData) => {
     if (!user) return;
-    await requestHostAuth(user.id, formData.content);
-    console.log(formData);
+    try {
+      await requestHostAuth(user.id, formData.content);
+      const userInfo = await getUserInfoByUserId(user.id);
+      setUser(userInfo);
+    } catch (error) {
+      enqueueSnackbar('문제가 발생했습니다. 다시 시도하세요.', { variant: 'error' });
+      return;
+    }
+    enqueueSnackbar('요청이 전송되었습니다. 응답을 기다려주세요.', { variant: 'success' });
   };
 
   return (

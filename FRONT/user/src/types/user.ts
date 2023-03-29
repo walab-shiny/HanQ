@@ -8,4 +8,5 @@ export interface IUser {
   name: string;
   email: string;
   affiliation: string;
+  isHost: boolean;
 }

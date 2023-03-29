@@ -3,8 +3,21 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 // import { login } from './services/auth';
 import { useForm } from 'react-hook-form';
 import { CenterBox } from '../components/Header/common/CenterBox';
+import { useSetRecoilState } from 'recoil';
+import { authState } from '../store/auth';
+import { userState } from '../store/user';
 
 function Login() {
+  const setCredential = useSetRecoilState(authState);
+  const setUser = useSetRecoilState(userState);
+  const saveCredential = (credential: string) => {
+    localStorage.setItem('credential', credential);
+    setCredential(credential);
+  };
+  const handleLogin = async () => {
+    saveCredential('credential');
+    setUser(true);
+  };
   const {
     register,
     handleSubmit,
@@ -13,6 +26,7 @@ function Login() {
   const onValid = ({ id, password }: { id: string; password: string }) => {
     try {
       // login(id, password);
+      handleLogin();
     } catch (error) {
       alert('Login failed.');
     }
