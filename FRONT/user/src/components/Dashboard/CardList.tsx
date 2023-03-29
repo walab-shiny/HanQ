@@ -5,8 +5,10 @@ import Card from '@mui/material/Card';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import './calendar-custom.css';
+import { useTheme } from '@mui/material';
 
 export default function CardList() {
+  const { palette } = useTheme();
   const notis = [
     '3일 뒤 ‘ChatGPT 강연’ 이벤트가 예정되어 있습니다.',
     '이번 달에는 4개의 이벤트가 예정되어 있습니다.',
@@ -19,7 +21,10 @@ export default function CardList() {
           variant="h5"
           m={3}
           pl={1}
-          sx={{ backgroundColor: '#ebff82', borderRadius: '5px' }}
+          sx={{
+            backgroundColor: palette.mode === 'light' ? '#ebff82' : 'primary.main',
+            borderRadius: '5px',
+          }}
         >
           Notice
         </Typography>

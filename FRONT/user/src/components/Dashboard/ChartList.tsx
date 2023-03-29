@@ -1,4 +1,4 @@
-import { Card, CardContent, ListItemButton, Typography } from '@mui/material';
+import { Card, CardContent, ListItemButton, Typography, useTheme } from '@mui/material';
 import { useState } from 'react';
 import Apex from './Apex';
 
@@ -21,6 +21,8 @@ export default function ChartList() {
     setSelectedIndex(index);
   };
 
+  const { palette } = useTheme();
+
   return (
     <>
       <Card sx={{ mt: 3, width: '38%' }}>
@@ -29,7 +31,10 @@ export default function ChartList() {
             variant="h5"
             component="div"
             pl={1}
-            sx={{ backgroundColor: '#ebff82', borderRadius: '5px' }}
+            sx={{
+              backgroundColor: palette.mode === 'light' ? '#ebff82' : 'primary.main',
+              borderRadius: '5px',
+            }}
           >
             참석자 분석
           </Typography>
