@@ -24,6 +24,7 @@ interface IForm {
   content: string;
   startTime: string;
   endTime: string;
+  availiableTime: string;
   maxUsers: string;
 }
 
@@ -40,6 +41,7 @@ export default function AddEventDialog(props: Props) {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<IForm>({ mode: 'onChange' });
 
@@ -54,7 +56,7 @@ export default function AddEventDialog(props: Props) {
 
   return (
     <Dialog onClose={handleClose} open={open} fullWidth>
-      <DialogTitle>행사 등록</DialogTitle>
+      <DialogTitle>이벤트 등록</DialogTitle>
       <DialogContent>
         <DialogContentText pb={1}>태그</DialogContentText>
         <Select size="small" sx={{ mb: 3 }} {...register('category')} value={1}>
@@ -67,16 +69,16 @@ export default function AddEventDialog(props: Props) {
           <MenuItem value={'7'}>ICT창업학부</MenuItem>
           <MenuItem value={'8'}>커뮤니케이션학부</MenuItem>
         </Select>
-        <DialogContentText pb={1}>행사명</DialogContentText>
+        <DialogContentText pb={1}>이벤트 제목</DialogContentText>
         <TextField
           autoFocus
           id="name"
-          placeholder="행사명을 입력하세요."
+          placeholder="이벤트명을 입력하세요."
           fullWidth
           hiddenLabel
           size="small"
           {...register('name', {
-            required: '행사명은 필수 입력 항목입니다.',
+            required: '이벤트명은 필수 입력 항목입니다.',
           })}
           sx={{ mb: 3 }}
           helperText={errors.name?.message}
@@ -86,11 +88,11 @@ export default function AddEventDialog(props: Props) {
         <TextField
           autoFocus
           id="location"
-          placeholder="행사 장소를 입력하세요."
+          placeholder="이벤트 장소를 입력하세요."
           fullWidth
           hiddenLabel
           size="small"
-          {...register('location', { required: '행사 장소는 필수 입력 항목입니다.' })}
+          {...register('location', { required: '이벤트 장소는 필수 입력 항목입니다.' })}
           helperText={errors.location?.message}
           error={Boolean(errors.location?.message)}
           sx={{ mb: 3 }}
@@ -99,7 +101,7 @@ export default function AddEventDialog(props: Props) {
         <TextField
           autoFocus
           id="content"
-          placeholder="행사 설명을 입력하세요."
+          placeholder="이벤트 설명을 입력하세요."
           fullWidth
           size="small"
           multiline
@@ -107,23 +109,34 @@ export default function AddEventDialog(props: Props) {
           {...register('content')}
           sx={{ mb: 3 }}
         />
-        <DialogContentText pb={1}>시작시간</DialogContentText>
+        <DialogContentText pb={1}>시작일시</DialogContentText>
         <TextField
           fullWidth
           size="small"
           type="datetime-local"
           sx={{ mb: 3 }}
-          {...register('startTime', { required: '행사 장소는 필수 입력 항목입니다.' })}
+          {...register('startTime', { required: '시작일시는 필수 입력 항목입니다.' })}
+          onChange={(e) => setValue('endTime', e.target.value)}
           helperText={errors.startTime?.message}
           error={Boolean(errors.startTime?.message)}
         />
-        <DialogContentText pb={1}>끝시간</DialogContentText>
+        <DialogContentText pb={1}>종료일시</DialogContentText>
         <TextField
           fullWidth
           size="small"
           type="datetime-local"
           sx={{ mb: 3 }}
-          {...register('endTime')}
+          {...register('endTime', { required: '종료일시는 필수 입력 항목입니다.' })}
+          helperText={errors.startTime?.message}
+          error={Boolean(errors.startTime?.message)}
+        />
+        <DialogContentText pb={1}>태깅 가능 시간</DialogContentText>
+        <TextField
+          fullWidth
+          size="small"
+          sx={{ mb: 3 }}
+          {...register('availiableTime')}
+          placeholder="태깅 가능 시간(분)을 입력하세요."
         />
         <DialogContentText pb={1}>최대 인원수</DialogContentText>
         <TextField

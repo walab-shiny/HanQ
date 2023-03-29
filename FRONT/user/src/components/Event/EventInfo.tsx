@@ -1,18 +1,4 @@
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-} from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { useState } from 'react';
 import ParticipantDialog from './ParticipantDialog';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
@@ -66,7 +52,7 @@ export default function EventInfo() {
   return (
     <Box
       sx={{
-        // width: '100%',
+        // maxWidth: '90%',
         bgcolor: 'background.paper',
         borderRadius: 3,
         p: 3,
@@ -105,8 +91,10 @@ export default function EventInfo() {
         <Typography variant="subtitle1">수강인원</Typography>
         <Typography>25</Typography>
       </Box>
-      <ReactMarkdown children={content} />
-      <Typography variant="subtitle1">사진</Typography>
+      <Box height={'calc(63vh)'} overflow="scroll" textOverflow={'scroll'}>
+        <ReactMarkdown children={content} />
+        <Typography variant="subtitle1">사진</Typography>
+      </Box>
     </Box>
   );
 }

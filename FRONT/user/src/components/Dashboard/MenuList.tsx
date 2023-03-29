@@ -28,7 +28,7 @@ export default function MenuList(props: propsType) {
   return (
     <Box
       sx={{
-        width: '100%',
+        minWidth: 260,
         bgcolor: 'background.paper',
         flexGrow: 1,
       }}
@@ -59,7 +59,7 @@ export default function MenuList(props: propsType) {
           <ListItemIcon>
             <ListAltIcon />
           </ListItemIcon>
-          <ListItemText primary="행사 목록 관리" />
+          <ListItemText primary="이벤트 목록 관리" />
         </ListItemButton>
         <ListItemButton
           selected={selectedIndex === 2}
