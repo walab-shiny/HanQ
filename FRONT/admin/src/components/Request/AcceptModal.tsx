@@ -64,11 +64,13 @@ export default function AcceptModal({ id, loadData }: IProps) {
             <Box sx={{ height: 16 }} />
             <InputLabel sx={{ mb: 1, color: 'text.primary' }}>권한 마감 기한</InputLabel>
             <TextField
-              {...register('duration')}
+              {...register('duration', {
+                required: { value: hasDuration, message: '권한 마감 기한을 입력하세요.' },
+              })}
               size="small"
               placeholder="권한 마감 기한을 입력하세요."
-              helperText={errors.duration?.message}
-              error={Boolean(errors.duration?.message)}
+              helperText={hasDuration && errors.duration?.message}
+              error={hasDuration && Boolean(errors.duration?.message)}
               fullWidth
               type="date"
               disabled={!hasDuration}
