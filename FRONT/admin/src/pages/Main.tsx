@@ -110,12 +110,12 @@ export default function Main() {
                 <Typography variant="subtitle1">유저 ID: {request.userId}</Typography>
                 <Typography>권한 요청 사유: {request.content}</Typography>
                 <Box sx={{ height: 16 }} />
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                   {request.status === 0 && <Chip label="거절됨" color="error" />}
                   {request.status === 1 && <Chip label="대기중" />}
                   {request.status === 2 && <Chip label="수락됨" color="success" />}
                   {request.status === 0 && request.response !== '' && (
-                    <Typography>사유: {request.content}</Typography>
+                    <Typography>사유: {request.response}</Typography>
                   )}
                 </Box>
               </Card>
