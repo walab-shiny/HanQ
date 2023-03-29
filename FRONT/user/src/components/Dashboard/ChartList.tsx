@@ -5,7 +5,7 @@ import Apex from './Apex';
 export default function ChartList() {
   const dataNames = [
     '참석자 수 증가율',
-    '이번 달 행사 참석자 수',
+    '이번 달 이벤트 참석자 수',
     '방명록 작성 증가율',
     '방명록 작성률',
   ];
@@ -25,7 +25,12 @@ export default function ChartList() {
     <>
       <Card sx={{ mt: 3, width: '38%' }}>
         <CardContent>
-          <Typography variant="h5" component="div">
+          <Typography
+            variant="h5"
+            component="div"
+            pl={1}
+            sx={{ backgroundColor: '#ebff82', borderRadius: '5px' }}
+          >
             참석자 분석
           </Typography>
           {dataNames.map((dataName, idx) => (

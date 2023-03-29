@@ -12,7 +12,10 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
+  Toolbar,
 } from '@mui/material';
+import ExportButton from './ExportButton';
 
 function createData(no: number, name: string, content: string, modified_at: any) {
   return { no, name, content, modified_at };
@@ -54,14 +57,19 @@ export default function ReportDialog(props: Props) {
   return (
     <>
       <Dialog onClose={handleClose} open={open} fullWidth maxWidth="lg">
-        <DialogTitle>보고서 목록</DialogTitle>
+        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', m: 2 }}>
+          <Typography variant="h5" m={1}>
+            소감문 목록
+          </Typography>
+          <ExportButton />
+        </Toolbar>
         <DialogContent>
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table" stickyHeader>
               <TableHead>
                 <TableRow>
                   <TableCell align="center">번호</TableCell>
-                  <TableCell align="center">이름</TableCell>
+                  <TableCell align="center">작성자</TableCell>
                   <TableCell align="center">내용</TableCell>
                   <TableCell align="center">수정일</TableCell>
                 </TableRow>

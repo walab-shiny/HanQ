@@ -7,43 +7,59 @@ import {
   DialogTitle,
   MenuItem,
   Select,
-  SelectChangeEvent,
   TextField,
 } from '@mui/material';
-import { ChangeEvent, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 interface Props {
   open: boolean;
   onClose: (value: void) => void;
 }
 
+interface IForm {
+  category: string;
+  name: string;
+  location: string;
+  content: string;
+  startTime: string;
+  endTime: string;
+  availiableTime: string;
+  maxUsers: string;
+}
+
 export default function AddEventDialog(props: Props) {
   const { onClose, open } = props;
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleClose = () => {
+    setIsSubmitted(true);
     onClose();
   };
 
-  const [name, setName] = useState('');
-  const [category, setCategory] = useState('1');
-  const [location, setLocation] = useState('');
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setValue,
+    formState: { errors },
+  } = useForm<IForm>({ mode: 'onChange' });
 
-  const changeName = (event: ChangeEvent<HTMLInputElement>) => {
-    setName(event.target.value as string);
+  const onValid = (data: any) => {
+    console.log(data);
+    handleClose();
   };
-  const changeCate = (event: SelectChangeEvent) => {
-    setCategory(event.target.value as string);
-  };
-  const changeLoca = (event: ChangeEvent<HTMLInputElement>) => {
-    setLocation(event.target.value as string);
-  };
+
+  useEffect(() => {
+    reset({});
+  }, [isSubmitted]);
 
   return (
     <Dialog onClose={handleClose} open={open} fullWidth>
-      <DialogTitle>행사 등록</DialogTitle>
+      <DialogTitle>이벤트 등록</DialogTitle>
       <DialogContent>
-        <DialogContentText pb={1}>카테고리</DialogContentText>
-        <Select value={category} onChange={changeCate} size="small" sx={{ mb: 3 }}>
+        <DialogContentText pb={1}>태그</DialogContentText>
+        <Select size="small" sx={{ mb: 3 }} {...register('category')} value={1}>
           <MenuItem value={'1'}>전산전자공학부</MenuItem>
           <MenuItem value={'2'}>콘텐츠융합디자인학부</MenuItem>
           <MenuItem value={'3'}>생명과학부</MenuItem>
@@ -53,56 +69,85 @@ export default function AddEventDialog(props: Props) {
           <MenuItem value={'7'}>ICT창업학부</MenuItem>
           <MenuItem value={'8'}>커뮤니케이션학부</MenuItem>
         </Select>
-        <DialogContentText pb={1}>이름</DialogContentText>
+        <DialogContentText pb={1}>이벤트 제목</DialogContentText>
         <TextField
           autoFocus
           id="name"
-          label="행사 이름을 입력하세요."
-          value={name}
+          placeholder="이벤트명을 입력하세요."
           fullWidth
           hiddenLabel
           size="small"
-          onChange={changeName}
+          {...register('name', {
+            required: '이벤트명은 필수 입력 항목입니다.',
+          })}
           sx={{ mb: 3 }}
+          helperText={errors.name?.message}
+          error={Boolean(errors.name?.message)}
         />
         <DialogContentText pb={1}>장소</DialogContentText>
         <TextField
           autoFocus
           id="location"
-          label="행사 장소를 입력하세요."
+          placeholder="이벤트 장소를 입력하세요."
           fullWidth
           hiddenLabel
           size="small"
-          onChange={changeLoca}
+          {...register('location', { required: '이벤트 장소는 필수 입력 항목입니다.' })}
+          helperText={errors.location?.message}
+          error={Boolean(errors.location?.message)}
           sx={{ mb: 3 }}
         />
         <DialogContentText pb={1}>설명</DialogContentText>
         <TextField
           autoFocus
-          id="location"
-          label="행사 설명을 입력하세요."
+          id="content"
+          placeholder="이벤트 설명을 입력하세요."
           fullWidth
-          hiddenLabel
           size="small"
           multiline
           rows={4}
-          onChange={changeLoca}
+          {...register('content')}
           sx={{ mb: 3 }}
         />
-        <DialogContentText pb={1}>개최일</DialogContentText>
-        <TextField fullWidth hiddenLabel size="small" type="date" sx={{ mb: 3 }} />
+        <DialogContentText pb={1}>시작일시</DialogContentText>
+        <TextField
+          fullWidth
+          size="small"
+          type="datetime-local"
+          sx={{ mb: 3 }}
+          {...register('startTime', { required: '시작일시는 필수 입력 항목입니다.' })}
+          onChange={(e) => setValue('endTime', e.target.value)}
+          helperText={errors.startTime?.message}
+          error={Boolean(errors.startTime?.message)}
+        />
+        <DialogContentText pb={1}>종료일시</DialogContentText>
+        <TextField
+          fullWidth
+          size="small"
+          type="datetime-local"
+          sx={{ mb: 3 }}
+          {...register('endTime', { required: '종료일시는 필수 입력 항목입니다.' })}
+          helperText={errors.startTime?.message}
+          error={Boolean(errors.startTime?.message)}
+        />
+        <DialogContentText pb={1}>태깅 가능 시간</DialogContentText>
+        <TextField
+          fullWidth
+          size="small"
+          sx={{ mb: 3 }}
+          {...register('availiableTime')}
+          placeholder="태깅 가능 시간(분)을 입력하세요."
+        />
         <DialogContentText pb={1}>최대 인원수</DialogContentText>
         <TextField
           autoFocus
-          id="location"
-          label="최대 인원수를 입력하세요."
+          id="maxCnt"
+          placeholder="최대 인원수를 입력하세요."
           fullWidth
-          hiddenLabel
           size="small"
           sx={{ mb: 3 }}
+          {...register('maxUsers')}
         />
-        <DialogContentText pb={1}>지각허용시간</DialogContentText>
-        <TextField fullWidth hiddenLabel size="small" type="time" sx={{ mb: 3 }} />
         <DialogContentText pb={1}>사진</DialogContentText>
         <input type="file" accept="image/x-png, image/gif, image/jpeg" />
       </DialogContent>
@@ -110,7 +155,12 @@ export default function AddEventDialog(props: Props) {
         <Button onClick={handleClose} variant="outlined">
           취소
         </Button>
-        <Button onClick={handleClose} variant="contained" sx={{ fontWeight: 'bold' }}>
+        <Button
+          onClick={handleSubmit(onValid)}
+          type="submit"
+          variant="contained"
+          sx={{ fontWeight: 'bold' }}
+        >
           등록
         </Button>
       </DialogActions>
