@@ -23,17 +23,11 @@ export default function Header(props: IHeader) {
         <Typography sx={{ fontSize: '1.2rem', fontWeight: 'bold' }}>{props.page}</Typography>
         <Search />
       </Box>
-      <Box display="flex" gap={2} mr={5}>
+      <Box display="flex" gap={2} mr={5} alignItems="center">
         {/* <NotificationsIcon />
         <AccountCircleIcon /> */}
         <ThemeModeToggle />
-        <Button
-          onClick={() => {
-            handleAlertUserInfo();
-          }}
-        >
-          회원 정보 조회
-        </Button>
+        <Typography variant="subtitle1">Hello {user?.name}</Typography>
         <LogoutBtn>로그아웃</LogoutBtn>
       </Box>
     </Box>
