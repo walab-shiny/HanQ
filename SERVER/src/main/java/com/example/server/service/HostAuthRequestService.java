@@ -24,12 +24,12 @@ public class HostAuthRequestService {
     private final UserRepository userRepository;
 
     @Transactional
-    public HostAuthRequestDto createAuthRequest(CreateHostRequestDto dto) {
+    public HostAuthRequest createAuthRequest(CreateHostRequestDto dto) {
         HostAuthRequest request = new HostAuthRequest(dto);
         User user = userRepository.findById(dto.getUserId()).orElseThrow();
         request.setUser(user);
         user.addRequest(request);
-        return hostAuthRequestRepository.save(request).toDto();
+        return hostAuthRequestRepository.save(request);
     }
     // accept 및 decline api 에 대한 보호 생각하기
     @Transactional
