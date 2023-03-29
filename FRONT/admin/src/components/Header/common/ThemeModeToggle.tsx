@@ -1,6 +1,6 @@
 import { Switch } from '@mui/material';
 import { useRecoilState } from 'recoil';
-import { themeModeState } from '../../store/atoms';
+import { themeModeState } from '../../../store/atoms';
 
 function ThemeModeToggle() {
   const [themeMode, setThemeMode] = useRecoilState(themeModeState);

@@ -65,14 +65,14 @@ export default function MenuList(props: propsType) {
           selected={selectedIndex === 2}
           onClick={(event) => {
             handleListItemClick(event, 2);
-            // navigate('/event');
+            navigate('/setting');
           }}
           sx={{ padding: 1.5, margin: 1, borderRadius: 1 }}
         >
           <ListItemIcon>
             <PersonIcon />
           </ListItemIcon>
-          <ListItemText primary="프로필 수정" />
+          <ListItemText primary="프로필 설정" />
         </ListItemButton>
       </List>
     </Box>

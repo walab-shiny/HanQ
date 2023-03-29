@@ -5,7 +5,7 @@ import Dashboard from './pages/Dashboard';
 import Event from './pages/Event';
 import EventDetail from './pages/EventDetail';
 import Login from './pages/Login';
-// import Test from './pages/Test';
+import Setting from './pages/Setting';
 import { userState } from './store/user';
 
 function Router() {
@@ -20,7 +20,7 @@ function Router() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/event" element={<Event />} />
             <Route path="/event/detail" element={<EventDetail />} />
-            {/* <Route path="/test" element={<Test />} /> */}
+            <Route path="/setting" element={<Setting />} />
           </>
         ) : (
           <Route path="*" element={<Login />} />
