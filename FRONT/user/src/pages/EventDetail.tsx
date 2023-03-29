@@ -8,12 +8,7 @@ export default function EventDetail() {
   return (
     <>
       <Box display="flex" height="100%">
-        <Box
-          display="flex"
-          flexDirection="column"
-          width={'calc(18vw)'}
-          sx={{ bgcolor: 'background.paper' }}
-        >
+        <Box display="flex" flexDirection="column" sx={{ bgcolor: 'background.paper' }}>
           <Logo />
           <MenuList page={1} />
         </Box>

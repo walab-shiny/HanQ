@@ -1,0 +1,20 @@
+.react-calendar {
+  width: 450px;
+  max-width: 100%;
+}
+
+.react-calendar__navigation__label > span {
+  font-size: large;
+  font-weight: bold;
+}
+
+.react-calendar {
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.03);
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.react-calendar__tile--now {
+  color: white;
+  background-color: lightcoral;
+}
