@@ -102,6 +102,8 @@ public class User extends BaseEntity {
         dto.setToken(this.token);
         dto.setIsRegistered(this.isRegistered);
         dto.setIsHost(this.isHost);
+        if(this.hostUntil!=null)
+            dto.setHostUntil(this.hostUntil.toString());
         return dto;
     }
     public HostDto toHostDto() {

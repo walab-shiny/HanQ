@@ -20,5 +20,6 @@ public class UserDto {
     private String email="";
     private String token="";
     private Boolean isHost=false;
+    private String hostUntil="";
 
 }
