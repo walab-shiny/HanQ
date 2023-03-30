@@ -37,6 +37,8 @@ public class User extends BaseEntity {
     @Column
     private LocalDate hostUntil;
     @Column
+    private Boolean isPending;
+    @Column
     private String name;
     @Column
     private String email;
@@ -74,12 +76,16 @@ public class User extends BaseEntity {
 
     public void addRequest(HostAuthRequest request) {
         this.requests.add(request);
+        this.isPending=true;
     }
     public Boolean getIsHost() {
         return this.isHost;
     }
     public void makeHost() {
         this.isHost = true;
+    }
+    public void setIsPending(Boolean isPending) {
+        this.isPending = isPending;
     }
     public void setHostUntil(String date) {
         this.hostUntil = LocalDate.parse(date);
@@ -104,6 +110,8 @@ public class User extends BaseEntity {
         dto.setIsHost(this.isHost);
         if(this.hostUntil!=null)
             dto.setHostUntil(this.hostUntil.toString());
+        if(this.isPending!=null)
+            dto.setIsPending(this.isPending);
         return dto;
     }
     public HostDto toHostDto() {

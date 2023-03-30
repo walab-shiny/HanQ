@@ -39,8 +39,10 @@ public class HostAuthRequest extends BaseEntity {
     public void accept(User user) {
         this.status = 2;
         user.makeHost();
+        user.setIsPending(false);
     }
-    public void decline() {
+    public void decline(User user) {
         this.status=0;
+        user.setIsPending(false);
     }
 }
