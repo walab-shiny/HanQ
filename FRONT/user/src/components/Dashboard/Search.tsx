@@ -19,11 +19,7 @@ export default function Search() {
         <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
           <SearchIcon />
         </IconButton>
-        <InputBase
-          sx={{ ml: 1, flex: 1 }}
-          placeholder="Search"
-          // inputProps={{ "aria-label": "search google maps" }}
-        />
+        <InputBase sx={{ ml: 1, flex: 1 }} placeholder="참여 코드를 입력하세요" />
       </Paper>
     </>
   );
