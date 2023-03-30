@@ -32,4 +32,8 @@ public class UserController {
     public ResponseEntity<UserDto> getUser(@PathVariable int id) {
         return ResponseEntity.ok(userService.getUser(id).toDto());
     }
+    @GetMapping
+    public ResponseEntity<UserDto> getUserByToken(@RequestHeader(name = "Authorization") String token) {
+        return ResponseEntity.ok(userService.getUserByToken(token).toDto());
+    }
 }

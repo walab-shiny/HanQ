@@ -56,4 +56,8 @@ public class UserService {
         user.setAffiliation(dto.getAffiliation());
         return ResponseEntity.ok(user.toDto());
     }
+    @Transactional
+    public User getUserByToken(String token) {
+        return userRepository.findUserByToken(token);
+    }
 }

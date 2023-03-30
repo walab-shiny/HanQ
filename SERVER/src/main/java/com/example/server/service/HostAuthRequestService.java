@@ -24,9 +24,9 @@ public class HostAuthRequestService {
     private final UserRepository userRepository;
 
     @Transactional
-    public HostAuthRequest createAuthRequest(CreateHostRequestDto dto) {
+    public HostAuthRequest createAuthRequest(CreateHostRequestDto dto,String token) {
         HostAuthRequest request = new HostAuthRequest(dto);
-        User user = userRepository.findById(dto.getUserId()).orElseThrow();
+        User user = userRepository.findUserByToken(token);
         request.setUser(user);
         user.addRequest(request);
         return hostAuthRequestRepository.save(request);
