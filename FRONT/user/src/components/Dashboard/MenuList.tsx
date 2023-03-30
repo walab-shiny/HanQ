@@ -6,6 +6,7 @@ import ListItemText from '@mui/material/ListItemText';
 import HomeIcon from '@mui/icons-material/Home';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import PersonIcon from '@mui/icons-material/Person';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -61,10 +62,25 @@ export default function MenuList(props: propsType) {
           </ListItemIcon>
           <ListItemText primary="이벤트 목록 관리" />
         </ListItemButton>
+
         <ListItemButton
           selected={selectedIndex === 2}
           onClick={(event) => {
             handleListItemClick(event, 2);
+            navigate('/question');
+          }}
+          sx={{ padding: 1.5, margin: 1, borderRadius: 1 }}
+        >
+          <ListItemIcon>
+            <QuestionMarkIcon />
+          </ListItemIcon>
+          <ListItemText primary="질문하기" />
+        </ListItemButton>
+
+        <ListItemButton
+          selected={selectedIndex === 3}
+          onClick={(event) => {
+            handleListItemClick(event, 3);
             navigate('/setting');
           }}
           sx={{ padding: 1.5, margin: 1, borderRadius: 1 }}
