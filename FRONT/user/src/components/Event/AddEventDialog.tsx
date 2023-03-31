@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Dialog,
   DialogActions,
@@ -11,6 +12,7 @@ import {
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { FileUploader } from 'react-drag-drop-files';
 
 interface Props {
   open: boolean;
@@ -26,7 +28,10 @@ interface IForm {
   endTime: string;
   availiableTime: string;
   maxUsers: string;
+  file: string;
 }
+
+const fileTypes = ['JPEG', 'PNG', 'GIF', 'JPG'];
 
 export default function AddEventDialog(props: Props) {
   const { onClose, open } = props;
@@ -54,9 +59,18 @@ export default function AddEventDialog(props: Props) {
     reset({});
   }, [isSubmitted]);
 
+  const [file, setFile] = useState(null);
+  const handleChange = (file: any) => {
+    console.log(file);
+    setFile(file);
+  };
+
   return (
     <Dialog onClose={handleClose} open={open} fullWidth>
-      <DialogTitle>이벤트 등록</DialogTitle>
+      <Box display="flex" alignItems="center" justifyContent="space-between" mr={3}>
+        <DialogTitle>이벤트 등록</DialogTitle>
+        <FileUploader multiline={true} handleChange={handleChange} name="file" types={fileTypes} />
+      </Box>
       <DialogContent>
         <DialogContentText pb={1}>태그</DialogContentText>
         <Select size="small" sx={{ mb: 3 }} {...register('category')} value={1}>
@@ -148,8 +162,6 @@ export default function AddEventDialog(props: Props) {
           sx={{ mb: 3 }}
           {...register('maxUsers')}
         />
-        <DialogContentText pb={1}>사진</DialogContentText>
-        <input type="file" accept="image/x-png, image/gif, image/jpeg" />
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} variant="outlined">
