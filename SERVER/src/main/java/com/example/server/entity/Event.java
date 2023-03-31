@@ -1,7 +1,6 @@
 package com.example.server.entity;
 
 import com.example.server.entity.base.BaseEntity;
-import com.example.server.entity.relation.EventCategory;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -25,7 +24,7 @@ public class Event extends BaseEntity {
     private String location;
     private int maxUsers;
     @OneToMany(mappedBy = "event")
-    private List<EventCategory> categories = new ArrayList<>();
+    private List<Tag> tags = new ArrayList<>();
     private String content;
     private LocalDateTime lateTime;
     private String image;
