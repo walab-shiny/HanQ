@@ -2,10 +2,12 @@ package com.example.server.entity;
 
 import com.example.server.dto.TagCreateDto;
 import com.example.server.dto.TagDto;
+import com.example.server.entity.relation.EventTag;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -16,8 +18,8 @@ public class Tag {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Event event;
+    @OneToMany(mappedBy = "tag")
+    private List<EventTag> events;
     @ManyToOne(fetch = FetchType.LAZY)
     private User likes;
 
