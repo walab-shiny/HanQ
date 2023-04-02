@@ -22,10 +22,10 @@ export default function Setting() {
           <Logo />
           <MenuList page={3} />
         </Box>
-        <Box display="flex" flexDirection="column" flexGrow={1} gap={1}>
+        <Box display="flex" flexDirection="column" flexGrow={1} gap={10}>
           <Header page="프로필 설정" />
           <Box>
-            <Box display="flex" flexDirection="column" alignItems="center" mt={3}>
+            <Box display="flex" flexDirection="column" alignItems="center">
               {user?.isHost ? (
                 <Accepted user={user} />
               ) : (
