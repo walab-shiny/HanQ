@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Typography, useTheme } from '@mui/material';
 import RequestHostAuth from './RequestHostAuth';
 import { useState } from 'react';
 
@@ -7,6 +7,7 @@ interface IUserInfo {
 }
 
 export default function Accepted(props: IUserInfo) {
+  const { palette } = useTheme();
   console.log(props.user);
   const [dialog, setDialog] = useState(false);
 
@@ -22,7 +23,15 @@ export default function Accepted(props: IUserInfo) {
         flexDirection="column"
         gap={2}
       >
-        <Typography variant="h5" pb={1}>
+        <Typography
+          variant="h5"
+          mb={2}
+          pl={1}
+          sx={{
+            backgroundColor: palette.mode === 'light' ? '#ebff82' : 'primary.main',
+            borderRadius: '5px',
+          }}
+        >
           내 정보
         </Typography>
         <Box display="flex" justifyContent="space-between" alignItems="center">
