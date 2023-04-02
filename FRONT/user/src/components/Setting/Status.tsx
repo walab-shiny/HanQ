@@ -64,20 +64,17 @@ export default function Accepted(props: IUserInfo) {
           </Box>
         ) : (
           <>
-            <Button variant="contained">이벤트 주최 권한 신청</Button>
-            <RequestHostAuth closeDialog={closeDialog} />
-          </>
-        )}
-
-        {dialog === true ? (
-          <Box display="flex" justifyContent="center">
-            <RequestHostAuth closeDialog={closeDialog} />
-          </Box>
-        ) : (
-          <>
-            <Button variant="contained" onClick={openDialog}>
-              이벤트 주최 권한 신청
-            </Button>
+            {dialog === true ? (
+              <Box display="flex" justifyContent="center">
+                <RequestHostAuth closeDialog={closeDialog} />
+              </Box>
+            ) : (
+              <>
+                <Button variant="contained" onClick={openDialog}>
+                  이벤트 주최 권한 신청
+                </Button>
+              </>
+            )}
           </>
         )}
       </Box>
