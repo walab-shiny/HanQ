@@ -9,8 +9,8 @@ import { Button, IconButton, Toolbar, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import AddEventDialog from './AddEventDialog';
 import ReportDialog from '../Report/ReportDialog';
+import ReportWriteDialog from './ReportWriteDialog';
 
 function createData(
   no: number,
@@ -41,29 +41,19 @@ const rows = [
   createData(15, '전산전자', '전전 개강예배', '2023-06-06', 'NTH311', 34),
 ];
 
-export default function EventList() {
+export default function ParticipateList() {
   const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const [reportOpen, setReportOpen] = useState(false);
-  const handleReportOpen = () => setReportOpen(true);
-  const handleReportClose = () => setReportOpen(false);
-
   return (
     <>
       <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <Typography variant="subtitle1" m={1}>
-          주최 이벤트 목록
+          참여 이벤트 목록
         </Typography>
-        {/* <Tooltip title="create event"> */}
-        <IconButton onClick={handleOpen}>
-          <AddIcon />
-        </IconButton>
-        <AddEventDialog open={open} onClose={handleClose} />
-        {/* </Tooltip> */}
       </Toolbar>
 
       <TableContainer component={Paper} sx={{ maxHeight: 'calc(70vh)' }}>
@@ -75,56 +65,43 @@ export default function EventList() {
               <TableCell align="center">제목</TableCell>
               <TableCell align="center">일자</TableCell>
               <TableCell align="center">장소</TableCell>
-              <TableCell align="center">참여인원수</TableCell>
-              <TableCell align="center">소감문 확인</TableCell>
+              <TableCell align="center">소감문 작성</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {rows.map((row) => (
-              <TableRow
-                key={row.no}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                // onClick={() => navigate('/event/detail')}
-              >
+              <TableRow key={row.no} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                 <TableCell
                   component="th"
                   scope="row"
                   align="center"
-                  onClick={() => navigate('/event/detail')}
+                  onClick={() => navigate('/participate/detail')}
                 >
                   {row.no}
                 </TableCell>
-                <TableCell align="center" onClick={() => navigate('/event/detail')}>
+                <TableCell align="center" onClick={() => navigate('/participate/detail')}>
                   {row.category}
                 </TableCell>
-                <TableCell align="center" onClick={() => navigate('/event/detail')}>
+                <TableCell align="center" onClick={() => navigate('/participate/detail')}>
                   {row.title}
                 </TableCell>
-                <TableCell align="center" onClick={() => navigate('/event/detail')}>
+                <TableCell align="center" onClick={() => navigate('/participate/detail')}>
                   {row.date}
                 </TableCell>
-                <TableCell align="center" onClick={() => navigate('/event/detail')}>
+                <TableCell align="center" onClick={() => navigate('/participate/detail')}>
                   {row.location}
                 </TableCell>
-                <TableCell align="center" onClick={() => navigate('/event/detail')}>
-                  {row.cnt}
-                </TableCell>
                 <TableCell align="center">
-                  <Button
-                    size="small"
-                    variant="contained"
-                    color="secondary"
-                    onClick={handleReportOpen}
-                  >
-                    소감문 확인
+                  <Button size="small" variant="contained" color="secondary" onClick={handleOpen}>
+                    소감문 작성
                   </Button>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
+        <ReportWriteDialog open={open} onClose={handleClose} />
       </TableContainer>
-      <ReportDialog open={reportOpen} onClose={handleReportClose} />
     </>
   );
 }

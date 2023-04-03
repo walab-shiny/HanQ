@@ -19,7 +19,7 @@ export default function Setting() {
           sx={{ bgcolor: 'background.paper' }}
         >
           <Logo />
-          <MenuList page={3} />
+          <MenuList page={4} />
         </Box>
         <Box display="flex" flexDirection="column" flexGrow={1} gap={10}>
           <Header page="프로필 설정" />
