@@ -76,6 +76,7 @@ export default function EventList() {
               <TableCell align="center">일자</TableCell>
               <TableCell align="center">장소</TableCell>
               <TableCell align="center">참여인원수</TableCell>
+              <TableCell align="center">QR 스캔</TableCell>
               <TableCell align="center">소감문 확인</TableCell>
             </TableRow>
           </TableHead>
@@ -108,6 +109,11 @@ export default function EventList() {
                 </TableCell>
                 <TableCell align="center" onClick={() => navigate('/event/detail')}>
                   {row.cnt}
+                </TableCell>
+                <TableCell align="center" onClick={() => navigate('/event/qr')}>
+                  <Button size="small" variant="contained" color="success">
+                    QR 스캔
+                  </Button>
                 </TableCell>
                 <TableCell align="center">
                   <Button
