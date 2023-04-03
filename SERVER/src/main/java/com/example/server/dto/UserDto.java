@@ -21,5 +21,6 @@ public class UserDto {
     private String token="";
     private Boolean isHost=false;
     private String hostUntil="";
+    private Boolean isPending=false;
 
 }
