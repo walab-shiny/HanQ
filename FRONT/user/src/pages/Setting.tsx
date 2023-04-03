@@ -1,11 +1,10 @@
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { useRecoilValue } from 'recoil';
 import Header from '../components/Dashboard/Header';
 import Logo from '../components/Dashboard/Logo';
 import MenuList from '../components/Dashboard/MenuList';
-import RequestHostAuth from '../components/Setting/RequestHostAuth';
 import { userState } from '../store/user';
-import Accepted from '../components/Setting/Status';
+import Status from '../components/Setting/Status';
 
 export default function Setting() {
   const user = useRecoilValue(userState);
@@ -27,7 +26,7 @@ export default function Setting() {
           <Box>
             <Box display="flex" flexDirection="column" alignItems="center">
               {user?.isHost ? (
-                <Accepted user={user} />
+                <Status user={user} />
               ) : (
                 <Box>
                   {/* <Typography gutterBottom>이벤트 생성 권한 요청하기</Typography>
