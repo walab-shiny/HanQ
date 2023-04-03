@@ -1,6 +1,8 @@
-import { Box, Button, Typography, useTheme } from '@mui/material';
+import { Box, Button, TextField, Typography, useTheme } from '@mui/material';
 import RequestHostAuth from './RequestHostAuth';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import TagSelect from './TagSelect';
 
 interface IUserInfo {
   user: any;
@@ -8,11 +10,21 @@ interface IUserInfo {
 
 export default function Accepted(props: IUserInfo) {
   const { palette } = useTheme();
-  console.log(props.user);
+  const { register, handleSubmit } = useForm({
+    defaultValues: {
+      name: props.user.name,
+    },
+  });
+
+  // console.log(props.user);
   const [dialog, setDialog] = useState(false);
 
   const openDialog = () => setDialog(true);
   const closeDialog = () => setDialog(false);
+
+  const onValid = (data: any) => {
+    console.log(data);
+  };
 
   return (
     <>
@@ -26,7 +38,7 @@ export default function Accepted(props: IUserInfo) {
         <Typography
           variant="h5"
           mb={2}
-          pl={1}
+          p={1}
           sx={{
             backgroundColor: palette.mode === 'light' ? '#ebff82' : 'primary.main',
             borderRadius: '5px',
@@ -36,56 +48,76 @@ export default function Accepted(props: IUserInfo) {
         </Typography>
         <Box display="flex" justifyContent="space-between" alignItems="center">
           <Typography variant="subtitle1">이름</Typography>
-          <Typography
-            variant="subtitle1"
-            sx={{ p: 0.5, pl: 2, pr: 2, borderRadius: 1, border: '1px solid ' }}
-          >
-            {props.user.name}
-          </Typography>
+          <TextField
+            size="small"
+            {...register('name')}
+            inputProps={{ style: { textAlign: 'end' } }}
+          />
         </Box>
         <Box display="flex" justifyContent="space-between" alignItems="center">
           <Typography variant="subtitle1">학번</Typography>
-          <Typography
-            variant="subtitle1"
-            sx={{ p: 0.5, pl: 2, pr: 2, borderRadius: 1, border: '1px solid ' }}
-          >
-            {props.user.studentNum}
-          </Typography>
+          <TextField
+            size="small"
+            value={props.user.studentNum}
+            disabled
+            inputProps={{ style: { textAlign: 'end' } }}
+          />
         </Box>
         <Box display="flex" justifyContent="space-between" alignItems="center">
           <Typography variant="subtitle1">이메일</Typography>
-          <Typography
-            variant="subtitle1"
-            sx={{ p: 0.5, pl: 2, pr: 2, borderRadius: 1, border: '1px solid ' }}
-          >
-            {props.user.email}
-          </Typography>
+          <TextField
+            sx={{ width: '55%' }}
+            size="small"
+            value={props.user.email}
+            disabled
+            inputProps={{ style: { textAlign: 'end' } }}
+          />
         </Box>
-        {props.user.isHost === true ? (
-          <Box display="flex" justifyContent="space-between" alignItems="center">
-            <Typography variant="subtitle1">권한 유효 기간</Typography>
-            <Typography
-              variant="subtitle1"
-              sx={{ p: 0.5, pl: 2, pr: 2, borderRadius: 1, border: '1px solid' }}
-            >
-              {props.user.hostUntil}
-            </Typography>
+        <Box display="flex" justifyContent="space-between" alignItems="center">
+          <Typography variant="subtitle1">관심 등록 태그</Typography>
+          {/* <TextField
+            size="small"
+            value={'전산전자공학부'}
+            inputProps={{ style: { textAlign: 'end' } }}
+          /> */}
+          <TagSelect />
+        </Box>
+        {props.user.isPending === true ? (
+          <Box display="flex" justifyContent="center">
+            <Typography variant="subtitle1">권한 신청이 완료되었습니다</Typography>
           </Box>
         ) : (
           <>
-            {dialog === true ? (
-              <Box display="flex" justifyContent="center">
-                <RequestHostAuth closeDialog={closeDialog} />
+            {props.user.isHost === true ? (
+              <Box display="flex" justifyContent="space-between" alignItems="center">
+                <Typography variant="subtitle1">권한 유효 기간</Typography>
+                <TextField
+                  size="small"
+                  value={props.user.hostUntil}
+                  disabled
+                  inputProps={{ style: { textAlign: 'end' } }}
+                />
               </Box>
             ) : (
               <>
-                <Button variant="contained" onClick={openDialog}>
-                  이벤트 주최 권한 신청
-                </Button>
+                {dialog === true ? (
+                  <Box display="flex" justifyContent="center">
+                    <RequestHostAuth closeDialog={closeDialog} />
+                  </Box>
+                ) : (
+                  <>
+                    <Button variant="contained" onClick={openDialog}>
+                      이벤트 주최 권한 신청
+                    </Button>
+                  </>
+                )}
               </>
             )}
           </>
         )}
+        <Button variant="contained" sx={{ mt: 2 }} type="submit" onClick={handleSubmit(onValid)}>
+          수정하기
+        </Button>
       </Box>
     </>
   );
