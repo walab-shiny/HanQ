@@ -44,7 +44,7 @@ public class HostAuthRequestService {
     @Transactional
     public HostAuthRequestDto declineRequest(DeclineHostRequestDto dto) {
         HostAuthRequest request = hostAuthRequestRepository.findById(dto.getId()).orElseThrow();
-        request.decline();
+        request.decline(request.getUser());
         request.writeResponse(dto.getResponse());
         return request.toDto();
     }
