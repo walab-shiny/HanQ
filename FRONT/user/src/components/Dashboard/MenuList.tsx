@@ -7,6 +7,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import PersonIcon from '@mui/icons-material/Person';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -67,6 +68,20 @@ export default function MenuList(props: propsType) {
           selected={selectedIndex === 2}
           onClick={(event) => {
             handleListItemClick(event, 2);
+            navigate('/participate');
+          }}
+          sx={{ padding: 1.5, margin: 1, borderRadius: 1 }}
+        >
+          <ListItemIcon>
+            <EventAvailableIcon />
+          </ListItemIcon>
+          <ListItemText primary="참여 이벤트 확인" />
+        </ListItemButton>
+
+        <ListItemButton
+          selected={selectedIndex === 3}
+          onClick={(event) => {
+            handleListItemClick(event, 3);
             navigate('/question');
           }}
           sx={{ padding: 1.5, margin: 1, borderRadius: 1 }}
@@ -78,9 +93,9 @@ export default function MenuList(props: propsType) {
         </ListItemButton>
 
         <ListItemButton
-          selected={selectedIndex === 3}
+          selected={selectedIndex === 4}
           onClick={(event) => {
-            handleListItemClick(event, 3);
+            handleListItemClick(event, 4);
             navigate('/setting');
           }}
           sx={{ padding: 1.5, margin: 1, borderRadius: 1 }}

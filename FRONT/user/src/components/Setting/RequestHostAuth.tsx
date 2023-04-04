@@ -10,7 +10,11 @@ interface IFormData {
   content: string;
 }
 
-export default function RequestHostAuth() {
+interface Props {
+  closeDialog: any;
+}
+
+export default function RequestHostAuth(props: Props) {
   const { enqueueSnackbar } = useSnackbar();
   const [user, setUser] = useRecoilState(userState);
   const {
@@ -29,6 +33,7 @@ export default function RequestHostAuth() {
       return;
     }
     enqueueSnackbar('요청이 전송되었습니다. 응답을 기다려주세요.', { variant: 'success' });
+    props.closeDialog();
   };
 
   return (
