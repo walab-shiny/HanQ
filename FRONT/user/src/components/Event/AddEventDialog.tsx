@@ -25,7 +25,7 @@ interface IForm {
   location: string;
   content: string;
   startTime: string;
-  endTime: string;
+  // endTime: string;
   availiableTime: string;
   maxUsers: string;
   file: string;
@@ -85,7 +85,6 @@ export default function AddEventDialog(props: Props) {
         </Select>
         <DialogContentText pb={1}>이벤트 제목</DialogContentText>
         <TextField
-          autoFocus
           id="name"
           placeholder="이벤트명을 입력하세요."
           fullWidth
@@ -100,7 +99,6 @@ export default function AddEventDialog(props: Props) {
         />
         <DialogContentText pb={1}>장소</DialogContentText>
         <TextField
-          autoFocus
           id="location"
           placeholder="이벤트 장소를 입력하세요."
           fullWidth
@@ -113,7 +111,6 @@ export default function AddEventDialog(props: Props) {
         />
         <DialogContentText pb={1}>설명</DialogContentText>
         <TextField
-          autoFocus
           id="content"
           placeholder="이벤트 설명을 입력하세요."
           fullWidth
@@ -130,11 +127,11 @@ export default function AddEventDialog(props: Props) {
           type="datetime-local"
           sx={{ mb: 3 }}
           {...register('startTime', { required: '시작일시는 필수 입력 항목입니다.' })}
-          onChange={(e) => setValue('endTime', e.target.value)}
+          // onChange={(e) => setValue('endTime', e.target.value)}
           helperText={errors.startTime?.message}
           error={Boolean(errors.startTime?.message)}
         />
-        <DialogContentText pb={1}>종료일시</DialogContentText>
+        {/* <DialogContentText pb={1}>종료일시</DialogContentText>
         <TextField
           fullWidth
           size="small"
@@ -143,7 +140,7 @@ export default function AddEventDialog(props: Props) {
           {...register('endTime', { required: '종료일시는 필수 입력 항목입니다.' })}
           helperText={errors.startTime?.message}
           error={Boolean(errors.startTime?.message)}
-        />
+        /> */}
         <DialogContentText pb={1}>태깅 가능 시간</DialogContentText>
         <TextField
           fullWidth
@@ -154,7 +151,6 @@ export default function AddEventDialog(props: Props) {
         />
         <DialogContentText pb={1}>최대 인원수</DialogContentText>
         <TextField
-          autoFocus
           id="maxCnt"
           placeholder="최대 인원수를 입력하세요."
           fullWidth
