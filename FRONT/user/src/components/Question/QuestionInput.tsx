@@ -1,4 +1,4 @@
-import { Box, IconButton, InputBase, Paper, TextField } from '@mui/material';
+import { IconButton, InputBase, Paper } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SendIcon from '@mui/icons-material/Send';
 
@@ -14,8 +14,8 @@ export default function QuestionInput() {
           borderRadius: '5px',
           margin: 1,
           boxShadow: 1,
-          width: '70%',
-          height: '100%',
+          width: 'calc(45vw)',
+          height: 'calc(8vh)',
         }}
       >
         <IconButton sx={{ p: '10px' }} aria-label="menu">
