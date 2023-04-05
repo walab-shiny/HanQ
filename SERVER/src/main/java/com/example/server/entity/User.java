@@ -49,7 +49,7 @@ public class User extends BaseEntity {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "host")
     private List<Event> events = new ArrayList<>();
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="likes")
-    private List<Category> categories = new ArrayList<>();
+    private List<Tag> tags = new ArrayList<>();
 
     public User(DecodedToken token) {
         if(token.getName().contains("학부생"))
