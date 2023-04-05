@@ -44,6 +44,8 @@ public class User extends BaseEntity {
     private String email;
     @Column
     private String token;
+    @Column
+    private String image;
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
     private List<Attend> attends = new ArrayList<>();
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "host")
@@ -60,6 +62,7 @@ public class User extends BaseEntity {
         }
         this.email = token.getEmail();
         this.token = token.getSub();
+        this.image = token.getPicture();
     }
     public void setStudentNum(Long studentNum) {
         this.studentNum = studentNum;
@@ -99,7 +102,7 @@ public class User extends BaseEntity {
         if(this.isRegistered) {
             if(dto.getIsStudent()) {
                 dto.setStudentNum(this.studentNum);
-                dto.setDepartmentId(this.department.getId());
+                dto.setDepartment(this.department.getName());
             }
             else {
                 dto.setAffiliation(this.affiliation);
@@ -112,6 +115,8 @@ public class User extends BaseEntity {
             dto.setHostUntil(this.hostUntil.toString());
         if(this.isPending!=null)
             dto.setIsPending(this.isPending);
+        if(this.image!=null)
+            dto.setImage(this.image);
         return dto;
     }
     public HostDto toHostDto() {
