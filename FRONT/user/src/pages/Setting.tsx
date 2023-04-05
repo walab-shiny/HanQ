@@ -25,14 +25,7 @@ export default function Setting() {
           <Header page="프로필 설정" />
           <Box>
             <Box display="flex" flexDirection="column" alignItems="center">
-              {user?.isHost ? (
-                <Status user={user} />
-              ) : (
-                <Box>
-                  {/* <Typography gutterBottom>이벤트 생성 권한 요청하기</Typography>
-                  <RequestHostAuth /> */}
-                </Box>
-              )}
+              <Status user={user} />
             </Box>
           </Box>
         </Box>

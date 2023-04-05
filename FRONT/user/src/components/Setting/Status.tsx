@@ -106,7 +106,7 @@ export default function Accepted(props: IUserInfo) {
                   </Box>
                 ) : (
                   <>
-                    <Button variant="contained" onClick={openDialog}>
+                    <Button variant="outlined" onClick={openDialog}>
                       이벤트 주최 권한 신청
                     </Button>
                   </>
