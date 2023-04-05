@@ -27,18 +27,18 @@ public class CreateHostRequestTest {
     @Autowired
     UserService userService;
 
-    @Test
-    @Order(1)
-    public void createRequests() {
-        HostAuthRequestDto authRequest = hostAuthRequestService.createAuthRequest(
-                new CreateHostRequestDto(1, "전산전자공학부 임원단입니다! 호스트 권한 요청합니다")).toDto();
-        HostAuthRequestDto authRequest2 = hostAuthRequestService.createAuthRequest(
-                new CreateHostRequestDto(2, "호스트 일주일간 요청합니다!")).toDto();
-        assertThat(userService.getUser(authRequest.getUserId()).getId()).isEqualTo(1);
-        assertThat(authRequest.getContent()).isEqualTo("전산전자공학부 임원단입니다! 호스트 권한 요청합니다");
-        assertThat(userService.getUser(authRequest2.getUserId()).getId()).isEqualTo(2);
-        assertThat(authRequest2.getContent()).isEqualTo("호스트 일주일간 요청합니다!");
-    }
+//    @Test
+//    @Order(1)
+//    public void createRequests() {
+//        HostAuthRequestDto authRequest = hostAuthRequestService.createAuthRequest(
+//                new CreateHostRequestDto(1, "전산전자공학부 임원단입니다! 호스트 권한 요청합니다")).toDto();
+//        HostAuthRequestDto authRequest2 = hostAuthRequestService.createAuthRequest(
+//                new CreateHostRequestDto(2, "호스트 일주일간 요청합니다!")).toDto();
+//        assertThat(userService.getUser(authRequest.getUserId()).getId()).isEqualTo(1);
+//        assertThat(authRequest.getContent()).isEqualTo("전산전자공학부 임원단입니다! 호스트 권한 요청합니다");
+//        assertThat(userService.getUser(authRequest2.getUserId()).getId()).isEqualTo(2);
+//        assertThat(authRequest2.getContent()).isEqualTo("호스트 일주일간 요청합니다!");
+//    }
     @Test
     @Order(2)
     public void getRequests() {

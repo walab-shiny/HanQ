@@ -4,6 +4,7 @@ import com.example.server.dto.CreateHostRequestDto;
 import com.example.server.dto.HostAuthRequestDto;
 import com.example.server.service.HostAuthRequestService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*")
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class HostAuthController {
     private final HostAuthRequestService hostAuthRequestService;
     @PostMapping
-    public HostAuthRequestDto createRequest(@RequestBody CreateHostRequestDto dto) {
-        return hostAuthRequestService.createAuthRequest(dto).toDto();
+    public ResponseEntity<HostAuthRequestDto> createRequest(@RequestBody CreateHostRequestDto dto, @RequestHeader(name = "Authorization") String token) {
+        return ResponseEntity.ok(hostAuthRequestService.createAuthRequest(dto,token).toDto());
     }
 }
