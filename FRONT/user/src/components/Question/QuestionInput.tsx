@@ -1,4 +1,4 @@
-import { IconButton, InputBase, Paper } from '@mui/material';
+import { Box, IconButton, InputBase, Paper } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SendIcon from '@mui/icons-material/Send';
 
@@ -18,9 +18,9 @@ export default function QuestionInput() {
           height: 'calc(8vh)',
         }}
       >
-        <IconButton sx={{ p: '10px' }} aria-label="menu">
+        <Box sx={{ p: '10px' }} display="flex" justifyContent="center">
           <AccountCircleIcon />
-        </IconButton>
+        </Box>
         <InputBase sx={{ ml: 1, flex: 1 }} placeholder="질문을 입력하세요" />
         <IconButton type="button" sx={{ p: '10px' }}>
           <SendIcon />
