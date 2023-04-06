@@ -4,12 +4,14 @@ import com.example.server.dto.TagCreateDto;
 import com.example.server.dto.TagDeleteDto;
 import com.example.server.dto.TagDto;
 import com.example.server.entity.Tag;
+import com.example.server.entity.relation.EventTag;
 import com.example.server.repository.TagRepository;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,6 +35,14 @@ public class TagService {
     public List<TagDto> getTags() {
         List<Tag> tags = tagRepository.findAll();
         return tags.stream().map(Tag::toDto).collect(Collectors.toList());
+    }
+    @Transactional
+    public List<Tag> getTagsFromEvent(List<Integer> ids) {
+        return tagRepository.findAllById(ids);
+    }
+    @Transactional
+    public List<Tag> getTagsFromEventTag(List<EventTag> list) {
+        return list.stream().map(EventTag::getTag).collect(Collectors.toList());
     }
     @Transactional
     public TagDto getTag(int id) {

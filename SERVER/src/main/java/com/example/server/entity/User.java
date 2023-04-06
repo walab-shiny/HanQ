@@ -46,6 +46,8 @@ public class User extends BaseEntity {
     private String picture;
     @Column
     private String token;
+    @Column
+    private String image;
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
     private List<Attend> attends = new ArrayList<>();
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "host")
@@ -116,6 +118,8 @@ public class User extends BaseEntity {
             dto.setHostUntil(this.hostUntil.toString());
         if(this.isPending!=null)
             dto.setIsPending(this.isPending);
+        if(this.image!=null)
+            dto.setImage(this.image);
         return dto;
     }
     public HostDto toHostDto() {

@@ -192,5 +192,5 @@ interface FilmOptionType {
 
 const tagList = [
   { name: '전산전자공학부', no: 1 },
-  { name: '공간환경시스템공학부', no: 2 },
+  { name: '경영경제학부', no: 2 },
 ];

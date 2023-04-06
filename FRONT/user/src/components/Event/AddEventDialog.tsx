@@ -13,22 +13,14 @@ import {
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FileUploader } from 'react-drag-drop-files';
+import { IEvent } from '../../types/event';
+import { addEvent } from '../../apis/event';
+import TagSelect from '../Setting/TagSelect';
 
 interface Props {
   open: boolean;
   onClose: (value: void) => void;
-}
-
-interface IForm {
-  category: string;
-  name: string;
-  location: string;
-  content: string;
-  startTime: string;
-  // endTime: string;
-  availiableTime: string;
-  maxUsers: string;
-  file: string;
+  fetchData: () => void;
 }
 
 const fileTypes = ['JPEG', 'PNG', 'GIF', 'JPG'];
@@ -48,9 +40,11 @@ export default function AddEventDialog(props: Props) {
     reset,
     setValue,
     formState: { errors },
-  } = useForm<IForm>({ mode: 'onChange' });
+  } = useForm<IEvent>({ mode: 'onChange' });
 
-  const onValid = (data: any) => {
+  const onValid = async (data: IEvent) => {
+    await addEvent(data);
+    props.fetchData();
     console.log(data);
     handleClose();
   };
@@ -73,16 +67,18 @@ export default function AddEventDialog(props: Props) {
       </Box>
       <DialogContent>
         <DialogContentText pb={1}>태그</DialogContentText>
-        <Select size="small" sx={{ mb: 3 }} {...register('category')} value={1}>
-          <MenuItem value={'1'}>전산전자공학부</MenuItem>
-          <MenuItem value={'2'}>콘텐츠융합디자인학부</MenuItem>
-          <MenuItem value={'3'}>생명과학부</MenuItem>
-          <MenuItem value={'4'}>공간환경시스템공학부</MenuItem>
-          <MenuItem value={'5'}>기계제어공학부</MenuItem>
-          <MenuItem value={'6'}>법학부</MenuItem>
-          <MenuItem value={'7'}>ICT창업학부</MenuItem>
-          <MenuItem value={'8'}>커뮤니케이션학부</MenuItem>
-        </Select>
+        {/* <Select size="small" sx={{ mb: 3 }} {...register('tags')} value={1}>
+          <MenuItem value={1}>전산전자공학부</MenuItem>
+          <MenuItem value={2}>콘텐츠융합디자인학부</MenuItem>
+          <MenuItem value={3}>생명과학부</MenuItem>
+          <MenuItem value={4}>공간환경시스템공학부</MenuItem>
+          <MenuItem value={5}>기계제어공학부</MenuItem>
+          <MenuItem value={6}>법학부</MenuItem>
+          <MenuItem value={7}>ICT창업학부</MenuItem>
+          <MenuItem value={8}>커뮤니케이션학부</MenuItem>
+        </Select> */}
+        <TagSelect />
+        <Box sx={{ height: 24 }} />
         <DialogContentText pb={1}>이벤트 제목</DialogContentText>
         <TextField
           id="name"
@@ -126,10 +122,10 @@ export default function AddEventDialog(props: Props) {
           size="small"
           type="datetime-local"
           sx={{ mb: 3 }}
-          {...register('startTime', { required: '시작일시는 필수 입력 항목입니다.' })}
+          {...register('openAt', { required: '시작일시는 필수 입력 항목입니다.' })}
           // onChange={(e) => setValue('endTime', e.target.value)}
-          helperText={errors.startTime?.message}
-          error={Boolean(errors.startTime?.message)}
+          helperText={errors.openAt?.message}
+          error={Boolean(errors.openAt?.message)}
         />
         {/* <DialogContentText pb={1}>종료일시</DialogContentText>
         <TextField
@@ -141,14 +137,14 @@ export default function AddEventDialog(props: Props) {
           helperText={errors.startTime?.message}
           error={Boolean(errors.startTime?.message)}
         /> */}
-        <DialogContentText pb={1}>태깅 가능 시간</DialogContentText>
+        {/* <DialogContentText pb={1}>태깅 가능 시간</DialogContentText>
         <TextField
           fullWidth
           size="small"
           sx={{ mb: 3 }}
           {...register('availiableTime')}
           placeholder="태깅 가능 시간(분)을 입력하세요."
-        />
+        /> */}
         <DialogContentText pb={1}>최대 인원수</DialogContentText>
         <TextField
           id="maxCnt"

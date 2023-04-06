@@ -26,14 +26,14 @@ public class TagTests {
     public void create() {
         TagCreateDto dto = new TagCreateDto("전산전자공학부");
         TagDto created = tagService.createTag(dto);
-        TagCreateDto dto2 = new TagCreateDto("특강");
+        TagCreateDto dto2 = new TagCreateDto("경영경제학부");
         TagDto created2 = tagService.createTag(dto2);
         TagCreateDto dto3 = new TagCreateDto("체육대회");
         TagDto created3 = tagService.createTag(dto3);
         assertThat(created.getId()).isEqualTo(1);
         assertThat(created.getName()).isEqualTo("전산전자공학부");
         assertThat(created2.getId()).isEqualTo(2);
-        assertThat(created2.getName()).isEqualTo("특강");
+        assertThat(created2.getName()).isEqualTo("경영경제학부");
         assertThat(created3.getId()).isEqualTo(3);
         assertThat(created3.getName()).isEqualTo("체육대회");
     }

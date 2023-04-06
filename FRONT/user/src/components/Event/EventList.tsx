@@ -8,41 +8,15 @@ import Paper from '@mui/material/Paper';
 import { Button, IconButton, Toolbar, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import AddEventDialog from './AddEventDialog';
 import ReportDialog from '../Report/ReportDialog';
+import { getEventList } from '../../apis/event';
+import { IEvent } from '../../types/event';
 import QRScan from '../../pages/QRScan';
 
-function createData(
-  no: number,
-  category: string,
-  title: string,
-  date: any,
-  location: string,
-  cnt: number,
-) {
-  return { no, category, title, date, location, cnt };
-}
-
-const rows = [
-  createData(1, '전산전자', '캡스톤페스티벌', '2023-03-16', 'NTH311', 543),
-  createData(2, '전산전자', '공학프로젝트기획 페스티벌', '2023-03-16', 'NTH311', 412),
-  createData(3, '전산전자', '전산전자 특강', '2023-03-26', 'NTH201', 64),
-  createData(4, '전산전자', '공학인증의 밤', '2023-05-21', 'NTH311', 45),
-  createData(5, '전산전자', '전전 개강예배', '2023-06-06', 'NTH311', 34),
-  createData(6, '전산전자', '캡스톤페스티벌', '2023-03-16', 'NTH311', 543),
-  createData(7, '전산전자', '공학프로젝트기획 페스티벌', '2023-03-16', 'NTH311', 412),
-  createData(8, '전산전자', '전산전자 특강', '2023-03-26', 'NTH201', 64),
-  createData(9, '전산전자', '공학인증의 밤', '2023-05-21', 'NTH311', 45),
-  createData(10, '전산전자', '전전 개강예배', '2023-06-06', 'NTH311', 34),
-  createData(11, '전산전자', '캡스톤페스티벌', '2023-03-16', 'NTH311', 543),
-  createData(12, '전산전자', '공학프로젝트기획 페스티벌', '2023-03-16', 'NTH311', 412),
-  createData(13, '전산전자', '전산전자 특강', '2023-03-26', 'NTH201', 64),
-  createData(14, '전산전자', '공학인증의 밤', '2023-05-21', 'NTH311', 45),
-  createData(15, '전산전자', '전전 개강예배', '2023-06-06', 'NTH311', 34),
-];
-
 export default function EventList() {
+  const [eventList, setEventList] = useState<IEvent[]>([]);
   const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
@@ -53,6 +27,14 @@ export default function EventList() {
   const handleReportOpen = () => setReportOpen(true);
   const handleReportClose = () => setReportOpen(false);
 
+  const fetchData = async () => {
+    const response = await getEventList();
+    setEventList(response);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
   const [QROpen, setQROpen] = useState(false);
   const handleQROpen = () => setQROpen(true);
   const handleQRClose = () => setQROpen(false);
@@ -67,7 +49,7 @@ export default function EventList() {
         <IconButton onClick={handleOpen}>
           <AddIcon />
         </IconButton>
-        <AddEventDialog open={open} onClose={handleClose} />
+        <AddEventDialog open={open} onClose={handleClose} fetchData={fetchData} />
         {/* </Tooltip> */}
       </Toolbar>
 
@@ -86,9 +68,9 @@ export default function EventList() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {eventList.map((row, index) => (
               <TableRow
-                key={row.no}
+                key={row.id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 // onClick={() => navigate('/event/detail')}
               >
@@ -98,22 +80,26 @@ export default function EventList() {
                   align="center"
                   onClick={() => navigate('/event/detail')}
                 >
-                  {row.no}
+                  {index + 1}
                 </TableCell>
                 <TableCell align="center" onClick={() => navigate('/event/detail')}>
-                  {row.category}
+                  {row.tags.map((tag) => (
+                    <span key={tag.id} style={{ marginRight: 2 }}>
+                      {tag.name}
+                    </span>
+                  ))}
                 </TableCell>
                 <TableCell align="center" onClick={() => navigate('/event/detail')}>
-                  {row.title}
+                  {row.name}
                 </TableCell>
                 <TableCell align="center" onClick={() => navigate('/event/detail')}>
-                  {row.date}
+                  {row.openAt}
                 </TableCell>
                 <TableCell align="center" onClick={() => navigate('/event/detail')}>
                   {row.location}
                 </TableCell>
                 <TableCell align="center" onClick={() => navigate('/event/detail')}>
-                  {row.cnt}
+                  {row.maxUsers}
                 </TableCell>
                 <TableCell align="center" onClick={handleQROpen}>
                   <Button size="small" variant="contained" color="success">
