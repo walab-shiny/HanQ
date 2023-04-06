@@ -103,6 +103,7 @@ public class User extends BaseEntity {
             if(dto.getIsStudent()) {
                 dto.setStudentNum(this.studentNum);
                 dto.setDepartment(this.department.getName());
+                dto.setPicture(this.picture);
             }
             else {
                 dto.setAffiliation(this.affiliation);

@@ -22,5 +22,6 @@ public class UserDto {
     private Boolean isHost=false;
     private String hostUntil="";
     private Boolean isPending=false;
+    private String picture="";
 
 }
