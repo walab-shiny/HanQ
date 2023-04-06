@@ -13,6 +13,7 @@ import AddEventDialog from './AddEventDialog';
 import ReportDialog from '../Report/ReportDialog';
 import { getEventList } from '../../apis/event';
 import { IEvent } from '../../types/event';
+import QRScan from '../../pages/QRScan';
 
 export default function EventList() {
   const [eventList, setEventList] = useState<IEvent[]>([]);
@@ -34,6 +35,9 @@ export default function EventList() {
   useEffect(() => {
     fetchData();
   }, []);
+  const [QROpen, setQROpen] = useState(false);
+  const handleQROpen = () => setQROpen(true);
+  const handleQRClose = () => setQROpen(false);
 
   return (
     <>
@@ -93,7 +97,7 @@ export default function EventList() {
                 <TableCell align="center" onClick={() => navigate('/event/detail')}>
                   {row.maxUsers}
                 </TableCell>
-                <TableCell align="center" onClick={() => navigate('/event/qr')}>
+                <TableCell align="center" onClick={handleQROpen}>
                   <Button size="small" variant="contained" color="success">
                     QR 스캔
                   </Button>
@@ -114,6 +118,7 @@ export default function EventList() {
         </Table>
       </TableContainer>
       <ReportDialog open={reportOpen} onClose={handleReportClose} />
+      <QRScan open={QROpen} onClose={handleQRClose} />
     </>
   );
 }

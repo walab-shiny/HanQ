@@ -43,6 +43,8 @@ public class User extends BaseEntity {
     @Column
     private String email;
     @Column
+    private String picture;
+    @Column
     private String token;
     @Column
     private String image;
@@ -62,7 +64,7 @@ public class User extends BaseEntity {
         }
         this.email = token.getEmail();
         this.token = token.getSub();
-        this.image = token.getPicture();
+        this.picture = token.getPicture();
     }
     public void setStudentNum(Long studentNum) {
         this.studentNum = studentNum;
@@ -103,6 +105,7 @@ public class User extends BaseEntity {
             if(dto.getIsStudent()) {
                 dto.setStudentNum(this.studentNum);
                 dto.setDepartment(this.department.getName());
+                dto.setPicture(this.picture);
             }
             else {
                 dto.setAffiliation(this.affiliation);

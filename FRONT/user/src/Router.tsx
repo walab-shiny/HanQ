@@ -24,7 +24,6 @@ function Router() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/event" element={<Event />} />
             <Route path="/event/detail" element={<EventDetail />} />
-            <Route path="/event/qr" element={<QRScan />} />
             <Route path="/participate" element={<Participate />} />
             <Route path="/participate/detail" element={<ParticipateDetail />} />
             <Route path="/question" element={<Question />} />

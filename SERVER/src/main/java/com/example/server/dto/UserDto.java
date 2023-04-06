@@ -14,7 +14,6 @@ public class UserDto {
     private Long studentNum=0L;
     private Boolean isStudent=false;
     private String department="";
-    private String image="";
     private String affiliation="none";
     private Boolean isRegistered=false;
     private String name="";
@@ -23,5 +22,6 @@ public class UserDto {
     private Boolean isHost=false;
     private String hostUntil="";
     private Boolean isPending=false;
+    private String picture="";
 
 }
