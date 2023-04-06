@@ -73,7 +73,7 @@ public class UserRegisterTest {
         assertThat(login.getBody().isStudent()).isEqualTo(true);
         assertThat(login.getBody().isRegistered()).isEqualTo(false);
         ResponseEntity<UserDto> dto = userService.registerStudent(new RegisterStudentDto(1, 22000328L, 1));
-        assertThat(Objects.requireNonNull(dto.getBody()).getDepartmentId()).isEqualTo(1);
+        assertThat(Objects.requireNonNull(dto.getBody()).getDepartment()).isEqualTo("전산전자공학부");
         assertThat(dto.getBody().getStudentNum()).isEqualTo(22000328L);
         assertThat(dto.getBody().getIsRegistered()).isEqualTo(true);
     }
