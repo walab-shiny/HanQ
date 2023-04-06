@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import AddEventDialog from './AddEventDialog';
 import ReportDialog from '../Report/ReportDialog';
+import QRScan from '../../pages/QRScan';
 
 function createData(
   no: number,
@@ -51,6 +52,10 @@ export default function EventList() {
   const [reportOpen, setReportOpen] = useState(false);
   const handleReportOpen = () => setReportOpen(true);
   const handleReportClose = () => setReportOpen(false);
+
+  const [QROpen, setQROpen] = useState(false);
+  const handleQROpen = () => setQROpen(true);
+  const handleQRClose = () => setQROpen(false);
 
   return (
     <>
@@ -110,7 +115,7 @@ export default function EventList() {
                 <TableCell align="center" onClick={() => navigate('/event/detail')}>
                   {row.cnt}
                 </TableCell>
-                <TableCell align="center" onClick={() => navigate('/event/qr')}>
+                <TableCell align="center" onClick={handleQROpen}>
                   <Button size="small" variant="contained" color="success">
                     QR 스캔
                   </Button>
@@ -131,6 +136,7 @@ export default function EventList() {
         </Table>
       </TableContainer>
       <ReportDialog open={reportOpen} onClose={handleReportClose} />
+      <QRScan open={QROpen} onClose={handleQRClose} />
     </>
   );
 }
