@@ -7,5 +7,5 @@ export interface IEvent {
   content: string;
   availableTime: number;
   image: string;
-  tags: number[];
+  tags: { id: number; name: string }[];
 }

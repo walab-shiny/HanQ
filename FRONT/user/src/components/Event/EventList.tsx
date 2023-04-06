@@ -80,10 +80,14 @@ export default function EventList() {
                   align="center"
                   onClick={() => navigate('/event/detail')}
                 >
-                  {index}
+                  {index + 1}
                 </TableCell>
                 <TableCell align="center" onClick={() => navigate('/event/detail')}>
-                  {row.tags[0] ?? ''}
+                  {row.tags.map((tag) => (
+                    <span key={tag.id} style={{ marginRight: 2 }}>
+                      {tag.name}
+                    </span>
+                  ))}
                 </TableCell>
                 <TableCell align="center" onClick={() => navigate('/event/detail')}>
                   {row.name}

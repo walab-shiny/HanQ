@@ -43,7 +43,7 @@ export default function AddEventDialog(props: Props) {
   } = useForm<IEvent>({ mode: 'onChange' });
 
   const onValid = async (data: IEvent) => {
-    await addEvent({ ...data, tags: [1, 2] });
+    await addEvent(data);
     props.fetchData();
     console.log(data);
     handleClose();

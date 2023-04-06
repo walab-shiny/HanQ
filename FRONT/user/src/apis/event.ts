@@ -9,9 +9,12 @@ export const getEventList = async () => {
 };
 
 export const addEvent = async (data: IEvent) => {
-  console.log(data);
-  const response = await axios.post(`${process.env.REACT_APP_SERVER}/api/event`, data, {
-    headers: { Authorization: localStorage.getItem('token') },
-  });
+  const response = await axios.post(
+    `${process.env.REACT_APP_SERVER}/api/event`,
+    { ...data, tags: [1, 2] },
+    {
+      headers: { Authorization: localStorage.getItem('token') },
+    },
+  );
   return response.data;
 };
