@@ -18,7 +18,7 @@ export default function Event() {
           <MenuList page={1} />
         </Box>
         <Box display="flex" flexDirection="column" flexGrow={1} gap={1}>
-          <Header page="행사 목록 관리" />
+          <Header page="이벤트 목록 관리" />
           <Box m={3} mt={1}>
             <EventList />
           </Box>

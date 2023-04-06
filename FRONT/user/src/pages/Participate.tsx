@@ -1,11 +1,10 @@
 import { Box } from '@mui/material';
-import Header from '../components/Dashboard/Header';
 import Logo from '../components/Dashboard/Logo';
 import MenuList from '../components/Dashboard/MenuList';
-import QuestionInput from '../components/Question/QuestionInput';
-import QuestionList from '../components/Question/QuestionList';
+import Header from '../components/Dashboard/Header';
+import ParticipateList from '../components/Participate/ParticipateList';
 
-export default function Question() {
+export default function Participate() {
   return (
     <>
       <Box display="flex" height="100%">
@@ -16,19 +15,12 @@ export default function Question() {
           sx={{ bgcolor: 'background.paper' }}
         >
           <Logo />
-          <MenuList page={3} />
+          <MenuList page={2} />
         </Box>
         <Box display="flex" flexDirection="column" flexGrow={1} gap={1}>
-          <Header page="질문하기" />
-          <Box
-            display="flex"
-            justifyContent="center"
-            flexDirection="column"
-            alignItems="center"
-            gap={2}
-          >
-            <QuestionInput />
-            <QuestionList />
+          <Header page="참여 이벤트 확인" />
+          <Box m={3} mt={1}>
+            <ParticipateList />
           </Box>
         </Box>
       </Box>

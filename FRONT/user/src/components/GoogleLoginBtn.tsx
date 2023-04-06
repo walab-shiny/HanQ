@@ -11,16 +11,18 @@ export default function GoogleLoginBtn() {
   const {
     palette: { mode },
   } = useTheme();
-  const saveCredential = (credential: string) => {
+  const saveAuth = (credential: string, token: string) => {
     localStorage.setItem('credential', credential);
+    localStorage.setItem('token', token);
     setCredential(credential);
   };
   const handleLogin = async (credential?: string) => {
     if (credential) {
-      saveCredential(credential);
       const response = await loginWithCredential(credential);
       const userId = response.userId;
       const userInfo = await getUserInfoByUserId(userId);
+      const token = userInfo.token;
+      saveAuth(credential, token);
       setUser(userInfo);
     } else {
       console.error('no credential');
