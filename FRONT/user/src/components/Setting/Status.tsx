@@ -35,6 +35,8 @@ export default function Accepted(props: IUserInfo) {
         display="flex"
         flexDirection="column"
         gap={2}
+        height={'calc(80vh)'}
+        overflow={'scroll'}
       >
         <Typography
           variant="h5"
