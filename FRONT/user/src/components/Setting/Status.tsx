@@ -3,6 +3,7 @@ import RequestHostAuth from './RequestHostAuth';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import TagSelect from './TagSelect';
+import LogoutBtn from '../LogoutBtn';
 
 interface IUserInfo {
   user: any;
@@ -127,6 +128,7 @@ export default function Accepted(props: IUserInfo) {
         <Button variant="contained" sx={{ mt: 2 }} type="submit" onClick={handleSubmit(onValid)}>
           수정하기
         </Button>
+        <LogoutBtn>로그아웃</LogoutBtn>
       </Box>
     </>
   );

@@ -1,8 +1,7 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import Search from './Search';
 import { useRecoilValue } from 'recoil';
 import { userState } from '../../store/user';
-import LogoutBtn from '../LogoutBtn';
 import ThemeModeToggle from '../Header/ThemeModeToggle';
 
 interface IHeader {
@@ -28,7 +27,6 @@ export default function Header(props: IHeader) {
         <AccountCircleIcon /> */}
         <ThemeModeToggle />
         <Typography variant="subtitle1">Hello {user?.name}</Typography>
-        <LogoutBtn>로그아웃</LogoutBtn>
       </Box>
     </Box>
   );
