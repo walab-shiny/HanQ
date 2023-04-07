@@ -29,7 +29,7 @@ export default function Header(props: IHeader) {
         <AccountCircleIcon /> */}
         <ThemeModeToggle />
         <Typography variant="subtitle1">Hello {user?.name}</Typography>
-        <Avatar src={user?.picture} />
+        <Avatar sx={{ width: 35, height: 35 }} src={user?.picture} />
       </Box>
     </Box>
   );
