@@ -55,6 +55,15 @@ export default function Accepted(props: IUserInfo) {
           />
         </Box>
         <Box display="flex" justifyContent="space-between" alignItems="center">
+          <Typography variant="subtitle1">학부</Typography>
+          <TextField
+            size="small"
+            value={props.user.department}
+            disabled
+            inputProps={{ style: { textAlign: 'end' } }}
+          />
+        </Box>
+        <Box display="flex" justifyContent="space-between" alignItems="center">
           <Typography variant="subtitle1">학번</Typography>
           <TextField
             size="small"
