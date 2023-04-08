@@ -5,8 +5,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Button, IconButton, Toolbar, Typography } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
+import { Button, Chip, Toolbar, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import AddEventDialog from './AddEventDialog';
@@ -18,10 +17,6 @@ import QRScan from '../../pages/QRScan';
 export default function EventList() {
   const [eventList, setEventList] = useState<IEvent[]>([]);
   const navigate = useNavigate();
-
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
 
   const [reportOpen, setReportOpen] = useState(false);
   const handleReportOpen = () => setReportOpen(true);
@@ -46,10 +41,7 @@ export default function EventList() {
           주최 이벤트 목록
         </Typography>
         {/* <Tooltip title="create event"> */}
-        <IconButton onClick={handleOpen}>
-          <AddIcon />
-        </IconButton>
-        <AddEventDialog open={open} onClose={handleClose} fetchData={fetchData} />
+        <AddEventDialog fetchData={fetchData} />
         {/* </Tooltip> */}
       </Toolbar>
 
@@ -58,7 +50,7 @@ export default function EventList() {
           <TableHead>
             <TableRow>
               <TableCell align="center">번호</TableCell>
-              <TableCell align="center">카테고리</TableCell>
+              <TableCell align="center">태그</TableCell>
               <TableCell align="center">제목</TableCell>
               <TableCell align="center">일자</TableCell>
               <TableCell align="center">장소</TableCell>
@@ -84,9 +76,7 @@ export default function EventList() {
                 </TableCell>
                 <TableCell align="center" onClick={() => navigate('/event/detail')}>
                   {row.tags.map((tag) => (
-                    <span key={tag.id} style={{ marginRight: 2 }}>
-                      {tag.name}
-                    </span>
+                    <Chip key={tag.id} label={tag.name} sx={{ mr: 1 }} size="small" />
                   ))}
                 </TableCell>
                 <TableCell align="center" onClick={() => navigate('/event/detail')}>

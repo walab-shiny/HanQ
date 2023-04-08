@@ -18,12 +18,12 @@ const GREY = {
 };
 
 const PRIMARY = {
-  main: '#725CFF',
+  main: '#00cec9',
   contrastText: '#fff',
 };
 
 const SECONDARY = {
-  main: '#EE7D79',
+  main: '#ff7675',
   contrastText: '#fff',
 };
 
