@@ -3,6 +3,7 @@ package com.example.server.dto;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -23,5 +24,6 @@ public class UserDto {
     private String hostUntil="";
     private Boolean isPending=false;
     private String picture="";
+    private String requestDate="";
 
 }
