@@ -37,6 +37,8 @@ public class Event extends BaseEntity {
     private int maxUsers;
     @OneToMany(mappedBy = "event")
     private List<EventTag> tags = new ArrayList<>();
+    @OneToMany(mappedBy = "event")
+    private List<Attend> attends = new ArrayList<>();
     private String content;
     private int availableTime;
     private String image;
@@ -71,5 +73,8 @@ public class Event extends BaseEntity {
         this.content = dto.getContent();
         this.availableTime = dto.getAvailableTime();
         this.image = dto.getImage();
+    }
+    public void addAttend(Attend attend) {
+        this.attends.add(attend);
     }
 }

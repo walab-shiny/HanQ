@@ -64,6 +64,6 @@ public class EventTests {
     @Test
     public void getEvent() {
         String token = "1234567890";
-        System.out.println("eventService = " + eventService.getEvent(new EventIdDto(6),token));
+        System.out.println("eventService = " + eventService.getEvent(6,token));
     }
 }
