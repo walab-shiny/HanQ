@@ -122,6 +122,8 @@ public class User extends BaseEntity {
             dto.setHostUntil(this.hostUntil.toString());
         if(this.isPending!=null)
             dto.setIsPending(this.isPending);
+        if(this.requests.size()!=0)
+            dto.setRequestDate(String.valueOf(this.requests.get(this.requests.size()-1).getCreatedAt()));
         return dto;
     }
     public void addAttend(Attend attend) {
