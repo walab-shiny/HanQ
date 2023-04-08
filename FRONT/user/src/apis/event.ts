@@ -15,3 +15,12 @@ export const addEvent = async (data: IEvent) => {
   });
   return response.data;
 };
+
+export const getEvent = async (id: number) => {
+  const response = await axios({
+    url: `${process.env.REACT_APP_SERVER}/api/event/${id}`,
+    method: 'get',
+    headers: { Authorization: localStorage.getItem('token') },
+  });
+  return response.data as IEvent;
+};
