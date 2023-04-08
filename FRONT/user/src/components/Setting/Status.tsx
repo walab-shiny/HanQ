@@ -98,7 +98,7 @@ export default function Status(props: IUserInfo) {
           <Box display="flex" justifyContent="space-between" alignItems="center">
             <Typography variant="subtitle1">권한 신청이 완료되었습니다</Typography>
             <Button disabled variant="outlined">
-              권한 신청 일자
+              신청일 {props.user.requestDate.split('T')[0]}
             </Button>
           </Box>
         ) : (
@@ -106,12 +106,21 @@ export default function Status(props: IUserInfo) {
             {props.user.isHost === true ? (
               <Box display="flex" justifyContent="space-between" alignItems="center">
                 <Typography variant="subtitle1">권한 유효 기간</Typography>
-                <TextField
-                  size="small"
-                  value={props.user.hostUntil}
-                  disabled
-                  inputProps={{ style: { textAlign: 'end' } }}
-                />
+                {props.user.hostUntil === '' ? (
+                  <TextField
+                    size="small"
+                    disabled
+                    value={'2100-12-31'}
+                    inputProps={{ style: { textAlign: 'end' } }}
+                  />
+                ) : (
+                  <TextField
+                    size="small"
+                    value={props.user.hostUntil}
+                    disabled
+                    inputProps={{ style: { textAlign: 'end' } }}
+                  />
+                )}
               </Box>
             ) : (
               <>
