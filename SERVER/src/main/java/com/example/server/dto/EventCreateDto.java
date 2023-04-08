@@ -15,8 +15,10 @@ import java.util.List;
 public class EventCreateDto {
     private String name;
     private String openAt;
+    private String closeAt;
     private String location;
     private int maxUsers;
+    private int reportTimeLimit;
     private String content;
     private int availableTime;
     private String image;
