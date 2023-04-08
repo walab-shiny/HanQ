@@ -17,6 +17,9 @@ public class EventDto {
     private int id;
     private String name;
     private LocalDateTime openAt;
+    private LocalDateTime closeAt;
+    private Boolean closed;
+    private int reportTimeLimit;
     private UserDto host;
     private String location;
     private int maxUsers;
