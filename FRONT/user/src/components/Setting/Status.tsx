@@ -35,7 +35,7 @@ export default function Status(props: IUserInfo) {
         display="flex"
         flexDirection="column"
         gap={2}
-        height={'calc(80vh)'}
+        height={'calc(73vh)'}
         overflow={'scroll'}
       >
         <Typography
@@ -95,8 +95,11 @@ export default function Status(props: IUserInfo) {
           <TagSelect />
         </Box>
         {props.user.isPending === true ? (
-          <Box display="flex" justifyContent="center">
+          <Box display="flex" justifyContent="space-between" alignItems="center">
             <Typography variant="subtitle1">권한 신청이 완료되었습니다</Typography>
+            <Button disabled variant="outlined">
+              권한 신청 일자
+            </Button>
           </Box>
         ) : (
           <>
@@ -117,20 +120,29 @@ export default function Status(props: IUserInfo) {
                     <RequestHostAuth closeDialog={closeDialog} />
                   </Box>
                 ) : (
-                  <>
+                  <Box display="flex" alignItems="center" justifyContent="space-between">
+                    <Typography variant="subtitle1">이벤트 주최 권한 신청하기</Typography>
                     <Button variant="outlined" onClick={openDialog}>
-                      이벤트 주최 권한 신청
+                      권한 신청
                     </Button>
-                  </>
+                  </Box>
                 )}
               </>
             )}
           </>
         )}
-        <Button variant="contained" sx={{ mt: 2 }} type="submit" onClick={handleSubmit(onValid)}>
-          수정하기
-        </Button>
-        <LogoutBtn>로그아웃</LogoutBtn>
+        <Box mt={3} display="flex" justifyContent={'space-between'}>
+          <LogoutBtn>로그아웃</LogoutBtn>
+          <Button
+            variant="contained"
+            sx={{ width: 230 }}
+            type="submit"
+            size="large"
+            onClick={handleSubmit(onValid)}
+          >
+            수정하기
+          </Button>
+        </Box>
       </Box>
     </>
   );
