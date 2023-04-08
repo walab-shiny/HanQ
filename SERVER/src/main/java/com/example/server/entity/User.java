@@ -3,6 +3,7 @@ package com.example.server.entity;
 import com.example.server.dto.HostDto;
 import com.example.server.dto.UserDto;
 import com.example.server.entity.base.BaseEntity;
+import com.example.server.qr.Result;
 import com.example.server.token.DecodedToken;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -54,6 +55,10 @@ public class User extends BaseEntity {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="likes")
     private List<Tag> tags = new ArrayList<>();
 
+    public User(Result result) {
+        this.name = result.getUser_name();
+        this.studentNum = Long.valueOf(result.getUser_number());
+    }
     public User(DecodedToken token) {
         if(token.getName().contains("학부생"))
             this.name = token.getFamily_name();
@@ -119,13 +124,8 @@ public class User extends BaseEntity {
             dto.setIsPending(this.isPending);
         return dto;
     }
-    public HostDto toHostDto() {
-        HostDto dto = new HostDto();
-        dto.setId(this.id);
-        dto.setIsHost(this.isHost);
-        if(!(this.hostUntil ==null))
-            dto.setHostUntil(this.hostUntil);
-        return dto;
+    public void addAttend(Attend attend) {
+        this.attends.add(attend);
     }
 
 }

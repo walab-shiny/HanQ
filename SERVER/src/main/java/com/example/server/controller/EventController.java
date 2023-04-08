@@ -26,9 +26,9 @@ public class EventController {
     public ResponseEntity<List<EventDto>> getEvents(@RequestHeader(name = "Authorization") String token) {
         return ResponseEntity.ok(eventService.getEvents(token));
     }
-    @GetMapping
-    public ResponseEntity<EventDto> getEvent(@RequestBody EventIdDto dto, @RequestHeader(name = "Authorization") String token) {
-        return ResponseEntity.ok(eventService.getEvent(dto,token));
+    @GetMapping("/{id}")
+    public ResponseEntity<EventDto> getEvent(@PathVariable(name = "id") int id, @RequestHeader(name = "Authorization") String token) {
+        return ResponseEntity.ok(eventService.getEvent(id,token));
     }
 
     @PostMapping("/update")

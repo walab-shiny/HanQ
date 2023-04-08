@@ -70,10 +70,10 @@ public class EventService {
         }).collect(Collectors.toList());
     }
     @Transactional
-    public EventDto getEvent(EventIdDto dto, String token) {
+    public EventDto getEvent(int id, String token) {
         User host = userService.getUserByToken(token);
         if(host.getIsHost()) {
-            return eventRepository.findById(dto.getId()).orElseThrow().toDto(tagService.getTagsFromEventTag(eventTagService.getEventTagsByEventId(dto.getId())));
+            return eventRepository.findById(id).orElseThrow().toDto(tagService.getTagsFromEventTag(eventTagService.getEventTagsByEventId(id)));
         }
         return null;
     }
