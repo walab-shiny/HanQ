@@ -30,7 +30,7 @@ public class Event extends BaseEntity {
     private LocalDateTime openAt;
     private LocalDateTime closeAt;
     private Boolean closed=false;
-    private int reportTimeLimit;
+    private int reportTimeLimit=0;
     @ManyToOne(fetch = FetchType.LAZY)
     private User host;
     private String location;
