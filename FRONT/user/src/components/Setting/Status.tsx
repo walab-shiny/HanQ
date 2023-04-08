@@ -9,7 +9,7 @@ interface IUserInfo {
   user: any;
 }
 
-export default function Accepted(props: IUserInfo) {
+export default function Status(props: IUserInfo) {
   const { palette } = useTheme();
   const { register, handleSubmit } = useForm({
     defaultValues: {
