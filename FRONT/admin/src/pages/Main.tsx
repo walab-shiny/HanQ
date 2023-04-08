@@ -4,7 +4,13 @@ import { getAllRequests, getPendingRequests } from '../apis/request';
 import LogoutBtn from '../components/LogoutBtn';
 import AcceptModal from '../components/Request/AcceptModal';
 import DeclineModal from '../components/Request/DeclineModal';
+import { addTag, deleteTag, getTags, updateTag } from '../apis/tags';
+import AddTagDialog from '../components/Tag/AddTagDialog';
 
+interface ITag {
+  id: number;
+  name: string;
+}
 interface IRequest {
   userId: number;
   id: number;
@@ -15,17 +21,54 @@ interface IRequest {
 
 export default function Main() {
   const [requests, setRequests] = useState<IRequest[]>([]);
+  const [tags, setTags] = useState<ITag[]>([]);
   const [pendingRequests, setPendingRequests] = useState<IRequest[]>([]);
+
+  const fetchTags = async () => {
+    const tags = await getTags();
+    setTags(tags);
+  };
+
+  const handleAddTag = async (name: string) => {
+    await addTag(name);
+    fetchTags();
+  };
+
+  const handledeleteTag = async (id: number) => {
+    if (window.confirm('정말 삭제하시겠습니까?')) {
+      await deleteTag(id);
+      fetchTags();
+    }
+  };
+
+  const handleUpdateTag = async (id: number, name: string) => {
+    const newName = window.prompt('태그 이름을 입력하세요', name);
+    if (!newName) return;
+    await updateTag(id, newName);
+    fetchTags();
+  };
+
+  const showTags = () => {
+    return tags.map((tag) => (
+      <Chip
+        key={tag.id}
+        label={tag.name}
+        sx={{ mr: 1, mb: 1 }}
+        onClick={() => handleUpdateTag(tag.id, tag.name)}
+        onDelete={() => handledeleteTag(tag.id)}
+      />
+    ));
+  };
 
   const loadData = async () => {
     const allRequests = await getAllRequests();
     const pendingRequests = await getPendingRequests();
-    console.log(allRequests);
     setRequests(allRequests);
     setPendingRequests(pendingRequests);
   };
 
   useEffect(() => {
+    fetchTags();
     loadData();
   }, []);
 
@@ -43,6 +86,13 @@ export default function Main() {
         <Box>
           <LogoutBtn>로그아웃</LogoutBtn>
         </Box>
+      </Box>
+      <Box sx={{ minHeight: 300 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
+          <Typography variant="h5">태그 목록</Typography>
+          <AddTagDialog handleAddTag={handleAddTag} />
+        </Box>
+        {showTags()}
       </Box>
       <Box sx={{ display: 'flex', gap: 4, pb: 8 }}>
         <Box sx={{ width: 1 }}>
