@@ -43,12 +43,14 @@ public class Event extends BaseEntity {
     private int availableTime;
     private String image;
 
-    public Event (String name, LocalDateTime openAt, User host, String location, int maxUsers, String content, int availableTime, String image){
+    public Event (String name, LocalDateTime openAt, LocalDateTime closeAt,User host, String location, int maxUsers, int reportTimeLimit, String content, int availableTime, String image){
         this.name=name;
         this.openAt=openAt;
+        this.closeAt = closeAt;
         this.host=host;
         this.location = location;
         this.maxUsers = maxUsers;
+        this.reportTimeLimit = reportTimeLimit;
         this.content = content;
         this.availableTime = availableTime;
         this.image = image;
@@ -68,8 +70,10 @@ public class Event extends BaseEntity {
     public void update(EventUpdateDto dto) {
         this.name = dto.getName();
         this.openAt = LocalDateTime.parse(dto.getOpenAt());
+        this.closeAt = LocalDateTime.parse(dto.getCloseAt());
         this.location = dto.getLocation();
         this.maxUsers = dto.getMaxUsers();
+        this.reportTimeLimit = dto.getReportTimeLimit();
         this.content = dto.getContent();
         this.availableTime = dto.getAvailableTime();
         this.image = dto.getImage();
