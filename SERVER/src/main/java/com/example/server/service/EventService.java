@@ -29,7 +29,7 @@ public class EventService {
     public EventDto createEvent(EventCreateDto dto, String token) {
         User host = userService.getUserByToken(token);
         List<Tag> tags = tagService.getTagsFromEvent(dto.getTags());
-        Event event = new Event(dto.getName(),LocalDateTime.parse(dto.getOpenAt()),host,dto.getLocation(),dto.getMaxUsers(),dto.getContent(),dto.getAvailableTime(),dto.getImage());
+        Event event = new Event(dto.getName(),LocalDateTime.parse(dto.getOpenAt()),LocalDateTime.parse(dto.getCloseAt()),host,dto.getLocation(),dto.getMaxUsers(),dto.getReportTimeLimit(),dto.getContent(),dto.getAvailableTime(),dto.getImage());
         Event saved = eventRepository.save(event);
         List<EventTag> relations = eventTagService.createRelation(tags,saved);
         saved.setTags(relations);
