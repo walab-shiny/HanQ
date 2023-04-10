@@ -1,8 +1,5 @@
 package com.example.server.dto;
 
-import com.example.server.entity.Tag;
-import com.example.server.entity.User;
-import com.example.server.entity.relation.EventTag;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -20,7 +17,7 @@ public class EventDto {
     private LocalDateTime closeAt;
     private Boolean closed;
     private int reportTimeLimit;
-    private UserDto host;
+    private int hostId;
     private String location;
     private int maxUsers;
     private List<TagDto> tags;

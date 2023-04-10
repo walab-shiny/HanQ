@@ -61,7 +61,7 @@ public class Event extends BaseEntity {
     }
     public EventDto toDto(List<Tag> tags) {
         List<TagDto> tagDtos = tags.stream().map(Tag::toDto).collect(Collectors.toList());
-        return new EventDto(this.id, this.name, this.openAt,this.closeAt,this.closed,this.reportTimeLimit, this.host.toDto(), this.location, this.maxUsers, tagDtos, this.content, this.availableTime, this.image);
+        return new EventDto(this.id, this.name, this.openAt,this.closeAt,this.closed,this.reportTimeLimit, this.host.getId(), this.location, this.maxUsers, tagDtos, this.content, this.availableTime, this.image);
     }
     public void setHost(User user) {
         user.getEvents().add(this);
@@ -81,4 +81,5 @@ public class Event extends BaseEntity {
     public void addAttend(Attend attend) {
         this.attends.add(attend);
     }
+
 }

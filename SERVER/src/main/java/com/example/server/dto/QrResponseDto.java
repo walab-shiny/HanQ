@@ -19,6 +19,5 @@ public class QrResponseDto {
     public QrResponseDto(Result result) {
         this.studentNum = result.getUser_number();
         this.name = result.getUser_name();
-        this.taggedAt = result.getQr_tagging_time();
     }
 }

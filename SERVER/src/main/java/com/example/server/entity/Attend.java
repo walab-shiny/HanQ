@@ -1,6 +1,7 @@
 package com.example.server.entity;
 
 import com.example.server.dto.AttendDto;
+import com.example.server.dto.AttendUserDto;
 import com.example.server.entity.base.BaseEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,6 +33,15 @@ public class Attend extends BaseEntity {
 
     public AttendDto toDto() {
         return new AttendDto(this.id,this.status,this.memo,this.user.getId(),this.taggedAt,this.event.getId());
+    }
+    public AttendUserDto toAttendUserDto() {
+        AttendUserDto dto = new AttendUserDto();
+        dto.setName(this.user.getName());
+        dto.setStudentNum(this.user.getStudentNum());
+        if(this.user.getDepartment()!=null)
+            dto.setDepartment(this.user.getDepartment().getName());
+        dto.setTaggedAt(this.taggedAt);
+        return dto;
     }
 }
 
