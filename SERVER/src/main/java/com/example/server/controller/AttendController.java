@@ -20,8 +20,8 @@ public class AttendController {
     public ResponseEntity<QrResponseDto> createAttend(@RequestBody QrStringDto dto) throws Exception {
         return ResponseEntity.ok(attendService.createAttend(dto));
     }
-    @PostMapping("/test")
-    public ResponseEntity<QrResponseDto> createAttendTest() throws Exception {
-        return ResponseEntity.ok(attendService.createAttendTest());
-    }
+//    @PostMapping("/test")
+//    public ResponseEntity<QrResponseDto> createAttendTest() throws Exception {
+//        return ResponseEntity.ok(attendService.createAttendTest());
+//    }
 }
