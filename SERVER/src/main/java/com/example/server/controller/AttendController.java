@@ -2,6 +2,7 @@ package com.example.server.controller;
 
 import com.example.server.dto.QrResponseDto;
 import com.example.server.dto.QrStringDto;
+import com.example.server.qr.Result;
 import com.example.server.service.AttendService;
 import com.example.server.service.EventService;
 import com.example.server.service.UserService;
