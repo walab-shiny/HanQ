@@ -24,7 +24,7 @@ public class EventTests {
     @Test
     @Order(1)
     public void createEvent() {
-        String token = "1234567890";
+        String token = "83247847347";
         List<Integer> tags = new ArrayList<>();
         tags.add(1);
         tags.add(2);
