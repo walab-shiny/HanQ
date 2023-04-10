@@ -61,7 +61,7 @@ export default function ParticipateList() {
           <TableHead>
             <TableRow>
               <TableCell align="center">번호</TableCell>
-              <TableCell align="center">카테고리</TableCell>
+              <TableCell align="center">태그</TableCell>
               <TableCell align="center">제목</TableCell>
               <TableCell align="center">일자</TableCell>
               <TableCell align="center">장소</TableCell>

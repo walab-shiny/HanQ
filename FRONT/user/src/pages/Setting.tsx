@@ -21,7 +21,7 @@ export default function Setting() {
           <Logo />
           <MenuList page={4} />
         </Box>
-        <Box display="flex" flexDirection="column" flexGrow={1} gap={10}>
+        <Box display="flex" flexDirection="column" flexGrow={1} gap={'calc(8vh)'}>
           <Header page="프로필 설정" />
           <Box>
             <Box display="flex" flexDirection="column" alignItems="center">

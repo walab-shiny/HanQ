@@ -13,8 +13,11 @@ import ReportDialog from '../Report/ReportDialog';
 import { getEventList } from '../../apis/event';
 import { IEvent } from '../../types/event';
 import QRScan from '../../pages/QRScan';
+import { useRecoilValue } from 'recoil';
+import { userState } from '../../store/user';
 
 export default function EventList() {
+  const user = useRecoilValue(userState);
   const [eventList, setEventList] = useState<IEvent[]>([]);
   const navigate = useNavigate();
 
@@ -64,31 +67,31 @@ export default function EventList() {
               <TableRow
                 key={row.id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                // onClick={() => navigate('/event/detail')}
+                // onClick={() => navigate(`/event/detail/${row.id}`)}
               >
                 <TableCell
                   component="th"
                   scope="row"
                   align="center"
-                  onClick={() => navigate('/event/detail')}
+                  onClick={() => navigate(`/event/detail/${row.id}`)}
                 >
                   {index + 1}
                 </TableCell>
-                <TableCell align="center" onClick={() => navigate('/event/detail')}>
+                <TableCell align="center" onClick={() => navigate(`/event/detail/${row.id}`)}>
                   {row.tags.map((tag) => (
                     <Chip key={tag.id} label={tag.name} sx={{ mr: 1 }} size="small" />
                   ))}
                 </TableCell>
-                <TableCell align="center" onClick={() => navigate('/event/detail')}>
+                <TableCell align="center" onClick={() => navigate(`/event/detail/${row.id}`)}>
                   {row.name}
                 </TableCell>
-                <TableCell align="center" onClick={() => navigate('/event/detail')}>
+                <TableCell align="center" onClick={() => navigate(`/event/detail/${row.id}`)}>
                   {row.openAt}
                 </TableCell>
-                <TableCell align="center" onClick={() => navigate('/event/detail')}>
+                <TableCell align="center" onClick={() => navigate(`/event/detail/${row.id}`)}>
                   {row.location}
                 </TableCell>
-                <TableCell align="center" onClick={() => navigate('/event/detail')}>
+                <TableCell align="center" onClick={() => navigate(`/event/detail/${row.id}`)}>
                   {row.maxUsers}
                 </TableCell>
                 <TableCell align="center" onClick={handleQROpen}>

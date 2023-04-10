@@ -3,12 +3,13 @@ import RequestHostAuth from './RequestHostAuth';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import TagSelect from './TagSelect';
+import LogoutBtn from '../LogoutBtn';
 
 interface IUserInfo {
   user: any;
 }
 
-export default function Accepted(props: IUserInfo) {
+export default function Status(props: IUserInfo) {
   const { palette } = useTheme();
   const { register, handleSubmit } = useForm({
     defaultValues: {
@@ -34,6 +35,8 @@ export default function Accepted(props: IUserInfo) {
         display="flex"
         flexDirection="column"
         gap={2}
+        height={'calc(73vh)'}
+        overflow={'scroll'}
       >
         <Typography
           variant="h5"
@@ -51,6 +54,15 @@ export default function Accepted(props: IUserInfo) {
           <TextField
             size="small"
             {...register('name')}
+            inputProps={{ style: { textAlign: 'end' } }}
+          />
+        </Box>
+        <Box display="flex" justifyContent="space-between" alignItems="center">
+          <Typography variant="subtitle1">학부</Typography>
+          <TextField
+            size="small"
+            value={props.user.department}
+            disabled
             inputProps={{ style: { textAlign: 'end' } }}
           />
         </Box>
@@ -83,20 +95,32 @@ export default function Accepted(props: IUserInfo) {
           <TagSelect />
         </Box>
         {props.user.isPending === true ? (
-          <Box display="flex" justifyContent="center">
+          <Box display="flex" justifyContent="space-between" alignItems="center">
             <Typography variant="subtitle1">권한 신청이 완료되었습니다</Typography>
+            <Button disabled variant="outlined">
+              신청일 {props.user.requestDate.split('T')[0]}
+            </Button>
           </Box>
         ) : (
           <>
             {props.user.isHost === true ? (
               <Box display="flex" justifyContent="space-between" alignItems="center">
                 <Typography variant="subtitle1">권한 유효 기간</Typography>
-                <TextField
-                  size="small"
-                  value={props.user.hostUntil}
-                  disabled
-                  inputProps={{ style: { textAlign: 'end' } }}
-                />
+                {props.user.hostUntil === '' ? (
+                  <TextField
+                    size="small"
+                    disabled
+                    value={'2100-12-31'}
+                    inputProps={{ style: { textAlign: 'end' } }}
+                  />
+                ) : (
+                  <TextField
+                    size="small"
+                    value={props.user.hostUntil}
+                    disabled
+                    inputProps={{ style: { textAlign: 'end' } }}
+                  />
+                )}
               </Box>
             ) : (
               <>
@@ -105,19 +129,29 @@ export default function Accepted(props: IUserInfo) {
                     <RequestHostAuth closeDialog={closeDialog} />
                   </Box>
                 ) : (
-                  <>
+                  <Box display="flex" alignItems="center" justifyContent="space-between">
+                    <Typography variant="subtitle1">이벤트 주최 권한 신청하기</Typography>
                     <Button variant="outlined" onClick={openDialog}>
-                      이벤트 주최 권한 신청
+                      권한 신청
                     </Button>
-                  </>
+                  </Box>
                 )}
               </>
             )}
           </>
         )}
-        <Button variant="contained" sx={{ mt: 2 }} type="submit" onClick={handleSubmit(onValid)}>
-          수정하기
-        </Button>
+        <Box mt={3} display="flex" justifyContent={'space-between'}>
+          <LogoutBtn>로그아웃</LogoutBtn>
+          <Button
+            variant="contained"
+            sx={{ width: 230 }}
+            type="submit"
+            size="large"
+            onClick={handleSubmit(onValid)}
+          >
+            수정하기
+          </Button>
+        </Box>
       </Box>
     </>
   );
