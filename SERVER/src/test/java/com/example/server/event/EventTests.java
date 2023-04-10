@@ -28,7 +28,7 @@ public class EventTests {
         List<Integer> tags = new ArrayList<>();
         tags.add(1);
         tags.add(2);
-        EventDto dto = eventService.createEvent(new EventCreateDto("전경전","2022-05-05T12:00:00","평봉필드",500,"전산전자공학부 vs 경영경제뭐시기ㅋㅋ 어차피 전전이 이김",15,"",tags),token);
+        EventDto dto = eventService.createEvent(new EventCreateDto("전경전","2022-05-05T12:00:00","2022-05-05T12:00:00","평봉필드",500,2,"전산전자공학부 vs 경영경제뭐시기ㅋㅋ 어차피 전전이 이김",15,"",tags),token);
         System.out.println("dto = " + dto);
 //        assertThat(dto.getHost().getToken()).isEqualTo(token);
     }
@@ -57,7 +57,7 @@ public class EventTests {
         tags.add(2);
         tags.add(3);
         String token = "1234567890";
-        eventService.updateEvent(new EventUpdateDto(6,"전전경경대전","2022-05-05T12:30:00","평봉필드, 히딩크필드",600,"전산전자공학부 vs 경영경제뭐시기ㅋㅋ",10,"",tags),token);
+        eventService.updateEvent(new EventUpdateDto(6,"전전경경대전","2022-05-05T12:30:00","2022-05-05T12:30:00","평봉필드, 히딩크필드",600,2,"전산전자공학부 vs 경영경제뭐시기ㅋㅋ",10,"",tags),token);
         assertThat(eventService.getEvents(token).get(1).getName()).isEqualTo("전전경경대전");
         System.out.println("eventService = " + eventService.getEvents(token));
     }

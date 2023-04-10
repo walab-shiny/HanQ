@@ -12,6 +12,7 @@ import com.example.server.repository.EventRepository;
 import com.example.server.repository.UserRepository;
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,21 +32,15 @@ public class AttendService {
     private final AttendRepository attendRepository;
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
+    @Value("${API_KEY}")
+    private String apiUrl;
 
     @Transactional
     public QrResponseDto createAttend(QrStringDto dto) throws Exception {
         Base64.Encoder encoder = Base64.getEncoder();
         String encoded = encoder.encodeToString(dto.getQrString().getBytes());
-        String url = "https://hisnet.handong.edu/api/hdOAC/index.php/user/qrcode?qrReturnTxt=" + encoded;
-        HttpRequest getRequest = HttpRequest.newBuilder()
-                .uri(new URI(url))
-                .build();
-        HttpClient client = HttpClient.newHttpClient();
-        HttpResponse<String> getResponse = client.send(getRequest, HttpResponse.BodyHandlers.ofString());
-        Gson gson = new Gson();
-        QrApiResponse response = gson.fromJson(getResponse.body(), QrApiResponse.class);
-        Result result = response.getResults().get(0);
-        if(attendRepository.existsAttendByUserStudentNumAndEventId(Long.valueOf(result.getUser_number()),6)) {
+        Result result = this.getResult(encoded);
+        if(attendRepository.existsAttendByUserStudentNumAndEventId(Long.valueOf(result.getUser_number()),dto.getEventId())) {
             QrResponseDto responseDto = new QrResponseDto(result);
             responseDto.setIsDuplicate(true);
             return responseDto;
@@ -76,7 +71,7 @@ public class AttendService {
     }
     @Transactional
     public QrResponseDto createAttendTest() throws Exception {
-        Result result = getResult();
+        Result result = getResult("hello");
         if(attendRepository.existsAttendByUserStudentNumAndEventId(Long.valueOf(result.getUser_number()),6)) {
             QrResponseDto responseDto = new QrResponseDto(result);
             responseDto.setIsDuplicate(true);
@@ -106,8 +101,8 @@ public class AttendService {
         dto.setTaggedAt(formatted);
         return dto;
     }
-    public QrApiResponse getQrResponse() throws Exception {
-        String url = "http://localhost:8080/api/test";
+    public QrApiResponse getQrResponse(String encoded) throws Exception {
+        String url = apiUrl + encoded;
         HttpRequest getRequest = HttpRequest.newBuilder()
                 .uri(new URI(url))
                 .build();
@@ -116,8 +111,8 @@ public class AttendService {
         Gson gson = new Gson();
         return gson.fromJson(getResponse.body(), QrApiResponse.class);
     }
-    public Result getResult() throws Exception {
-        QrApiResponse response = getQrResponse();
+    public Result getResult(String encoded) throws Exception {
+        QrApiResponse response = getQrResponse(encoded);
         return response.getResults().get(0);
     }
     public List<Attend> getAttendsByUserId(int id) {

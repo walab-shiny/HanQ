@@ -14,5 +14,6 @@ import java.time.LocalDateTime;
 public class AttendUserDto {
     private Long studentNum;
     private String name;
+    private String department="없음";
     private LocalDateTime taggedAt;
 }
