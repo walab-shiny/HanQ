@@ -1,6 +1,5 @@
 package com.example.server.entity;
 
-import com.example.server.dto.HostDto;
 import com.example.server.dto.UserDto;
 import com.example.server.entity.base.BaseEntity;
 import com.example.server.qr.Result;
@@ -128,6 +127,12 @@ public class User extends BaseEntity {
     }
     public void addAttend(Attend attend) {
         this.attends.add(attend);
+    }
+
+    public void swap(User user) {
+        this.token = user.getToken();
+        this.email = user.getEmail();
+        this.name = user.getName();
     }
 
 }

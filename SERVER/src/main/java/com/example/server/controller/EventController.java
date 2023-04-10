@@ -22,9 +22,14 @@ public class EventController {
     public ResponseEntity<EventDto> createEvent(@RequestBody EventCreateDto dto, @RequestHeader(name = "Authorization") String token) {
         return ResponseEntity.ok(eventService.createEvent(dto,token));
     }
+    // User created events
     @GetMapping("/list")
     public ResponseEntity<List<EventDto>> getEvents(@RequestHeader(name = "Authorization") String token) {
         return ResponseEntity.ok(eventService.getEvents(token));
+    }
+    @GetMapping("/attended")
+    public ResponseEntity<List<EventDto>> getAttendedEvents(@RequestHeader(name = "Authorization") String token) {
+        return ResponseEntity.ok(eventService.getAttendedEvents(token));
     }
     @GetMapping("/{id}")
     public ResponseEntity<EventDto> getEvent(@PathVariable(name = "id") int id, @RequestHeader(name = "Authorization") String token) {

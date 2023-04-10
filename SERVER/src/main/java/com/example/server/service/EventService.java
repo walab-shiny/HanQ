@@ -4,6 +4,7 @@ import com.example.server.dto.EventCreateDto;
 import com.example.server.dto.EventIdDto;
 import com.example.server.dto.EventDto;
 import com.example.server.dto.EventUpdateDto;
+import com.example.server.entity.Attend;
 import com.example.server.entity.Event;
 import com.example.server.entity.Tag;
 import com.example.server.entity.User;
@@ -76,6 +77,19 @@ public class EventService {
             return eventRepository.findById(id).orElseThrow().toDto(tagService.getTagsFromEventTag(eventTagService.getEventTagsByEventId(id)));
         }
         return null;
+    }
+    public List<Event> getEventsFromAttend(List<Attend> list) {
+        return list.stream().map(Attend::getEvent).collect(Collectors.toList());
+    }
+    public List<EventDto> getAttendedEvents(String token) {
+        User user = userService.getUserByToken(token);
+        List<Attend> attends = user.getAttends();
+        List<Event> events = attends.stream().map(Attend::getEvent).collect(Collectors.toList());
+        return events.stream().map(e -> {
+            List<EventTag> eventTags = eventTagService.getEventTagsByEventId(e.getId());
+            List<Tag> tags = tagService.getTagsFromEventTag(eventTags);
+            return e.toDto(tags);
+        }).collect(Collectors.toList());
     }
 
 

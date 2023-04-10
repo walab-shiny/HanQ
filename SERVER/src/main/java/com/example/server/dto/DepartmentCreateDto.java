@@ -9,6 +9,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class DepartmentInsertDto {
+public class DepartmentCreateDto {
     private String name;
 }

@@ -16,11 +16,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Base64;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -41,17 +44,18 @@ public class AttendService {
         HttpResponse<String> getResponse = client.send(getRequest, HttpResponse.BodyHandlers.ofString());
         Gson gson = new Gson();
         QrApiResponse response = gson.fromJson(getResponse.body(), QrApiResponse.class);
-        Result result = response.getResult();
-        if(attendRepository.existsAttendByUserStudentNumAndEventId(Long.valueOf(result.getUser_number()),dto.getEventId())) {
+        Result result = response.getResults().get(0);
+        if(attendRepository.existsAttendByUserStudentNumAndEventId(Long.valueOf(result.getUser_number()),6)) {
             QrResponseDto responseDto = new QrResponseDto(result);
             responseDto.setIsDuplicate(true);
             return responseDto;
         }
         Attend attend = new Attend();
         String time = result.getQr_tagging_time();
-        StringBuilder sb = new StringBuilder(time);
-        sb.insert(8,'T');
-        attend.setTaggedAt(LocalDateTime.parse(sb));
+        SimpleDateFormat fromQr = new SimpleDateFormat("yyyyMMddHHmm");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+        String formatted = format.format(fromQr.parse(time));
+        attend.setTaggedAt(LocalDateTime.parse(formatted));
         User user;
         if(userRepository.existsUserByStudentNum(Long.valueOf(result.getUser_number()))) {
             user = userRepository.findUserByStudentNum(Long.valueOf(result.getUser_number()));
@@ -61,11 +65,63 @@ public class AttendService {
             user = new User(result);
             attend.setUser(userRepository.save(user));
         }
-        Event event = eventRepository.findById(dto.getEventId()).orElseThrow();
+        Event event = eventRepository.findById(6).orElseThrow();
         attend.setEvent(event);
         attendRepository.save(attend);
         user.addAttend(attend);
         event.addAttend(attend);
-        return new QrResponseDto(result);
+        QrResponseDto responseDto = new QrResponseDto(result);
+        responseDto.setTaggedAt(formatted);
+        return responseDto;
     }
+    @Transactional
+    public QrResponseDto createAttendTest() throws Exception {
+        Result result = getResult();
+        if(attendRepository.existsAttendByUserStudentNumAndEventId(Long.valueOf(result.getUser_number()),6)) {
+            QrResponseDto responseDto = new QrResponseDto(result);
+            responseDto.setIsDuplicate(true);
+            return responseDto;
+        }
+        Attend attend = new Attend();
+        String time = result.getQr_tagging_time();
+        SimpleDateFormat fromQr = new SimpleDateFormat("yyyyMMddHHmm");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+        String formatted = format.format(fromQr.parse(time));
+        attend.setTaggedAt(LocalDateTime.parse(formatted));
+        User user;
+        if(userRepository.existsUserByStudentNum(Long.valueOf(result.getUser_number()))) {
+            user = userRepository.findUserByStudentNum(Long.valueOf(result.getUser_number()));
+            attend.setUser(user);
+        }
+        else {
+            user = new User(result);
+            attend.setUser(userRepository.save(user));
+        }
+        Event event = eventRepository.findById(6).orElseThrow();
+        attend.setEvent(event);
+        attendRepository.save(attend);
+        user.addAttend(attend);
+        event.addAttend(attend);
+        QrResponseDto dto = new QrResponseDto(result);
+        dto.setTaggedAt(formatted);
+        return dto;
+    }
+    public QrApiResponse getQrResponse() throws Exception {
+        String url = "http://localhost:8080/api/test";
+        HttpRequest getRequest = HttpRequest.newBuilder()
+                .uri(new URI(url))
+                .build();
+        HttpClient client = HttpClient.newHttpClient();
+        HttpResponse<String> getResponse = client.send(getRequest, HttpResponse.BodyHandlers.ofString());
+        Gson gson = new Gson();
+        return gson.fromJson(getResponse.body(), QrApiResponse.class);
+    }
+    public Result getResult() throws Exception {
+        QrApiResponse response = getQrResponse();
+        return response.getResults().get(0);
+    }
+    public List<Attend> getAttendsByUserId(int id) {
+        return attendRepository.getAttendsByUserId(id);
+    }
+
 }
