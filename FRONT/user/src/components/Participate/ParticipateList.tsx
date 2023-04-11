@@ -5,12 +5,12 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Button, IconButton, Toolbar, Typography } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
+import { Button, Chip, Toolbar, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import ReportDialog from '../Report/ReportDialog';
+import { useEffect, useState } from 'react';
 import ReportWriteDialog from './ReportWriteDialog';
+import { IEvent } from '../../types/event';
+import { getUserParticipateList } from '../../apis/participant';
 
 function createData(
   no: number,
@@ -48,6 +48,18 @@ export default function ParticipateList() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const [participates, setParticipates] = useState<IEvent[]>();
+
+  const fetchData = async () => {
+    const response = await getUserParticipateList();
+    setParticipates(response);
+    console.log(response);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <>
       <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -69,27 +81,32 @@ export default function ParticipateList() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <TableRow key={row.no} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+            {participates?.map((participate) => (
+              <TableRow
+                key={participate.id}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              >
                 <TableCell
                   component="th"
                   scope="row"
                   align="center"
                   onClick={() => navigate('/participate/detail')}
                 >
-                  {row.no}
+                  {participate.id}
                 </TableCell>
                 <TableCell align="center" onClick={() => navigate('/participate/detail')}>
-                  {row.category}
+                  {(participate?.tags ?? []).map((tag) => (
+                    <Chip key={tag.id} label={tag.name} sx={{ mr: 1 }} size="small" />
+                  ))}
                 </TableCell>
                 <TableCell align="center" onClick={() => navigate('/participate/detail')}>
-                  {row.title}
+                  {participate.name}
                 </TableCell>
                 <TableCell align="center" onClick={() => navigate('/participate/detail')}>
-                  {row.date}
+                  {participate.openAt}
                 </TableCell>
                 <TableCell align="center" onClick={() => navigate('/participate/detail')}>
-                  {row.location}
+                  {participate.location}
                 </TableCell>
                 <TableCell align="center">
                   <Button size="small" variant="contained" color="secondary" onClick={handleOpen}>

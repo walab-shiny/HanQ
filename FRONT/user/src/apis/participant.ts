@@ -9,8 +9,8 @@ export const getParticipantList = async (id: string) => {
   return response.data as Iparticipant[];
 };
 
-export const getUserParticipantList = async () => {
-  const response = await axios.get(`${process.env.REACT_APP_SERVER}/api/user/attended`, {
+export const getUserParticipateList = async () => {
+  const response = await axios.get(`${process.env.REACT_APP_SERVER}/api/event/attended`, {
     headers: { Authorization: localStorage.getItem('token') },
   });
   return response.data as IEvent[];
