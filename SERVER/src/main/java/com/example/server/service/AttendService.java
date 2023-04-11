@@ -39,7 +39,7 @@ public class AttendService {
     public QrResponseDto createAttend(QrStringDto dto) throws Exception {
         Base64.Encoder encoder = Base64.getEncoder();
         String encoded = encoder.encodeToString(dto.getQrString().getBytes());
-        Result result = this.getResult(encoded);
+        Result result = getResult(encoded);
         if(attendRepository.existsAttendByUserStudentNumAndEventId(Long.valueOf(result.getUser_number()),dto.getEventId())) {
             QrResponseDto responseDto = new QrResponseDto(result);
             responseDto.setIsDuplicate(true);
@@ -60,7 +60,7 @@ public class AttendService {
             user = new User(result);
             attend.setUser(userRepository.save(user));
         }
-        Event event = eventRepository.findById(6).orElseThrow();
+        Event event = eventRepository.findById(dto.getEventId()).orElseThrow();
         attend.setEvent(event);
         attendRepository.save(attend);
         user.addAttend(attend);
@@ -103,6 +103,7 @@ public class AttendService {
 //    }
     public QrApiResponse getQrResponse(String encoded) throws Exception {
         String url = apiUrl + encoded;
+        System.out.println("url = " + url);
         HttpRequest getRequest = HttpRequest.newBuilder()
                 .uri(new URI(url))
                 .build();
@@ -113,7 +114,7 @@ public class AttendService {
     }
     public Result getResult(String encoded) throws Exception {
         QrApiResponse response = getQrResponse(encoded);
-        return response.getResults().get(0);
+        return response.getResult().get(0);
     }
     public List<Attend> getAttendsByUserId(int id) {
         return attendRepository.getAttendsByUserId(id);
