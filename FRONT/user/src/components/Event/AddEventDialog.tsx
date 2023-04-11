@@ -1,5 +1,6 @@
 import {
   Autocomplete,
+  Avatar,
   Box,
   Button,
   Dialog,
@@ -14,7 +15,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FileUploader } from 'react-drag-drop-files';
 import { IEvent } from '../../types/event';
-import { addEvent } from '../../apis/event';
+import { addEvent, addEventWithFile } from '../../apis/event';
 import AddIcon from '@mui/icons-material/Add';
 import { getTagList } from '../../apis/tags';
 import { ITag } from '../../types/tag';
@@ -29,6 +30,10 @@ export default function AddEventDialog({ fetchData }: Props) {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const handleChange = (file: File) => {
+    setSelectedImage(file);
+  };
   const {
     register,
     handleSubmit,
@@ -38,16 +43,14 @@ export default function AddEventDialog({ fetchData }: Props) {
   } = useForm<IEvent>({ defaultValues: { tags: [] } });
 
   const onValid = async (data: IEvent) => {
-    await addEvent(data);
+    if (selectedImage) {
+      await addEventWithFile(data, selectedImage);
+    } else {
+      await addEvent(data);
+    }
     fetchData();
     reset();
     handleClose();
-  };
-
-  const [file, setFile] = useState(null);
-  const handleChange = (file: any) => {
-    console.log(file);
-    setFile(file);
   };
 
   const [tags, setTags] = useState<ITag[]>([]);
@@ -68,12 +71,17 @@ export default function AddEventDialog({ fetchData }: Props) {
         <Box component="form" onSubmit={handleSubmit(onValid)}>
           <Box display="flex" alignItems="center" justifyContent="space-between" mr={3}>
             <DialogTitle>이벤트 등록</DialogTitle>
-            <FileUploader
-              multiline={true}
-              handleChange={handleChange}
-              name="file"
-              types={fileTypes}
-            />
+            <Box>
+              <FileUploader handleChange={handleChange} name="file" types={fileTypes} />
+              {selectedImage && (
+                <Avatar
+                  alt="event image"
+                  src={URL.createObjectURL(selectedImage)}
+                  sx={{ width: 256, height: 256 }}
+                  variant="rounded"
+                />
+              )}
+            </Box>
           </Box>
           <DialogContent>
             <DialogContentText pb={1}>태그</DialogContentText>

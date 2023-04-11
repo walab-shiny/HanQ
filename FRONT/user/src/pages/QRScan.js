@@ -1,55 +1,73 @@
-import { Box, Button, Dialog, DialogTitle, Typography } from '@mui/material';
+import { Box, Button, Dialog, IconButton, Typography } from '@mui/material';
 import { QrReader } from 'react-qr-reader';
 import { useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import ScanOverlay from '../components/QR/ScanOverlay';
+import { sendQrRequest } from '../apis/qr';
+import { useSnackbar } from 'notistack';
 
-export default function QRScan(props) {
-  const [sending, setSending] = useState(false);
-  const [data, setData] = useState(null);
-  const [response, setResponse] = useState(null);
+export default function QRScan({ event }) {
+  const { enqueueSnackbar } = useSnackbar();
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const handleOnResult = async (resultString) => {
+    const response = await sendQrRequest({ eventId: +event.id, qrString: resultString });
+    if (response.status === 200) {
+      enqueueSnackbar(`${response.data.name}님 출석처리 되었습니다.`, {
+        variant: 'success',
+      });
+    } else {
+      enqueueSnackbar(`오류가 발생했습니다.`, {
+        variant: 'error',
+      });
+    }
+    console.log(response);
+  };
 
   return (
-    <Dialog open={props.open} onClose={props.onClose} fullScreen>
-      <DialogTitle display="flex" justifyContent="center">
-        <Typography variant="h3" mt={3}>
-          Scan QR Code
-        </Typography>
-        <Button
-          onClick={() => {
-            window.location.reload();
-          }}
+    <>
+      <Button size="small" variant="contained" color="success" onClick={handleOpen}>
+        QR 스캔
+      </Button>
+      <Dialog open={open} onClose={handleClose} fullScreen>
+        <IconButton
+          onClick={() => window.location.reload()}
           sx={{
             position: 'absolute',
-            right: 8,
+            right: 16,
             top: 16,
-            color: (theme) => theme.palette.grey[500],
           }}
         >
           <CloseIcon />
-        </Button>
-      </DialogTitle>
-      <Box display="flex" flexDirection="column" alignItems="center">
-        <QrReader
-          scanDelay={500}
-          onResult={(result, error) => {
-            if (!!result) {
-              setData(result?.text);
-              alert(result.text);
-            }
-            if (!!error) {
-              console.log('info', error);
-            }
+        </IconButton>
+        <Box
+          sx={{
+            height: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
-          videoContainerStyle={{
-            width: 500,
-            height: 500,
-          }}
-          videoStyle={{ width: 500, height: 500 }}
-          ViewFinder={ScanOverlay}
-          // containerStyle={{ width: 500, height: 450 }}
-        />
-      </Box>
-    </Dialog>
+        >
+          <Typography variant="h3">{event.name} 출석 태깅하기</Typography>
+          <QrReader
+            scanDelay={500}
+            onResult={(result) => {
+              if (!!result) {
+                handleOnResult(result.text);
+              }
+            }}
+            videoContainerStyle={{
+              width: 500,
+              height: 500,
+            }}
+            videoStyle={{ width: 500, height: 500 }}
+            ViewFinder={ScanOverlay}
+          />
+        </Box>
+      </Dialog>
+    </>
   );
 }
