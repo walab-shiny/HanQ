@@ -33,9 +33,6 @@ export default function EventList() {
   useEffect(() => {
     fetchData();
   }, []);
-  const [QROpen, setQROpen] = useState(false);
-  const handleQROpen = () => setQROpen(true);
-  const handleQRClose = () => setQROpen(false);
 
   return (
     <>
@@ -94,10 +91,8 @@ export default function EventList() {
                 <TableCell align="center" onClick={() => navigate(`/event/detail/${row.id}`)}>
                   {row.maxUsers}
                 </TableCell>
-                <TableCell align="center" onClick={handleQROpen}>
-                  <Button size="small" variant="contained" color="success">
-                    QR 스캔
-                  </Button>
+                <TableCell align="center">
+                  <QRScan event={row} />
                 </TableCell>
                 <TableCell align="center">
                   <Button
@@ -115,7 +110,6 @@ export default function EventList() {
         </Table>
       </TableContainer>
       <ReportDialog open={reportOpen} onClose={handleReportClose} />
-      <QRScan open={QROpen} onClose={handleQRClose} />
     </>
   );
 }

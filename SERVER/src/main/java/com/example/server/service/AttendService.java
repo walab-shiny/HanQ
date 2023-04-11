@@ -39,7 +39,7 @@ public class AttendService {
     public QrResponseDto createAttend(QrStringDto dto) throws Exception {
         Base64.Encoder encoder = Base64.getEncoder();
         String encoded = encoder.encodeToString(dto.getQrString().getBytes());
-        Result result = this.getResult(encoded);
+        Result result = getResult(encoded);
         if(attendRepository.existsAttendByUserStudentNumAndEventId(Long.valueOf(result.getUser_number()),dto.getEventId())) {
             QrResponseDto responseDto = new QrResponseDto(result);
             responseDto.setIsDuplicate(true);
@@ -60,7 +60,7 @@ public class AttendService {
             user = new User(result);
             attend.setUser(userRepository.save(user));
         }
-        Event event = eventRepository.findById(6).orElseThrow();
+        Event event = eventRepository.findById(dto.getEventId()).orElseThrow();
         attend.setEvent(event);
         attendRepository.save(attend);
         user.addAttend(attend);
@@ -69,40 +69,41 @@ public class AttendService {
         responseDto.setTaggedAt(formatted);
         return responseDto;
     }
-    @Transactional
-    public QrResponseDto createAttendTest() throws Exception {
-        Result result = getResult("hello");
-        if(attendRepository.existsAttendByUserStudentNumAndEventId(Long.valueOf(result.getUser_number()),6)) {
-            QrResponseDto responseDto = new QrResponseDto(result);
-            responseDto.setIsDuplicate(true);
-            return responseDto;
-        }
-        Attend attend = new Attend();
-        String time = result.getQr_tagging_time();
-        SimpleDateFormat fromQr = new SimpleDateFormat("yyyyMMddHHmm");
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-        String formatted = format.format(fromQr.parse(time));
-        attend.setTaggedAt(LocalDateTime.parse(formatted));
-        User user;
-        if(userRepository.existsUserByStudentNum(Long.valueOf(result.getUser_number()))) {
-            user = userRepository.findUserByStudentNum(Long.valueOf(result.getUser_number()));
-            attend.setUser(user);
-        }
-        else {
-            user = new User(result);
-            attend.setUser(userRepository.save(user));
-        }
-        Event event = eventRepository.findById(6).orElseThrow();
-        attend.setEvent(event);
-        attendRepository.save(attend);
-        user.addAttend(attend);
-        event.addAttend(attend);
-        QrResponseDto dto = new QrResponseDto(result);
-        dto.setTaggedAt(formatted);
-        return dto;
-    }
+//    @Transactional
+//    public QrResponseDto createAttendTest() throws Exception {
+//        Result result = getResultTest();
+//        if(attendRepository.existsAttendByUserStudentNumAndEventId(Long.valueOf(result.getUser_number()),1)) {
+//            QrResponseDto responseDto = new QrResponseDto(result);
+//            responseDto.setIsDuplicate(true);
+//            return responseDto;
+//        }
+//        Attend attend = new Attend();
+//        String time = result.getQr_tagging_time();
+//        SimpleDateFormat fromQr = new SimpleDateFormat("yyyyMMddHHmm");
+//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+//        String formatted = format.format(fromQr.parse(time));
+//        attend.setTaggedAt(LocalDateTime.parse(formatted));
+//        User user;
+//        if(userRepository.existsUserByStudentNum(Long.valueOf(result.getUser_number()))) {
+//            user = userRepository.findUserByStudentNum(Long.valueOf(result.getUser_number()));
+//            attend.setUser(user);
+//        }
+//        else {
+//            user = new User(result);
+//            attend.setUser(userRepository.save(user));
+//        }
+//        Event event = eventRepository.findById(1).orElseThrow();
+//        attend.setEvent(event);
+//        attendRepository.save(attend);
+//        user.addAttend(attend);
+//        event.addAttend(attend);
+//        QrResponseDto dto = new QrResponseDto(result);
+//        dto.setTaggedAt(formatted);
+//        return dto;
+//    }
     public QrApiResponse getQrResponse(String encoded) throws Exception {
         String url = apiUrl + encoded;
+        System.out.println("url = " + url);
         HttpRequest getRequest = HttpRequest.newBuilder()
                 .uri(new URI(url))
                 .build();
@@ -113,10 +114,24 @@ public class AttendService {
     }
     public Result getResult(String encoded) throws Exception {
         QrApiResponse response = getQrResponse(encoded);
-        return response.getResults().get(0);
+        return response.getResult().get(0);
     }
     public List<Attend> getAttendsByUserId(int id) {
         return attendRepository.getAttendsByUserId(id);
     }
+//    public QrApiResponse getQrResponseTest() throws Exception {
+//        String url = "http://localhost:8080/api/test";
+//        HttpRequest getRequest = HttpRequest.newBuilder()
+//                .uri(new URI(url))
+//                .build();
+//        HttpClient client = HttpClient.newHttpClient();
+//        HttpResponse<String> getResponse = client.send(getRequest, HttpResponse.BodyHandlers.ofString());
+//        Gson gson = new Gson();
+//        return gson.fromJson(getResponse.body(), QrApiResponse.class);
+//    }
+//    public Result getResultTest() throws Exception {
+//        QrApiResponse response = getQrResponseTest();
+//        return response.getResults().get(0);
+//    }
 
 }

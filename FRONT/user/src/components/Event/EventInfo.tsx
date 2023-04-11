@@ -21,7 +21,6 @@ export default function EventInfo() {
   const fetchData = async () => {
     const response = await getEvent(+id!);
     setEvent(response);
-    console.log(response);
   };
 
   useEffect(() => {
@@ -60,15 +59,14 @@ export default function EventInfo() {
         m={1}
       >
         <Typography variant="subtitle1">카테고리</Typography>
-        {event?.tags.map((tag) => (
+        {(event?.tags ?? []).map((tag) => (
           <Chip key={tag.id} label={tag.name} sx={{ mr: 1 }} size="small" />
         ))}
-
         <Typography variant="subtitle1">장소</Typography>
         <Typography>{event?.location}</Typography>
         <Typography variant="subtitle1">개최일</Typography>
         <Typography>
-          {event?.openAt.split('T')[0]} {event?.openAt.split('T')[1]}
+          {event?.openAt?.split('T')[0]} {event?.openAt?.split('T')[1]}
         </Typography>
         <Typography variant="subtitle1">최대 인원수</Typography>
         <Typography>{event?.maxUsers}</Typography>
@@ -80,6 +78,7 @@ export default function EventInfo() {
           {event?.content === undefined ? '내용이 없습니다' : event?.content}
         </ReactMarkdown>
         <Typography variant="subtitle1">사진</Typography>
+        <Box component="img" src={event?.image} sx={{ width: '100%' }} />
       </Box>
     </Box>
   );

@@ -4,10 +4,7 @@ import com.example.server.qr.QrApiResponse;
 import com.example.server.qr.Result;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +20,7 @@ public class TestController {
         response.setStatus(200);
         response.setDescription("Request Success");
         List<Result> results = new ArrayList<>();
-        results.add(new Result("22000556", "홍길동", "202304102033"));
+        results.add(new Result("22000328", "배주영", "202304110154"));
         response.setResults(results);
         return ResponseEntity.ok(response);
     }
