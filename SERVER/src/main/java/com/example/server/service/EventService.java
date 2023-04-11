@@ -91,6 +91,13 @@ public class EventService {
             return e.toDto(tags);
         }).collect(Collectors.toList());
     }
-
+    public List<EventDto> getAllEvents() {
+        List<Event> events = eventRepository.findAll();
+        return events.stream().map(e -> {
+            List<EventTag> eventTags = eventTagService.getEventTagsByEventId(e.getId());
+            List<Tag> tags = tagService.getTagsFromEventTag(eventTags);
+            return e.toDto(tags);
+        }).collect(Collectors.toList());
+    }
 
 }
