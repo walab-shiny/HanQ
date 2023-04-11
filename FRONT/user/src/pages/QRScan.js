@@ -1,6 +1,6 @@
 import { Box, Button, Dialog, IconButton, Typography } from '@mui/material';
 import { QrReader } from 'react-qr-reader';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import ScanOverlay from '../components/QR/ScanOverlay';
 import { sendQrRequest } from '../apis/qr';
@@ -8,6 +8,7 @@ import { useSnackbar } from 'notistack';
 
 export default function QRScan({ event }) {
   const { enqueueSnackbar } = useSnackbar();
+  const [resultText, setResultText] = useState('');
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -15,16 +16,27 @@ export default function QRScan({ event }) {
   const handleOnResult = async (resultString) => {
     const response = await sendQrRequest({ eventId: +event.id, qrString: resultString });
     if (response.status === 200) {
-      enqueueSnackbar(`${response.data.name}님 출석처리 되었습니다.`, {
-        variant: 'success',
-      });
+      if (!response.data.isDuplicate) {
+        enqueueSnackbar(`${response.data.name}님 출석처리 되었습니다.`, {
+          variant: 'success',
+        });
+      } else {
+        enqueueSnackbar(`${response.data.name}님 이미 태깅 되었습니다.`, {
+          variant: 'warning',
+        });
+      }
     } else {
       enqueueSnackbar(`오류가 발생했습니다.`, {
         variant: 'error',
       });
     }
-    console.log(response);
   };
+
+  useEffect(() => {
+    if (resultText && resultText !== '') {
+      handleOnResult(resultText);
+    }
+  }, [resultText]);
 
   return (
     <>
@@ -55,9 +67,8 @@ export default function QRScan({ event }) {
           <QrReader
             scanDelay={500}
             onResult={(result) => {
-              if (!!result) {
-                handleOnResult(result.text);
-              }
+              if (!result) return;
+              setResultText(result.text);
             }}
             videoContainerStyle={{
               width: 500,
