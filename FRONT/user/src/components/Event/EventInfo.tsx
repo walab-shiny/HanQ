@@ -49,7 +49,7 @@ export default function EventInfo() {
         <Button size="small" variant="contained" color="secondary" onClick={handleOpen}>
           명단 보기
         </Button>
-        <ParticipantDialog open={open} onClose={handleClose} />
+        <ParticipantDialog open={open} onClose={handleClose} id={id!} />
       </Box>
       <Box
         bgcolor={'grey.200'}

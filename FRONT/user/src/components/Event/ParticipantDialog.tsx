@@ -13,6 +13,9 @@ import {
   TableRow,
 } from '@mui/material';
 import ExportButton from '../Report/ExportButton';
+import { useEffect, useState } from 'react';
+import { Iparticipant } from '../../types/participant';
+import { getParticipantList } from '../../apis/participant';
 
 function createData(student_id: number, name: string, major: string) {
   return { student_id, name, major };
@@ -26,6 +29,7 @@ const rows = [
 interface Props {
   open: boolean;
   onClose: (value: void) => void;
+  id: string;
 }
 
 export default function ParticipantDialog(props: Props) {
@@ -34,6 +38,19 @@ export default function ParticipantDialog(props: Props) {
   const handleClose = () => {
     onClose();
   };
+
+  const [participant, setParticipant] = useState<Iparticipant[]>();
+
+  const fetchData = async () => {
+    const response = await getParticipantList(props.id);
+    setParticipant(response);
+    console.log('participant');
+    console.log(response);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <>
