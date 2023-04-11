@@ -122,3 +122,4 @@ fabric.properties
 
 # application.properties
 application.properties
+.idea/compiler.xml

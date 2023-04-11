@@ -10,5 +10,5 @@ import java.util.List;
 public class QrApiResponse {
     private int status;
     private String description;
-    private List<Result> results;
+    private List<Result> result;
 }
