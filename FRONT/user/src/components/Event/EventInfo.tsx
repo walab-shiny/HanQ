@@ -5,7 +5,7 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ReactMarkdown } from 'react-markdown/lib/react-markdown';
 import { IEvent } from '../../types/event';
-import { getEvent } from '../../apis/event';
+import { closeEvent, getEvent } from '../../apis/event';
 
 export default function EventInfo() {
   const { id } = useParams();
@@ -26,6 +26,10 @@ export default function EventInfo() {
   useEffect(() => {
     fetchData();
   }, []);
+
+  const close = async (data: number) => {
+    await closeEvent(data);
+  };
 
   return (
     <Box
@@ -55,6 +59,7 @@ export default function EventInfo() {
         borderRadius={1}
         display="flex"
         justifyContent="space-evenly"
+        alignItems={'center'}
         p={1}
         m={1}
       >
@@ -77,7 +82,20 @@ export default function EventInfo() {
             종료 {event?.closeAt.split('T')[0]}
           </Typography>
         ) : (
-          <></>
+          <>
+            {event?.closed ? (
+              <Typography align="center">종료 {event?.closeAt.split('T')[0]}</Typography>
+            ) : (
+              <Button
+                size="small"
+                variant="contained"
+                color="secondary"
+                onClick={() => close(event!.id)}
+              >
+                이벤트 종료
+              </Button>
+            )}
+          </>
         )}
       </Box>
       <Box height={'calc(63vh)'} overflow="scroll" textOverflow={'scroll'}>

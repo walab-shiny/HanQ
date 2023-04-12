@@ -55,10 +55,10 @@ export default function ParticipantDialog(props: Props) {
             <Table stickyHeader>
               <TableHead>
                 <TableRow>
-                  <TableCell>학번</TableCell>
-                  <TableCell>이름</TableCell>
-                  <TableCell>학부</TableCell>
-                  <TableCell>태깅시간</TableCell>
+                  <TableCell align="center">학번</TableCell>
+                  <TableCell align="center">이름</TableCell>
+                  <TableCell align="center">학부</TableCell>
+                  <TableCell align="center">태깅시간</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -67,12 +67,12 @@ export default function ParticipantDialog(props: Props) {
                     key={participant.studentNum}
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   >
-                    <TableCell component="th" scope="row">
+                    <TableCell align="center" component="th" scope="row">
                       {participant.studentNum}
                     </TableCell>
-                    <TableCell>{participant.name}</TableCell>
-                    <TableCell>{participant.department}</TableCell>
-                    <TableCell>
+                    <TableCell align="center">{participant.name}</TableCell>
+                    <TableCell align="center">{participant.department}</TableCell>
+                    <TableCell align="center">
                       {participant.taggedAt.split('T')[0]} {participant.taggedAt.split('T')[1]}
                     </TableCell>
                   </TableRow>
