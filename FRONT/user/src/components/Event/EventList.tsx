@@ -1,10 +1,3 @@
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 import { Button, Chip, Toolbar, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -13,11 +6,35 @@ import ReportDialog from '../Report/ReportDialog';
 import { getEventList, closeEvent } from '../../apis/event';
 import { IEvent } from '../../types/event';
 import QRScan from '../../pages/QRScan';
+import { DataGrid, GridRenderCellParams, GridToolbar } from '@mui/x-data-grid';
+import CustomNoRowsOverlay from '../common/CustomNoRowsOverlay';
+import { ITag } from '../../types/tag';
+import { getDisplayTime } from '../../utils/functions';
+
+function RenderTag(props: GridRenderCellParams<any, ITag[]>) {
+  const { value } = props;
+
+  return (
+    <>
+      {value?.map((tag) => (
+        <Chip key={tag.id} label={tag.name} sx={{ mr: 1 }} size="small" />
+      ))}
+    </>
+  );
+}
+
+const titles = [
+  { field: 'id', headerName: '번호', width: 64 },
+  { field: 'tags', headerName: '태그', flex: 1, renderCell: RenderTag },
+  { field: 'name', headerName: '제목', width: 150 },
+  { field: 'openAt', headerName: '일자', width: 200 },
+  { field: 'location', headerName: '장소' },
+  { field: 'maxUsers', headerName: '참여인원수' },
+];
 
 export default function EventList() {
-  const [eventList, setEventList] = useState<IEvent[]>([]);
   const navigate = useNavigate();
-
+  const [eventList, setEventList] = useState<IEvent[]>([]);
   const [reportOpen, setReportOpen] = useState(false);
   const handleReportOpen = () => setReportOpen(true);
   const handleReportClose = () => setReportOpen(false);
@@ -44,85 +61,77 @@ export default function EventList() {
         </Typography>
         <AddEventDialog fetchData={fetchData} />
       </Toolbar>
-      <TableContainer component={Paper} sx={{ maxHeight: 'calc(70vh)' }}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table" stickyHeader>
-          <TableHead>
-            <TableRow>
-              <TableCell align="center">번호</TableCell>
-              <TableCell align="center">태그</TableCell>
-              <TableCell align="center">제목</TableCell>
-              <TableCell align="center">일자</TableCell>
-              <TableCell align="center">장소</TableCell>
-              <TableCell align="center">참여인원수</TableCell>
-              <TableCell align="center">QR 스캔</TableCell>
-              <TableCell align="center">소감문 확인</TableCell>
-              <TableCell align="center">이벤트 종료</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {eventList.map((event, index) => (
-              <TableRow
-                key={event.id}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                // onClick={() => navigate(`/event/detail/${event.id}`)}
-              >
-                <TableCell
-                  component="th"
-                  scope="row"
-                  align="center"
-                  onClick={() => navigate(`/event/detail/${event.id}`)}
+      <DataGrid
+        sx={{
+          backgroundColor: 'background.paper',
+          border: 0,
+          borderRadius: 1,
+          boxShadow: 'rgb(0 0 0 / 4%) 0px 0px 8px',
+          height: '75vh',
+        }}
+        components={{
+          Toolbar: GridToolbar,
+          NoRowsOverlay: CustomNoRowsOverlay,
+        }}
+        componentsProps={{
+          toolbar: {
+            showQuickFilter: true,
+            quickFilterProps: { debounceMs: 500 },
+            printOptions: { disableToolbarButton: true },
+          },
+        }}
+        rows={eventList.map((event) => {
+          return {
+            ...event,
+            openAt: getDisplayTime(event.openAt),
+          };
+        })}
+        columns={[
+          ...titles,
+          {
+            field: 'actions',
+            type: 'actions',
+            headerName: '기능',
+            width: 240,
+            cellClassName: 'actions',
+            getActions: ({ row }) => {
+              return [
+                <Button
+                  size="small"
+                  variant="contained"
+                  color="inherit"
+                  onClick={() => navigate(`/event/detail/${row.id}`)}
                 >
-                  {index + 1}
-                </TableCell>
-                <TableCell align="center" onClick={() => navigate(`/event/detail/${event.id}`)}>
-                  {event.tags.map((tag) => (
-                    <Chip key={tag.id} label={tag.name} sx={{ mr: 1 }} size="small" />
-                  ))}
-                </TableCell>
-                <TableCell align="center" onClick={() => navigate(`/event/detail/${event.id}`)}>
-                  {event.name}
-                </TableCell>
-                <TableCell align="center" onClick={() => navigate(`/event/detail/${event.id}`)}>
-                  {event?.openAt.split('T')[0]} {event?.openAt.split('T')[1]}
-                </TableCell>
-                <TableCell align="center" onClick={() => navigate(`/event/detail/${event.id}`)}>
-                  {event.location}
-                </TableCell>
-                <TableCell align="center" onClick={() => navigate(`/event/detail/${event.id}`)}>
-                  {event.maxUsers}
-                </TableCell>
-                <TableCell align="center">
-                  {event.closed ? <>-</> : <QRScan event={event} />}
-                </TableCell>
-                <TableCell align="center">
-                  <Button
-                    size="small"
-                    variant="contained"
-                    color="primary"
-                    onClick={handleReportOpen}
-                  >
-                    소감문 확인
-                  </Button>
-                </TableCell>
-                {event.closed ? (
-                  <TableCell align="center">종료 {event?.closeAt.split('T')[0]}</TableCell>
-                ) : (
-                  <TableCell align="center">
-                    <Button
-                      size="small"
-                      variant="contained"
-                      color="secondary"
-                      onClick={() => close(event.id)}
-                    >
-                      이벤트 종료
+                  상세보기
+                </Button>,
+                <>
+                  {row.closed ? (
+                    <Button size="small" variant="contained" color="success" disabled>
+                      종료됨
                     </Button>
-                  </TableCell>
-                )}
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+                  ) : (
+                    <QRScan event={row} />
+                  )}
+                </>,
+                <Button
+                  size="small"
+                  variant="contained"
+                  color="secondary"
+                  onClick={handleReportOpen}
+                >
+                  소감문 확인
+                </Button>,
+              ];
+            },
+          },
+        ]}
+        disableColumnMenu
+        disableDensitySelector
+        // disableSelectionOnClick
+        hideFooterSelectedRowCount
+        // loading
+        // checkboxSelection
+      />
       <ReportDialog open={reportOpen} onClose={handleReportClose} />
     </>
   );

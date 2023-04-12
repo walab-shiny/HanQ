@@ -1,4 +1,4 @@
-import { Box, Card, Chip, Container, Divider, Typography } from '@mui/material';
+import { Avatar, Box, Card, Chip, Container, Divider, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { getAllRequests, getPendingRequests } from '../apis/request';
 import LogoutBtn from '../components/LogoutBtn';
@@ -6,10 +6,28 @@ import AcceptModal from '../components/Request/AcceptModal';
 import DeclineModal from '../components/Request/DeclineModal';
 import { addTag, deleteTag, getTags, updateTag } from '../apis/tags';
 import AddTagDialog from '../components/Tag/AddTagDialog';
+import UserInfoModal from '../components/Request/UserInfoModal';
 
 interface ITag {
   id: number;
   name: string;
+}
+
+export interface IUser {
+  affiliation: string;
+  department: string;
+  email: string;
+  hostUntil: string;
+  id: number;
+  isHost: true;
+  isPending: false;
+  isRegistered: true;
+  isStudent: false;
+  name: string;
+  picture: string;
+  requestDate: string;
+  studentNum: number;
+  token: string;
 }
 interface IRequest {
   userId: number;
@@ -19,6 +37,7 @@ interface IRequest {
   response: string;
   createdAt: string;
   modifiedAt: string;
+  user: IUser;
 }
 
 export default function Main() {
@@ -70,7 +89,6 @@ export default function Main() {
     const pendingRequests = await getPendingRequests();
     setRequests(allRequests);
     setPendingRequests(pendingRequests);
-    console.log(allRequests);
   };
 
   useEffect(() => {
@@ -125,9 +143,12 @@ export default function Main() {
                 }}
               >
                 <Box>
-                  <Typography variant="h6" gutterBottom>
-                    유저 ID: {request.userId}
-                  </Typography>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
+                    <Avatar src={request.user.picture} />
+                    <Typography variant="h6">{request.user.name}</Typography>
+                    <Box sx={{ flexGrow: 1 }} />
+                    <UserInfoModal user={request.user} />
+                  </Box>
                   <Typography gutterBottom>
                     <span style={{ fontWeight: 600 }}>권한 요청 사유:</span> {request.content}
                   </Typography>
@@ -184,9 +205,12 @@ export default function Main() {
                   }}
                 >
                   <Box>
-                    <Typography variant="h6" gutterBottom>
-                      유저 ID: {request.userId}
-                    </Typography>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
+                      <Avatar src={request.user.picture} />
+                      <Typography variant="h6">{request.user.name}</Typography>
+                      <Box sx={{ flexGrow: 1 }} />
+                      <UserInfoModal user={request.user} />
+                    </Box>
                     <Typography gutterBottom>
                       <span style={{ fontWeight: 600 }}>권한 요청 사유:</span> {request.content}
                     </Typography>

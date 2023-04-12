@@ -5,16 +5,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AttendUserDto {
+public class MemoCreateDto {
     private Long studentNum;
-    private String name;
-    private String department="없음";
+    private int eventId;
     private String memo;
-    private LocalDateTime taggedAt;
 }
