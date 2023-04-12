@@ -91,7 +91,7 @@ export default function ParticipateList() {
                   align="center"
                   onClick={() => navigate(`/participate/detail/${participate.id}`)}
                 >
-                  {participate.id}
+                  {index + 1}
                 </TableCell>
                 <TableCell
                   align="center"
