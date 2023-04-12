@@ -1,4 +1,4 @@
-export interface Iparticipant {
+export interface IParticipant {
   studentNum: number;
   name: string;
   department: string;
