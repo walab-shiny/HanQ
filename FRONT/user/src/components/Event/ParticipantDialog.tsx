@@ -14,7 +14,7 @@ import {
 } from '@mui/material';
 import ExportButton from '../Report/ExportButton';
 import { useEffect, useState } from 'react';
-import { Iparticipant } from '../../types/participant';
+import { IParticipant } from '../../types/participant';
 import { getParticipantList } from '../../apis/participant';
 
 function createData(student_id: number, name: string, major: string) {
@@ -39,7 +39,7 @@ export default function ParticipantDialog(props: Props) {
     onClose();
   };
 
-  const [participants, setParticipants] = useState<Iparticipant[]>();
+  const [participants, setParticipants] = useState<IParticipant[]>();
 
   const fetchData = async () => {
     const response = await getParticipantList(props.id);

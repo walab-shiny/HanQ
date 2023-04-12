@@ -1,12 +1,12 @@
 import axios from 'axios';
-import { Iparticipant } from '../types/participant';
+import { IParticipant } from '../types/participant';
 import { IEvent } from '../types/event';
 
 export const getParticipantList = async (id: string) => {
   const response = await axios.get(`${process.env.REACT_APP_SERVER}/api/user/attend/${id}`, {
     headers: { Authorization: localStorage.getItem('token') },
   });
-  return response.data as Iparticipant[];
+  return response.data as IParticipant[];
 };
 
 export const getUserParticipateList = async () => {
