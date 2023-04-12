@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import AddEventDialog from './AddEventDialog';
 import ReportDialog from '../Report/ReportDialog';
-import { getEventList } from '../../apis/event';
+import { getEventList, closeEvent } from '../../apis/event';
 import { IEvent } from '../../types/event';
 import QRScan from '../../pages/QRScan';
 
@@ -25,11 +25,16 @@ export default function EventList() {
   const fetchData = async () => {
     const response = await getEventList();
     setEventList(response);
+    console.log(response);
   };
 
   useEffect(() => {
     fetchData();
   }, []);
+
+  const close = async (data: number) => {
+    await closeEvent(data);
+  };
 
   return (
     <>
@@ -51,6 +56,7 @@ export default function EventList() {
               <TableCell align="center">참여인원수</TableCell>
               <TableCell align="center">QR 스캔</TableCell>
               <TableCell align="center">소감문 확인</TableCell>
+              <TableCell align="center">이벤트 종료</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -86,18 +92,32 @@ export default function EventList() {
                   {event.maxUsers}
                 </TableCell>
                 <TableCell align="center">
-                  <QRScan event={event} />
+                  {event.closed ? <>-</> : <QRScan event={event} />}
                 </TableCell>
                 <TableCell align="center">
                   <Button
                     size="small"
                     variant="contained"
-                    color="secondary"
+                    color="primary"
                     onClick={handleReportOpen}
                   >
                     소감문 확인
                   </Button>
                 </TableCell>
+                {event.closed ? (
+                  <TableCell align="center">종료 {event?.closeAt.split('T')[0]}</TableCell>
+                ) : (
+                  <TableCell align="center">
+                    <Button
+                      size="small"
+                      variant="contained"
+                      color="secondary"
+                      onClick={() => close(event.id)}
+                    >
+                      이벤트 종료
+                    </Button>
+                  </TableCell>
+                )}
               </TableRow>
             ))}
           </TableBody>

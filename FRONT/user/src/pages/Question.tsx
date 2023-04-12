@@ -9,12 +9,7 @@ export default function Question() {
   return (
     <>
       <Box display="flex" height="100%">
-        <Box
-          display="flex"
-          flexDirection="column"
-          width={'calc(18vw)'}
-          sx={{ bgcolor: 'background.paper' }}
-        >
+        <Box display="flex" flexDirection="column" width={260} sx={{ bgcolor: 'background.paper' }}>
           <Logo />
           <MenuList page={3} />
         </Box>

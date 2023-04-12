@@ -72,6 +72,13 @@ export default function EventInfo() {
         <Typography>{event?.maxUsers}</Typography>
         <Typography variant="subtitle1">수강인원</Typography>
         <Typography>25</Typography>
+        {event?.closed ? (
+          <Typography color="error.main" variant="subtitle1">
+            종료 {event?.closeAt.split('T')[0]}
+          </Typography>
+        ) : (
+          <></>
+        )}
       </Box>
       <Box height={'calc(63vh)'} overflow="scroll" textOverflow={'scroll'}>
         <ReactMarkdown>{event?.content ?? '내용이 없습니다.'}</ReactMarkdown>
