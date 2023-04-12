@@ -53,7 +53,6 @@ export default function ParticipateList() {
   const fetchData = async () => {
     const response = await getUserParticipateList();
     setParticipates(response);
-    console.log(response);
   };
 
   useEffect(() => {
@@ -81,7 +80,7 @@ export default function ParticipateList() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {participates?.map((participate) => (
+            {participates?.map((participate, index) => (
               <TableRow
                 key={participate.id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -90,22 +89,34 @@ export default function ParticipateList() {
                   component="th"
                   scope="row"
                   align="center"
-                  onClick={() => navigate('/participate/detail')}
+                  onClick={() => navigate(`/participate/detail/${participate.id}`)}
                 >
                   {participate.id}
                 </TableCell>
-                <TableCell align="center" onClick={() => navigate('/participate/detail')}>
+                <TableCell
+                  align="center"
+                  onClick={() => navigate(`/participate/detail/${participate.id}`)}
+                >
                   {(participate?.tags ?? []).map((tag) => (
                     <Chip key={tag.id} label={tag.name} sx={{ mr: 1 }} size="small" />
                   ))}
                 </TableCell>
-                <TableCell align="center" onClick={() => navigate('/participate/detail')}>
+                <TableCell
+                  align="center"
+                  onClick={() => navigate(`/participate/detail/${participate.id}`)}
+                >
                   {participate.name}
                 </TableCell>
-                <TableCell align="center" onClick={() => navigate('/participate/detail')}>
-                  {participate.openAt}
+                <TableCell
+                  align="center"
+                  onClick={() => navigate(`/participate/detail/${participate.id}`)}
+                >
+                  {participate?.openAt.split('T')[0]} {participate?.openAt.split('T')[1]}
                 </TableCell>
-                <TableCell align="center" onClick={() => navigate('/participate/detail')}>
+                <TableCell
+                  align="center"
+                  onClick={() => navigate(`/participate/detail/${participate.id}`)}
+                >
                   {participate.location}
                 </TableCell>
                 <TableCell align="center">
