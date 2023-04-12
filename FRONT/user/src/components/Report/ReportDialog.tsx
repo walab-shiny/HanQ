@@ -61,7 +61,7 @@ export default function ReportDialog(props: Props) {
           <Typography variant="h5" m={1}>
             소감문 목록
           </Typography>
-          <ExportButton />
+          <ExportButton data={'hi'} />
         </Toolbar>
         <DialogContent>
           <TableContainer component={Paper}>

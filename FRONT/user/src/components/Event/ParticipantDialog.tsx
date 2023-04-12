@@ -17,15 +17,6 @@ import { useEffect, useState } from 'react';
 import { IParticipant } from '../../types/participant';
 import { getParticipantList } from '../../apis/participant';
 
-function createData(student_id: number, name: string, major: string) {
-  return { student_id, name, major };
-}
-
-const rows = [
-  createData(22000001, '김한동', '전산전자공학부'),
-  createData(22000002, '김행복', '전산전자공학부'),
-];
-
 interface Props {
   open: boolean;
   onClose: (value: void) => void;
@@ -56,7 +47,7 @@ export default function ParticipantDialog(props: Props) {
         <Box display="flex" justifyContent="space-between" alignItems="center">
           <DialogTitle>행사 참여자 명단</DialogTitle>
           <Box mr={1}>
-            <ExportButton />
+            <ExportButton data={participants} />
           </Box>
         </Box>
         <DialogContent>
