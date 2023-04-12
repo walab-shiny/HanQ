@@ -49,5 +49,9 @@ public class EventController {
     public ResponseEntity<Integer> deleteEvent(@RequestBody EventIdDto dto, @RequestHeader(name = "Authorization") String token) {
         return ResponseEntity.ok(eventService.deleteEvent(dto, token));
     }
+    @PostMapping("/close")
+    public ResponseEntity<EventDto> closeEvent(@RequestBody EventIdDto dto, @RequestHeader(name = "Authorization") String token) {
+        return ResponseEntity.ok(eventService.closeEvent(dto,token));
+    }
 
 }
