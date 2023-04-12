@@ -1,7 +1,6 @@
 package com.example.server.service;
 
-import com.example.server.dto.QrResponseDto;
-import com.example.server.dto.QrStringDto;
+import com.example.server.dto.*;
 import com.example.server.entity.Attend;
 import com.example.server.entity.Event;
 import com.example.server.entity.User;
@@ -119,19 +118,25 @@ public class AttendService {
     public List<Attend> getAttendsByUserId(int id) {
         return attendRepository.getAttendsByUserId(id);
     }
-//    public QrApiResponse getQrResponseTest() throws Exception {
-//        String url = "http://localhost:8080/api/test";
-//        HttpRequest getRequest = HttpRequest.newBuilder()
-//                .uri(new URI(url))
-//                .build();
-//        HttpClient client = HttpClient.newHttpClient();
-//        HttpResponse<String> getResponse = client.send(getRequest, HttpResponse.BodyHandlers.ofString());
-//        Gson gson = new Gson();
-//        return gson.fromJson(getResponse.body(), QrApiResponse.class);
-//    }
-//    public Result getResultTest() throws Exception {
-//        QrApiResponse response = getQrResponseTest();
-//        return response.getResults().get(0);
-//    }
+    @Transactional
+    public AttendUserDto addMemo(MemoCreateDto dto, String token) {
+        User host = userRepository.findUserByToken(token);
+        if(host.getIsHost()) {
+            Attend attend = attendRepository.getAttendByUser_StudentNumAndEventId(dto.getStudentNum(), dto.getEventId());
+            attend.setMemo(dto.getMemo());
+            return attend.toAttendUserDto();
+        }
+        return null;
+    }
+    @Transactional
+    public AttendUserDto deleteMemo(MemoDeleteDto dto, String token) {
+        User host = userRepository.findUserByToken(token);
+        if(host.getIsHost()) {
+            Attend attend = attendRepository.getAttendByUser_StudentNumAndEventId(dto.getStudentNum(), dto.getEventId());
+            attend.setMemo("");
+            return attend.toAttendUserDto();
+        }
+        return null;
+    }
 
 }

@@ -41,6 +41,7 @@ public class Attend extends BaseEntity {
         if(this.user.getDepartment()!=null)
             dto.setDepartment(this.user.getDepartment().getName());
         dto.setTaggedAt(this.taggedAt);
+        dto.setMemo(this.memo);
         return dto;
     }
 }
