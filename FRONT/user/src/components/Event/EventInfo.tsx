@@ -75,7 +75,6 @@ export default function EventInfo() {
       </Box>
       <Box height={'calc(63vh)'} overflow="scroll" textOverflow={'scroll'}>
         <ReactMarkdown>{event?.content ?? '내용이 없습니다.'}</ReactMarkdown>
-        <Typography variant="subtitle1">사진</Typography>
         <Box component="img" src={event?.image} sx={{ width: '100%' }} />
       </Box>
     </Box>
