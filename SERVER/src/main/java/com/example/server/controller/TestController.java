@@ -21,7 +21,7 @@ public class TestController {
         response.setDescription("Request Success");
         List<Result> results = new ArrayList<>();
         results.add(new Result("22000328", "배주영", "202304110154"));
-        response.setResults(results);
+        response.setResult(results);
         return ResponseEntity.ok(response);
     }
 }
