@@ -1,7 +1,6 @@
 package com.example.server.controller;
 
-import com.example.server.dto.QrResponseDto;
-import com.example.server.dto.QrStringDto;
+import com.example.server.dto.*;
 import com.example.server.qr.Result;
 import com.example.server.service.AttendService;
 import com.example.server.service.EventService;
@@ -19,6 +18,20 @@ public class AttendController {
     @PostMapping
     public ResponseEntity<QrResponseDto> createAttend(@RequestBody QrStringDto dto) throws Exception {
         return ResponseEntity.ok(attendService.createAttend(dto));
+    }
+    @PostMapping("/api/attend/memo")
+    public ResponseEntity<AttendUserDto> createMemo(@RequestBody MemoCreateDto dto, @RequestHeader(name = "Authorization") String token) {
+        return ResponseEntity.ok(attendService.addMemo(dto, token));
+    }
+
+    @PostMapping("/api/attend/memo/delete")
+    public ResponseEntity<AttendUserDto> deleteMemo(@RequestBody MemoDeleteDto dto, @RequestHeader(name = "Authorization") String token) {
+        return ResponseEntity.ok(attendService.deleteMemo(dto, token));
+    }
+
+    @PostMapping("/api/attend/memo/update")
+    public ResponseEntity<AttendUserDto> updateMemo(@RequestBody MemoCreateDto dto, @RequestHeader(name = "Authorization") String token) {
+        return ResponseEntity.ok(attendService.addMemo(dto,token));
     }
 //    @PostMapping("/test")
 //    public ResponseEntity<QrResponseDto> createAttendTest() throws Exception {

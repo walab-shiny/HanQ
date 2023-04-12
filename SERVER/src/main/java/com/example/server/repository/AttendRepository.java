@@ -8,4 +8,5 @@ import java.util.List;
 public interface AttendRepository extends JpaRepository<Attend, Integer> {
     boolean existsAttendByUserStudentNumAndEventId(Long number,int eventId);
     List<Attend> getAttendsByUserId(int id);
+    Attend getAttendByUser_StudentNumAndEventId(Long number, int eventId);
 }
