@@ -24,7 +24,7 @@ function RenderTag(props: GridRenderCellParams<any, ITag[]>) {
 }
 
 const titles = [
-  { field: 'id', headerName: '번호', width: 64 },
+  { field: 'index', headerName: '번호', width: 64 },
   { field: 'tags', headerName: '태그', flex: 1, renderCell: RenderTag },
   { field: 'name', headerName: '제목', width: 150 },
   { field: 'openAt', headerName: '일자', width: 200 },
@@ -75,9 +75,10 @@ export default function EventList() {
             printOptions: { disableToolbarButton: true },
           },
         }}
-        rows={eventList.map((event) => {
+        rows={eventList.map((event, index) => {
           return {
             ...event,
+            index: index + 1,
             openAt: getDisplayTime(event.openAt),
           };
         })}

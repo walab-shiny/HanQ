@@ -24,6 +24,7 @@ export default function ReportWriteDialog(props: Props) {
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const {
+    watch,
     register,
     handleSubmit,
     reset,
@@ -53,16 +54,16 @@ export default function ReportWriteDialog(props: Props) {
         </Box>
         <DialogContent>
           <TextField
-            placeholder="50자 이내의 소감문을 작성하세요."
+            placeholder="50자 이상의 소감문을 작성하세요."
             rows={5}
             multiline
             fullWidth
             autoFocus
             {...register('content', {
               required: '소감문은 필수 입력 항목입니다.',
-              minLength: 50,
+              minLength: { value: 50, message: '50자 이상 작성해야 합니다.' },
             })}
-            helperText={errors.content?.type === 'minLength' ? '50자 이상 작성해야 합니다.' : ''}
+            helperText={errors.content?.message ?? watch('content')?.length + '/50'}
             error={Boolean(errors.content?.message)}
           />
         </DialogContent>
