@@ -1,5 +1,6 @@
 export interface IEvent {
-  id: string;
+  closed: boolean;
+  id: number;
   name: string;
   openAt: string;
   closeAt: string;

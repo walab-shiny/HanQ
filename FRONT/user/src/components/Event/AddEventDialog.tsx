@@ -63,13 +63,7 @@ export default function AddEventDialog({ fetchData }: Props) {
 
   return (
     <>
-      <Button
-        size="large"
-        startIcon={<AddIcon />}
-        color="success"
-        onClick={handleOpen}
-        variant="contained"
-      >
+      <Button startIcon={<AddIcon />} color="success" onClick={handleOpen} variant="contained">
         이벤트 추가하기
       </Button>
       <Dialog onClose={handleClose} open={open} fullWidth>
