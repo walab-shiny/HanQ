@@ -133,6 +133,7 @@ public class User extends BaseEntity {
         this.token = user.getToken();
         this.email = user.getEmail();
         this.name = user.getName();
+        this.picture = user.getPicture();
     }
 
 }
