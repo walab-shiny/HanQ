@@ -72,7 +72,7 @@ export default function ParticipageInfo() {
       </Box>
       <Box height={'calc(63vh)'} overflow="scroll" textOverflow={'scroll'}>
         <ReactMarkdown children={event?.content ?? '내용이 없습니다.'} />
-        <Typography variant="subtitle1">사진</Typography>
+        <Box component="img" src={event?.image} sx={{ width: '100%' }} />
       </Box>
     </Box>
   );

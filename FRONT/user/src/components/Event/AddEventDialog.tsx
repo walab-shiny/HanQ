@@ -141,6 +141,7 @@ export default function AddEventDialog({ fetchData }: Props) {
               type="datetime-local"
               sx={{ mb: 3 }}
               {...register('openAt', { required: '시작일시는 필수 입력 항목입니다.' })}
+              onChange={(e) => setValue('closeAt', e.target.value)}
               // onChange={(e) => setValue('endTime', e.target.value)}
               helperText={errors.openAt?.message}
               error={Boolean(errors.openAt?.message)}
