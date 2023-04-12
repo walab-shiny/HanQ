@@ -61,12 +61,11 @@ export default function ParticipateList() {
 
   return (
     <>
-      <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
+      <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
         <Typography variant="subtitle1" m={1}>
           참여 이벤트 목록
         </Typography>
       </Toolbar>
-
       <TableContainer component={Paper} sx={{ maxHeight: 'calc(70vh)' }}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table" stickyHeader>
           <TableHead>

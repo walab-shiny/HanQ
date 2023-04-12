@@ -17,6 +17,8 @@ interface IRequest {
   status: number;
   content: string;
   response: string;
+  createdAt: string;
+  modifiedAt: string;
 }
 
 export default function Main() {
@@ -47,6 +49,9 @@ export default function Main() {
     await updateTag(id, newName);
     fetchTags();
   };
+  const getDisplayTime = (time: string) => {
+    return time.split('T')[0] + ' ' + time.split('T')[1];
+  };
 
   const showTags = () => {
     return tags.map((tag) => (
@@ -65,6 +70,7 @@ export default function Main() {
     const pendingRequests = await getPendingRequests();
     setRequests(allRequests);
     setPendingRequests(pendingRequests);
+    console.log(allRequests);
   };
 
   useEffect(() => {
@@ -118,9 +124,19 @@ export default function Main() {
                   gap: 2,
                 }}
               >
-                <Typography variant="subtitle1">유저 ID: {request.userId}</Typography>
-                <Typography>권한 요청 사유: {request.content}</Typography>
-                <Box sx={{ height: 16 }} />
+                <Box>
+                  <Typography variant="h6" gutterBottom>
+                    유저 ID: {request.userId}
+                  </Typography>
+                  <Typography gutterBottom>
+                    <span style={{ fontWeight: 600 }}>권한 요청 사유:</span> {request.content}
+                  </Typography>
+                  <Typography>
+                    <span style={{ fontWeight: 600 }}>신청일:</span>{' '}
+                    {getDisplayTime(request.createdAt)}
+                  </Typography>
+                </Box>
+                <Box sx={{ flexGrow: 1 }} />
                 <Box
                   sx={{ width: 1, display: 'flex', justifyContent: 'flex-end', mt: 'auto', gap: 2 }}
                 >
@@ -145,30 +161,57 @@ export default function Main() {
               pb: 8,
             }}
           >
-            {requests.map((request) => (
-              <Card
-                key={request.id}
-                sx={{
-                  p: 2,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  gap: 2,
-                }}
-              >
-                <Typography variant="subtitle1">유저 ID: {request.userId}</Typography>
-                <Typography>권한 요청 사유: {request.content}</Typography>
-                <Box sx={{ height: 16 }} />
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  {request.status === 0 && <Chip label="거절됨" color="error" />}
-                  {request.status === 1 && <Chip label="대기중" />}
-                  {request.status === 2 && <Chip label="수락됨" color="success" />}
-                  {request.status === 0 && request.response !== '' && (
-                    <Typography>사유: {request.response}</Typography>
-                  )}
-                </Box>
-              </Card>
-            ))}
+            {requests
+              .sort((a, b) => {
+                // 최신 순으로 정렬
+                if (a.modifiedAt > b.modifiedAt) {
+                  return -1;
+                }
+                if (a.modifiedAt < b.modifiedAt) {
+                  return 1;
+                }
+                return 0;
+              })
+              .map((request) => (
+                <Card
+                  key={request.id}
+                  sx={{
+                    p: 2,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    gap: 2,
+                  }}
+                >
+                  <Box>
+                    <Typography variant="h6" gutterBottom>
+                      유저 ID: {request.userId}
+                    </Typography>
+                    <Typography gutterBottom>
+                      <span style={{ fontWeight: 600 }}>권한 요청 사유:</span> {request.content}
+                    </Typography>
+                    <Typography>
+                      <span style={{ fontWeight: 600 }}>신청일:</span>{' '}
+                      {getDisplayTime(request.createdAt)}
+                    </Typography>
+                    {request.status !== 1 && (
+                      <Typography>
+                        <span style={{ fontWeight: 600 }}>응답일:</span>{' '}
+                        {getDisplayTime(request.modifiedAt)}
+                      </Typography>
+                    )}
+                  </Box>
+                  <Box sx={{ flexGrow: 1 }} />
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    {request.status === 0 && <Chip label="거절됨" color="error" />}
+                    {request.status === 1 && <Chip label="대기중" />}
+                    {request.status === 2 && <Chip label="수락됨" color="success" />}
+                    {request.status === 0 && request.response !== '' && (
+                      <Typography>사유: {request.response}</Typography>
+                    )}
+                  </Box>
+                </Card>
+              ))}
           </Box>
         </Box>
       </Box>

@@ -8,7 +8,6 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  IconButton,
   TextField,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
@@ -64,9 +63,15 @@ export default function AddEventDialog({ fetchData }: Props) {
 
   return (
     <>
-      <IconButton onClick={handleOpen}>
-        <AddIcon />
-      </IconButton>
+      <Button
+        size="large"
+        startIcon={<AddIcon />}
+        color="success"
+        onClick={handleOpen}
+        variant="contained"
+      >
+        이벤트 추가하기
+      </Button>
       <Dialog onClose={handleClose} open={open} fullWidth>
         <Box component="form" onSubmit={handleSubmit(onValid)}>
           <Box display="flex" alignItems="center" justifyContent="space-between" mr={3}>
