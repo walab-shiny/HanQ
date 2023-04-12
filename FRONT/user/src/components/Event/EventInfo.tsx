@@ -48,7 +48,7 @@ export default function EventInfo() {
         <Button size="small" variant="contained" color="secondary" onClick={handleOpen}>
           명단 보기
         </Button>
-        <ParticipantDialog open={open} onClose={handleClose} />
+        <ParticipantDialog open={open} onClose={handleClose} id={id!} />
       </Box>
       <Box
         bgcolor={'grey.200'}
@@ -74,9 +74,7 @@ export default function EventInfo() {
         <Typography>25</Typography>
       </Box>
       <Box height={'calc(63vh)'} overflow="scroll" textOverflow={'scroll'}>
-        <ReactMarkdown>
-          {event?.content === undefined ? '내용이 없습니다' : event?.content}
-        </ReactMarkdown>
+        <ReactMarkdown>{event?.content ?? '내용이 없습니다.'}</ReactMarkdown>
         <Typography variant="subtitle1">사진</Typography>
         <Box component="img" src={event?.image} sx={{ width: '100%' }} />
       </Box>

@@ -10,7 +10,6 @@ import Setting from './pages/Setting';
 import { userState } from './store/user';
 import Participate from './pages/Participate';
 import ParticipateDetail from './components/Participate/ParticipateDetail';
-import QRScan from './pages/QRScan';
 
 function Router() {
   const user = useRecoilValue(userState);
@@ -25,7 +24,7 @@ function Router() {
             <Route path="/event" element={<Event />} />
             <Route path="/event/detail/:id" element={<EventDetail />} />
             <Route path="/participate" element={<Participate />} />
-            <Route path="/participate/detail" element={<ParticipateDetail />} />
+            <Route path="/participate/detail/:id" element={<ParticipateDetail />} />
             <Route path="/question" element={<Question />} />
             <Route path="/setting" element={<Setting />} />
           </>

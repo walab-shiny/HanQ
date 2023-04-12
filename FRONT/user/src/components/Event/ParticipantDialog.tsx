@@ -13,6 +13,9 @@ import {
   TableRow,
 } from '@mui/material';
 import ExportButton from '../Report/ExportButton';
+import { useEffect, useState } from 'react';
+import { Iparticipant } from '../../types/participant';
+import { getParticipantList } from '../../apis/participant';
 
 function createData(student_id: number, name: string, major: string) {
   return { student_id, name, major };
@@ -26,6 +29,7 @@ const rows = [
 interface Props {
   open: boolean;
   onClose: (value: void) => void;
+  id: string;
 }
 
 export default function ParticipantDialog(props: Props) {
@@ -34,6 +38,17 @@ export default function ParticipantDialog(props: Props) {
   const handleClose = () => {
     onClose();
   };
+
+  const [participants, setParticipants] = useState<Iparticipant[]>();
+
+  const fetchData = async () => {
+    const response = await getParticipantList(props.id);
+    setParticipants(response);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -46,25 +61,29 @@ export default function ParticipantDialog(props: Props) {
         </Box>
         <DialogContent>
           <TableContainer sx={{ maxHeight: 'calc(70vh)' }}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table" stickyHeader>
+            <Table stickyHeader>
               <TableHead>
                 <TableRow>
                   <TableCell>학번</TableCell>
                   <TableCell>이름</TableCell>
                   <TableCell>학부</TableCell>
+                  <TableCell>태깅시간</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
+                {participants?.map((participant) => (
                   <TableRow
-                    key={row.student_id}
+                    key={participant.studentNum}
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   >
                     <TableCell component="th" scope="row">
-                      {row.student_id}
+                      {participant.studentNum}
                     </TableCell>
-                    <TableCell>{row.name}</TableCell>
-                    <TableCell>{row.major}</TableCell>
+                    <TableCell>{participant.name}</TableCell>
+                    <TableCell>{participant.department}</TableCell>
+                    <TableCell>
+                      {participant.taggedAt.split('T')[0]} {participant.taggedAt.split('T')[1]}
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
