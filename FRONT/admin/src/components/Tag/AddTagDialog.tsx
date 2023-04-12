@@ -56,7 +56,7 @@ export default function AddTagDialog({ handleAddTag }: IAddTagDialogProps) {
           <Button onClick={handleClose} color="error" variant="outlined">
             취소
           </Button>
-          <Button onClick={handleAdd} color="success" variant="contained" autoFocus>
+          <Button onClick={handleAdd} color="success" variant="contained">
             추가
           </Button>
         </DialogActions>

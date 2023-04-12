@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import RegisterModal from './components/Register/RegisterModal';
 import Dashboard from './pages/Dashboard';
@@ -21,12 +21,17 @@ function Router() {
         {user ? (
           <>
             <Route path="/" element={<Dashboard />} />
-            <Route path="/event" element={<Event />} />
-            <Route path="/event/detail/:id" element={<EventDetail />} />
             <Route path="/participate" element={<Participate />} />
             <Route path="/participate/detail/:id" element={<ParticipateDetail />} />
             <Route path="/question" element={<Question />} />
             <Route path="/setting" element={<Setting />} />
+            {user.isHost && (
+              <>
+                <Route path="/event" element={<Event />} />
+                <Route path="/event/detail/:id" element={<EventDetail />} />
+              </>
+            )}
+            <Route path="*" element={<Navigate to="/" />} />
           </>
         ) : (
           <Route path="*" element={<Login />} />

@@ -13,11 +13,8 @@ import ReportDialog from '../Report/ReportDialog';
 import { getEventList } from '../../apis/event';
 import { IEvent } from '../../types/event';
 import QRScan from '../../pages/QRScan';
-import { useRecoilValue } from 'recoil';
-import { userState } from '../../store/user';
 
 export default function EventList() {
-  const user = useRecoilValue(userState);
   const [eventList, setEventList] = useState<IEvent[]>([]);
   const navigate = useNavigate();
 
@@ -36,15 +33,12 @@ export default function EventList() {
 
   return (
     <>
-      <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
+      <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
         <Typography variant="subtitle1" m={1}>
           주최 이벤트 목록
         </Typography>
-        {/* <Tooltip title="create event"> */}
         <AddEventDialog fetchData={fetchData} />
-        {/* </Tooltip> */}
       </Toolbar>
-
       <TableContainer component={Paper} sx={{ maxHeight: 'calc(70vh)' }}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table" stickyHeader>
           <TableHead>

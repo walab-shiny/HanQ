@@ -10,12 +10,15 @@ import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { userState } from '../../store/user';
 
 interface propsType {
   page: number;
 }
 
 export default function MenuList(props: propsType) {
+  const user = useRecoilValue(userState);
   const [selectedIndex, setSelectedIndex] = useState(props.page);
 
   const handleListItemClick = (
@@ -50,47 +53,52 @@ export default function MenuList(props: propsType) {
           <ListItemText primary="대시보드" />
         </ListItemButton>
 
-        <ListItemButton
-          selected={selectedIndex === 1}
-          onClick={(event) => {
-            handleListItemClick(event, 1);
-            navigate('/event');
-          }}
-          sx={{ padding: 1.5, margin: 1, borderRadius: 1 }}
-        >
-          <ListItemIcon>
-            <ListAltIcon />
-          </ListItemIcon>
-          <ListItemText primary="이벤트 목록 관리" />
-        </ListItemButton>
+        {user?.isHost && (
+          <ListItemButton
+            selected={selectedIndex === 1}
+            onClick={(event) => {
+              handleListItemClick(event, 1);
+              navigate('/event');
+            }}
+            sx={{ padding: 1.5, margin: 1, borderRadius: 1 }}
+          >
+            <ListItemIcon>
+              <ListAltIcon />
+            </ListItemIcon>
+            <ListItemText primary="이벤트 목록 관리" />
+          </ListItemButton>
+        )}
 
-        <ListItemButton
-          selected={selectedIndex === 2}
-          onClick={(event) => {
-            handleListItemClick(event, 2);
-            navigate('/participate');
-          }}
-          sx={{ padding: 1.5, margin: 1, borderRadius: 1 }}
-        >
-          <ListItemIcon>
-            <EventAvailableIcon />
-          </ListItemIcon>
-          <ListItemText primary="참여 이벤트 확인" />
-        </ListItemButton>
-
-        <ListItemButton
-          selected={selectedIndex === 3}
-          onClick={(event) => {
-            handleListItemClick(event, 3);
-            navigate('/question');
-          }}
-          sx={{ padding: 1.5, margin: 1, borderRadius: 1 }}
-        >
-          <ListItemIcon>
-            <QuestionMarkIcon />
-          </ListItemIcon>
-          <ListItemText primary="질문하기" />
-        </ListItemButton>
+        {user?.isStudent && (
+          <>
+            <ListItemButton
+              selected={selectedIndex === 2}
+              onClick={(event) => {
+                handleListItemClick(event, 2);
+                navigate('/participate');
+              }}
+              sx={{ padding: 1.5, margin: 1, borderRadius: 1 }}
+            >
+              <ListItemIcon>
+                <EventAvailableIcon />
+              </ListItemIcon>
+              <ListItemText primary="참여 이벤트 확인" />
+            </ListItemButton>
+            <ListItemButton
+              selected={selectedIndex === 3}
+              onClick={(event) => {
+                handleListItemClick(event, 3);
+                navigate('/question');
+              }}
+              sx={{ padding: 1.5, margin: 1, borderRadius: 1 }}
+            >
+              <ListItemIcon>
+                <QuestionMarkIcon />
+              </ListItemIcon>
+              <ListItemText primary="질문하기" />
+            </ListItemButton>
+          </>
+        )}
 
         <ListItemButton
           selected={selectedIndex === 4}
