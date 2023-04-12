@@ -27,6 +27,10 @@ public class EventController {
     public ResponseEntity<List<EventDto>> getEvents(@RequestHeader(name = "Authorization") String token) {
         return ResponseEntity.ok(eventService.getEvents(token));
     }
+    @GetMapping("/list/all")
+    public ResponseEntity<List<EventDto>> getAllEvents() {
+        return ResponseEntity.ok(eventService.getAllEvents());
+    }
     @GetMapping("/attended")
     public ResponseEntity<List<EventDto>> getAttendedEvents(@RequestHeader(name = "Authorization") String token) {
         return ResponseEntity.ok(eventService.getAttendedEvents(token));
