@@ -99,5 +99,17 @@ public class EventService {
             return e.toDto(tags);
         }).collect(Collectors.toList());
     }
+    @Transactional
+    public EventDto closeEvent(EventIdDto dto, String token) {
+        User host = userService.getUserByToken(token);
+        if(host.getIsHost()) {
+            Event event = eventRepository.findById(dto.getId()).orElseThrow();
+            event.close();
+            List<EventTag> eventTags = eventTagService.getEventTagsByEventId(dto.getId());
+            List<Tag> tags = tagService.getTagsFromEventTag(eventTags);
+            return event.toDto(tags);
+        }
+        return null;
+    }
 
 }

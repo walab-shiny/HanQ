@@ -82,4 +82,9 @@ public class Event extends BaseEntity {
         this.attends.add(attend);
     }
 
+    public void close() {
+        this.closed = true;
+        this.closeAt = LocalDateTime.now();
+    }
+
 }
