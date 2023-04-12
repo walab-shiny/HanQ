@@ -23,9 +23,6 @@ export default function Table(theme) {
     },
     MuiTableCell: {
       styleOverrides: {
-        root: {
-          borderBottom: 'none',
-        },
         head: {
           color: theme.palette.text.secondary,
           backgroundColor: theme.palette.background.neutral,
