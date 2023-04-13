@@ -15,7 +15,7 @@ export default function Setting() {
         <Box
           display="flex"
           flexDirection="column"
-          width={'calc(18vw)'}
+          width={'260'}
           sx={{ bgcolor: 'background.paper' }}
         >
           <Logo />

@@ -60,3 +60,14 @@ export const addEventWithFile = async (data: IEvent, file: File) => {
       if (err) console.log(err);
     });
 };
+
+export const closeEvent = async (data: number) => {
+  const response = await axios.post(
+    `${process.env.REACT_APP_SERVER}/api/event/close`,
+    { id: +data },
+    {
+      headers: { Authorization: localStorage.getItem('token') },
+    },
+  );
+  return response;
+};

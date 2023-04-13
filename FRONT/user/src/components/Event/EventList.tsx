@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import AddEventDialog from './AddEventDialog';
 import ReportDialog from '../Report/ReportDialog';
-import { getEventList } from '../../apis/event';
+import { getEventList, closeEvent } from '../../apis/event';
 import { IEvent } from '../../types/event';
 import QRScan from '../../pages/QRScan';
 import { DataGrid, GridRenderCellParams, GridToolbar } from '@mui/x-data-grid';
@@ -24,7 +24,7 @@ function RenderTag(props: GridRenderCellParams<any, ITag[]>) {
 }
 
 const titles = [
-  { field: 'id', headerName: '번호', width: 64 },
+  { field: 'index', headerName: '번호', width: 64 },
   { field: 'tags', headerName: '태그', flex: 1, renderCell: RenderTag },
   { field: 'name', headerName: '제목', width: 150 },
   { field: 'openAt', headerName: '일자', width: 200 },
@@ -42,11 +42,16 @@ export default function EventList() {
   const fetchData = async () => {
     const response = await getEventList();
     setEventList(response);
+    console.log(response);
   };
 
   useEffect(() => {
     fetchData();
   }, []);
+
+  const close = async (data: number) => {
+    await closeEvent(data);
+  };
 
   return (
     <>
@@ -75,9 +80,10 @@ export default function EventList() {
             printOptions: { disableToolbarButton: true },
           },
         }}
-        rows={eventList.map((event) => {
+        rows={eventList.map((event, index) => {
           return {
             ...event,
+            index: index + 1,
             openAt: getDisplayTime(event.openAt),
           };
         })}
@@ -99,7 +105,15 @@ export default function EventList() {
                 >
                   상세보기
                 </Button>,
-                <QRScan event={row} />,
+                <>
+                  {row.closed ? (
+                    <Button size="small" variant="contained" color="success" disabled>
+                      종료됨
+                    </Button>
+                  ) : (
+                    <QRScan event={row} />
+                  )}
+                </>,
                 <Button
                   size="small"
                   variant="contained"
