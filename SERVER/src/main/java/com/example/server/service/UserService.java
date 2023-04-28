@@ -11,9 +11,11 @@ import com.example.server.repository.UserRepository;
 import com.example.server.token.DecodedToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -81,5 +83,15 @@ public class UserService {
         }
         else
             return null;
+    }
+
+    @Transactional
+    @Scheduled(fixedDelay = 4000) // 배포할 때 시간 cron으로 바꾸기
+    public void hostUntilScheduled() {
+        List<User> hosts = userRepository.findUsersByIsHostIsTrue();
+        hosts.forEach(h -> {
+            if(h.getHostUntil().isBefore(LocalDate.now()))
+                h.quitHost();
+        });
     }
 }

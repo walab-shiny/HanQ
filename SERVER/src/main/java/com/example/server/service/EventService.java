@@ -11,6 +11,7 @@ import com.example.server.entity.User;
 import com.example.server.entity.relation.EventTag;
 import com.example.server.repository.EventRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -109,6 +110,17 @@ public class EventService {
             return event.toDto(tags);
         }
         return null;
+    }
+
+    @Transactional
+    @Scheduled(fixedDelay = 60000)  // 배포할 때 시간 cron 으로 바꾸기
+    public void closeEventScheduled() {
+        List<Event> events = eventRepository.findEventsByClosedIsFalse();
+        events.forEach(e -> {
+                if(e.getCloseAt().isBefore(LocalDateTime.now()))
+                    e.close();
+
+        });
     }
 
 }
