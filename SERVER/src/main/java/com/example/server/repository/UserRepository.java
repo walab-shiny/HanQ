@@ -11,6 +11,4 @@ public interface UserRepository extends JpaRepository<User,Integer> {
     User findUserByToken(String token);
     User findUserByStudentNum(Long number);
     boolean existsUserByStudentNum(Long number);
-
-    List<User> findUsersByIsHostIsTrue();
 }

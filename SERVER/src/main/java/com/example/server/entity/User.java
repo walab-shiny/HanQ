@@ -136,8 +136,4 @@ public class User extends BaseEntity {
         this.picture = user.getPicture();
     }
 
-    public void quitHost() {
-        this.isHost=false;
-    }
-
 }
