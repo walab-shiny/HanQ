@@ -16,7 +16,7 @@ import java.time.format.DateTimeFormatter;
 @CrossOrigin(origins = "*")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/login/count")
+@RequestMapping("/api/login/count")
 @Slf4j
 public class LoginCountController {
     private int yesterday=0;
