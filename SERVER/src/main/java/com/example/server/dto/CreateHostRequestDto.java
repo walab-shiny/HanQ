@@ -11,4 +11,6 @@ import org.springframework.stereotype.Service;
 public class CreateHostRequestDto extends BaseEntity {
 //    private int userId;
     private String content;
+    private String affiliation;
+    private int hostUntil;
 }

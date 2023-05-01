@@ -1,5 +1,6 @@
 package com.example.server.entity;
 
+import com.example.server.dto.RequestUserDto;
 import com.example.server.dto.UserDto;
 import com.example.server.entity.base.BaseEntity;
 import com.example.server.qr.Result;
@@ -124,6 +125,9 @@ public class User extends BaseEntity {
         if(this.requests.size()!=0)
             dto.setRequestDate(String.valueOf(this.requests.get(this.requests.size()-1).getCreatedAt()));
         return dto;
+    }
+    public RequestUserDto toRequestUserDto() {
+        return new RequestUserDto(this.name,this.picture,this.affiliation,this.isPending);
     }
     public void addAttend(Attend attend) {
         this.attends.add(attend);

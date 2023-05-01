@@ -27,8 +27,8 @@ public class HostAuthRequestService {
     public HostAuthRequest createAuthRequest(CreateHostRequestDto dto,String token) {
         HostAuthRequest request = new HostAuthRequest(dto);
         User user = userRepository.findUserByToken(token);
-        request.setUser(user);
         user.addRequest(request);
+        request.setUser(user);
         return hostAuthRequestRepository.save(request);
     }
     // accept 및 decline api 에 대한 보호 생각하기
