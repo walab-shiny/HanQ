@@ -127,7 +127,7 @@ public class User extends BaseEntity {
         return dto;
     }
     public RequestUserDto toRequestUserDto() {
-        return new RequestUserDto(this.name,this.picture,this.affiliation,this.isPending);
+        return new RequestUserDto(this.name,this.picture,this.affiliation,this.email,this.getDepartment().getName(),this.getStudentNum(),this.hostUntil);
     }
     public void addAttend(Attend attend) {
         this.attends.add(attend);
