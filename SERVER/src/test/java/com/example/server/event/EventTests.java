@@ -62,15 +62,15 @@ public class EventTests {
         tags.add(1);
         tags.add(2);
         tags.add(3);
-        String token = "1234567890";
-        eventService.updateEvent(new EventUpdateDto(6,"전전경경대전","2022-05-05T12:30:00","2022-05-05T12:30:00","평봉필드, 히딩크필드",600,2,"전산전자공학부 vs 경영경제뭐시기ㅋㅋ",10,"",tags,false),token);
-        assertThat(eventService.getEvents(token).get(1).getName()).isEqualTo("전전경경대전");
+        String token = "106748212855095490148";
+        eventService.updateEvent(new EventUpdateDto(5,"전전경경대전 Private","2022-05-05T12:30:00","2022-05-05T12:30:00","평봉필드, 히딩크필드",600,2,"test",10,"",tags,true),token);
         System.out.println("eventService = " + eventService.getEvents(token));
+        assertThat(eventService.getEvents(token).get(1).getName()).isEqualTo("전전경경대전 Private");
+        assertThat(eventService.getEvents(token).get(1).getIsPublic()).isEqualTo(true);
     }
     @Test
     public void getEvent() {
-        String token = "1234567890";
-        System.out.println("eventService = " + eventService.getEvent(6,token));
+        System.out.println("eventService = " + eventService.getEvent(6));
     }
 
     @Test
@@ -78,5 +78,10 @@ public class EventTests {
         List<EventDto> list = eventService.getAllEvents();
         assertThat(list.size()).isEqualTo(3);
         list.forEach(e -> System.out.println("e.getName() = " + e.getName()));
+    }
+
+    @Test
+    public void affiliationTest() {
+        System.out.println("eventService = " + eventService.getEvent(5));
     }
 }

@@ -86,11 +86,11 @@ public class UserService {
     }
 
     @Transactional
-    @Scheduled(fixedDelay = 4000) // 배포할 때 시간 cron으로 바꾸기
+    @Scheduled(cron = "0 0 0 * * *", zone = "Asia/Seoul")
     public void hostUntilScheduled() {
         List<User> hosts = userRepository.findUsersByIsHostIsTrue();
         hosts.forEach(h -> {
-            if(h.getHostUntil().isBefore(LocalDate.now()))
+            if(h.getHostUntil()!= null && h.getHostUntil().isBefore(LocalDate.now()))
                 h.quitHost();
         });
     }

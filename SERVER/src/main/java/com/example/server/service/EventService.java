@@ -55,6 +55,7 @@ public class EventService {
         User host = userService.getUserByToken(token);
         if(host.getIsHost()) {
             Event updated = eventRepository.findById(dto.getId()).orElseThrow();
+            System.out.println("updated = " + updated);
             List<Tag> tags = tagService.getTagsFromEvent(dto.getTags());
             eventTagService.deleteRelations(dto.getId());
             List<EventTag> relations = eventTagService.createRelation(tags, updated);
@@ -74,8 +75,7 @@ public class EventService {
         }).collect(Collectors.toList());
     }
     @Transactional
-    public EventDto getEvent(int id, String token) {
-        User host = userService.getUserByToken(token);
+    public EventDto getEvent(int id) {
         return eventRepository.findById(id).orElseThrow().toDto(tagService.getTagsFromEventTag(eventTagService.getEventTagsByEventId(id)));
     }
 

@@ -29,8 +29,8 @@ public class ScheduleTest {
     public void eventSchedule() throws InterruptedException {
        Thread.sleep(6000);
 
-       assertThat(eventService.getEvent(1,"83247847347").getClosed()).isEqualTo(true);
-        assertThat(eventService.getEvent(2,"83247847347").getClosed()).isEqualTo(true);
+       assertThat(eventService.getEvent(1).getClosed()).isEqualTo(true);
+        assertThat(eventService.getEvent(2).getClosed()).isEqualTo(true);
     }
 
     @Test
