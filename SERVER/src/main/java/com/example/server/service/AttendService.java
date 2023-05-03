@@ -45,11 +45,11 @@ public class AttendService {
             return responseDto;
         }
         Attend attend = new Attend();
-        String time = result.getQr_tagging_time();
-        SimpleDateFormat fromQr = new SimpleDateFormat("yyyyMMddHHmm");
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-        String formatted = format.format(fromQr.parse(time));
-        attend.setTaggedAt(LocalDateTime.parse(formatted));
+//        String time = result.getQr_tagging_time();
+//        SimpleDateFormat fromQr = new SimpleDateFormat("yyyyMMddHHmm");
+//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+//        String formatted = format.format(fromQr.parse(time));
+        attend.setTaggedAt(LocalDateTime.now());
         User user;
         if(userRepository.existsUserByStudentNum(Long.valueOf(result.getUser_number()))) {
             user = userRepository.findUserByStudentNum(Long.valueOf(result.getUser_number()));
@@ -65,41 +65,9 @@ public class AttendService {
         user.addAttend(attend);
         event.addAttend(attend);
         QrResponseDto responseDto = new QrResponseDto(result);
-        responseDto.setTaggedAt(formatted);
+        responseDto.setTaggedAt(LocalDateTime.now().toString());
         return responseDto;
     }
-//    @Transactional
-//    public QrResponseDto createAttendTest() throws Exception {
-//        Result result = getResultTest();
-//        if(attendRepository.existsAttendByUserStudentNumAndEventId(Long.valueOf(result.getUser_number()),1)) {
-//            QrResponseDto responseDto = new QrResponseDto(result);
-//            responseDto.setIsDuplicate(true);
-//            return responseDto;
-//        }
-//        Attend attend = new Attend();
-//        String time = result.getQr_tagging_time();
-//        SimpleDateFormat fromQr = new SimpleDateFormat("yyyyMMddHHmm");
-//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-//        String formatted = format.format(fromQr.parse(time));
-//        attend.setTaggedAt(LocalDateTime.parse(formatted));
-//        User user;
-//        if(userRepository.existsUserByStudentNum(Long.valueOf(result.getUser_number()))) {
-//            user = userRepository.findUserByStudentNum(Long.valueOf(result.getUser_number()));
-//            attend.setUser(user);
-//        }
-//        else {
-//            user = new User(result);
-//            attend.setUser(userRepository.save(user));
-//        }
-//        Event event = eventRepository.findById(1).orElseThrow();
-//        attend.setEvent(event);
-//        attendRepository.save(attend);
-//        user.addAttend(attend);
-//        event.addAttend(attend);
-//        QrResponseDto dto = new QrResponseDto(result);
-//        dto.setTaggedAt(formatted);
-//        return dto;
-//    }
     public QrApiResponse getQrResponse(String encoded) throws Exception {
         String url = apiUrl + encoded;
         System.out.println("url = " + url);
@@ -137,6 +105,11 @@ public class AttendService {
             return attend.toAttendUserDto();
         }
         return null;
+    }
+    public AttendMonthlyCountResponse countAttendMonthly(AttendMonthlyCountRequest request) {
+        LocalDateTime now = LocalDateTime.parse(request.getDate());
+        List<Attend> list = attendRepository.getAttendByTaggedAtBetween(now.withDayOfMonth(1), now.withDayOfMonth(1).plusMonths(1));
+        return new AttendMonthlyCountResponse(list.size());
     }
 
 }
