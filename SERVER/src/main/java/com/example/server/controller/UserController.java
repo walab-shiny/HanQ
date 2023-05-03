@@ -18,8 +18,10 @@ import java.util.List;
 @RequestMapping("/api/user")
 public class UserController {
     private final UserService userService;
+    private final LoginCountController loginCountController;
     @PostMapping
     public ResponseEntity<LoginUserDto> login(@RequestBody TokenDto dto) {
+        loginCountController.incrementLoginCount();
         return userService.login(DecodedToken.getDecodedToken(dto.getCredential()));
     }
     @PostMapping("/student")

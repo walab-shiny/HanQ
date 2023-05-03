@@ -74,13 +74,9 @@ public class EventService {
     @Transactional
     public EventDto getEvent(int id, String token) {
         User host = userService.getUserByToken(token);
-        // isHost 부분 지우기
         return eventRepository.findById(id).orElseThrow().toDto(tagService.getTagsFromEventTag(eventTagService.getEventTagsByEventId(id)));
+    }
 
-    }
-    public List<Event> getEventsFromAttend(List<Attend> list) {
-        return list.stream().map(Attend::getEvent).collect(Collectors.toList());
-    }
     public List<EventDto> getAttendedEvents(String token) {
         User user = userService.getUserByToken(token);
         List<Attend> attends = user.getAttends();
