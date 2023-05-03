@@ -23,4 +23,5 @@ public class EventUpdateDto {
     private int availableTime;
     private String image;
     private List<Integer> tags;
+    private Boolean isPublic;
 }

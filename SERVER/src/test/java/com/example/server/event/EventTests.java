@@ -4,6 +4,7 @@ import com.example.server.dto.EventCreateDto;
 import com.example.server.dto.EventIdDto;
 import com.example.server.dto.EventDto;
 import com.example.server.dto.EventUpdateDto;
+import com.example.server.repository.EventRepository;
 import com.example.server.service.EventService;
 import com.example.server.service.UserService;
 import org.junit.jupiter.api.*;
@@ -21,15 +22,20 @@ public class EventTests {
     EventService eventService;
     @Autowired
     UserService userService;
+    @Autowired
+    private EventRepository eventRepository;
+
     @Test
     @Order(1)
     public void createEvent() {
-        String token = "83247847347";
+        String token = "106748212855095490148";
         List<Integer> tags = new ArrayList<>();
         tags.add(1);
         tags.add(2);
-        EventDto dto = eventService.createEvent(new EventCreateDto("test","2022-05-05T12:00:00","2022-05-05T12:00:00","평봉필드",500,2,"전산전자공학부 vs 경영경제뭐시기ㅋㅋ 어차피 전전이 이김",15,"",tags),token);
+        EventDto dto = eventService.createEvent(new EventCreateDto("Private Event","2022-05-05T12:00:00","2022-05-05T12:00:00","평봉필드",500,2,"전산전자공학부 vs 경영경제뭐시기ㅋㅋ 어차피 전전이 이김",15,"",tags,false),token);
         System.out.println("dto = " + dto);
+        assertThat(dto.getIsPublic()).isEqualTo(false);
+        assertThat(dto.getAffiliation()).isEqualTo(userService.getUserByToken("106748212855095490148").getAffiliation());
 //        assertThat(dto.getHost().getToken()).isEqualTo(token);
     }
     @Test
@@ -56,14 +62,26 @@ public class EventTests {
         tags.add(1);
         tags.add(2);
         tags.add(3);
-        String token = "1234567890";
-        eventService.updateEvent(new EventUpdateDto(6,"전전경경대전","2022-05-05T12:30:00","2022-05-05T12:30:00","평봉필드, 히딩크필드",600,2,"전산전자공학부 vs 경영경제뭐시기ㅋㅋ",10,"",tags),token);
-        assertThat(eventService.getEvents(token).get(1).getName()).isEqualTo("전전경경대전");
+        String token = "106748212855095490148";
+        eventService.updateEvent(new EventUpdateDto(5,"전전경경대전 Private","2022-05-05T12:30:00","2022-05-05T12:30:00","평봉필드, 히딩크필드",600,2,"test",10,"",tags,true),token);
         System.out.println("eventService = " + eventService.getEvents(token));
+        assertThat(eventService.getEvents(token).get(1).getName()).isEqualTo("전전경경대전 Private");
+        assertThat(eventService.getEvents(token).get(1).getIsPublic()).isEqualTo(true);
     }
     @Test
     public void getEvent() {
-        String token = "1234567890";
-        System.out.println("eventService = " + eventService.getEvent(6,token));
+        System.out.println("eventService = " + eventService.getEvent(6));
+    }
+
+    @Test
+    public void getAllEvents() {
+        List<EventDto> list = eventService.getAllEvents();
+        assertThat(list.size()).isEqualTo(3);
+        list.forEach(e -> System.out.println("e.getName() = " + e.getName()));
+    }
+
+    @Test
+    public void affiliationTest() {
+        System.out.println("eventService = " + eventService.getEvent(5));
     }
 }

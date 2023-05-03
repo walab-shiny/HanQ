@@ -36,8 +36,8 @@ public class EventController {
         return ResponseEntity.ok(eventService.getAttendedEvents(token));
     }
     @GetMapping("/{id}")
-    public ResponseEntity<EventDto> getEvent(@PathVariable(name = "id") int id, @RequestHeader(name = "Authorization") String token) {
-        return ResponseEntity.ok(eventService.getEvent(id,token));
+    public ResponseEntity<EventDto> getEvent(@PathVariable(name = "id") int id) {
+        return ResponseEntity.ok(eventService.getEvent(id));
     }
 
     @PostMapping("/update")

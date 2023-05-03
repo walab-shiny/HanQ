@@ -4,6 +4,7 @@ import com.example.server.dto.AcceptHostRequestDto;
 import com.example.server.dto.CreateHostRequestDto;
 import com.example.server.dto.DeclineHostRequestDto;
 import com.example.server.dto.HostAuthRequestDto;
+import com.example.server.entity.HostAuthRequest;
 import com.example.server.entity.User;
 import com.example.server.service.HostAuthRequestService;
 import com.example.server.service.UserService;
@@ -30,10 +31,15 @@ public class CreateHostRequestTest {
     @Test
     @Order(1)
     public void createRequests() {
-        HostAuthRequestDto authRequest = hostAuthRequestService.createAuthRequest(
-                new CreateHostRequestDto("전산전자공학부 임원단입니다! 호스트 권한 요청합니다"),"1234567890").toDto();
-//        assertThat(userService.getUser(authRequest.getUserId()).getId()).isEqualTo(1);
-//        assertThat(authRequest.getContent()).isEqualTo("전산전자공학부 임원단입니다! 호스트 권한 요청합니다");
+        HostAuthRequest authRequest;
+        authRequest = hostAuthRequestService.createAuthRequest(
+                new CreateHostRequestDto("전산전자공학부 임원단입니다! 호스트 권한 요청합니다","전산전자공학부임원단",7),"83247847347");
+        HostAuthRequestDto dto= authRequest.toDto();
+//        assertThat(userService.getUser(authRequest.getUser().getId()).getId()).isEqualTo(1);
+        assertThat(authRequest.getContent()).isEqualTo("전산전자공학부 임원단입니다! 호스트 권한 요청합니다");
+        assertThat(authRequest.getAffiliation()).isEqualTo("전산전자공학부임원단");
+        assertThat(authRequest.getHostUntil()).isEqualTo("2023-05-08");
+        System.out.println("dto = " + dto);
     }
     @Test
     @Order(2)
