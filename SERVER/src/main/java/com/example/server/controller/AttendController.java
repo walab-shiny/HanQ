@@ -19,22 +19,22 @@ public class AttendController {
     public ResponseEntity<QrResponseDto> createAttend(@RequestBody QrStringDto dto) throws Exception {
         return ResponseEntity.ok(attendService.createAttend(dto));
     }
-    @PostMapping("/api/attend/memo")
+    @PostMapping("/memo")
     public ResponseEntity<AttendUserDto> createMemo(@RequestBody MemoCreateDto dto, @RequestHeader(name = "Authorization") String token) {
         return ResponseEntity.ok(attendService.addMemo(dto, token));
     }
 
-    @PostMapping("/api/attend/memo/delete")
+    @PostMapping("/memo/delete")
     public ResponseEntity<AttendUserDto> deleteMemo(@RequestBody MemoDeleteDto dto, @RequestHeader(name = "Authorization") String token) {
         return ResponseEntity.ok(attendService.deleteMemo(dto, token));
     }
 
-    @PostMapping("/api/attend/memo/update")
+    @PostMapping("/memo/update")
     public ResponseEntity<AttendUserDto> updateMemo(@RequestBody MemoCreateDto dto, @RequestHeader(name = "Authorization") String token) {
         return ResponseEntity.ok(attendService.addMemo(dto,token));
     }
-//    @PostMapping("/test")
-//    public ResponseEntity<QrResponseDto> createAttendTest() throws Exception {
-//        return ResponseEntity.ok(attendService.createAttendTest());
-//    }
+    @PostMapping("/monthly")
+    public ResponseEntity<AttendMonthlyCountResponse> monthlyCount(@RequestBody AttendMonthlyCountRequest request) {
+        return ResponseEntity.ok(attendService.countAttendMonthly(request));
+    }
 }
