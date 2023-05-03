@@ -1,5 +1,6 @@
 package com.example.server.entity;
 
+import com.example.server.dto.EventCreateDto;
 import com.example.server.dto.EventDto;
 import com.example.server.dto.EventUpdateDto;
 import com.example.server.dto.TagDto;
@@ -30,6 +31,7 @@ public class Event extends BaseEntity {
     private LocalDateTime openAt;
     private LocalDateTime closeAt;
     private Boolean closed=false;
+    private Boolean isPublic=true;
     private int reportTimeLimit=0;
     @ManyToOne(fetch = FetchType.LAZY)
     private User host;
@@ -42,6 +44,7 @@ public class Event extends BaseEntity {
     private String content;
     private int availableTime;
     private String image;
+    private String affiliation;
 
     public Event (String name, LocalDateTime openAt, LocalDateTime closeAt,User host, String location, int maxUsers, int reportTimeLimit, String content, int availableTime, String image){
         this.name=name;
@@ -55,13 +58,25 @@ public class Event extends BaseEntity {
         this.availableTime = availableTime;
         this.image = image;
     }
+    public Event (EventCreateDto dto) {
+        this.name = dto.getName();
+        this.openAt = LocalDateTime.parse(dto.getOpenAt());
+        this.closeAt = LocalDateTime.parse(dto.getCloseAt());
+        this.location = dto.getLocation();
+        this.maxUsers = dto.getMaxUsers();
+        this.reportTimeLimit = dto.getReportTimeLimit();
+        this.content = dto.getContent();
+        this.availableTime = dto.getAvailableTime();
+        this.image = dto.getImage();
+        this.isPublic = dto.getIsPublic();
+    }
 
     public void setTags(List<EventTag> tags) {
         this.tags = tags;
     }
     public EventDto toDto(List<Tag> tags) {
         List<TagDto> tagDtos = tags.stream().map(Tag::toDto).collect(Collectors.toList());
-        return new EventDto(this.id, this.name, this.openAt,this.closeAt,this.closed,this.reportTimeLimit, this.host.getId(), this.location, this.maxUsers, tagDtos, this.content, this.availableTime, this.image);
+        return new EventDto(this.id, this.name, this.openAt,this.closeAt,this.closed,this.reportTimeLimit, this.host.getId(), this.location, this.maxUsers, tagDtos, this.content, this.availableTime, this.image,this.isPublic,this.affiliation);
     }
     public void setHost(User user) {
         user.getEvents().add(this);
@@ -77,6 +92,7 @@ public class Event extends BaseEntity {
         this.content = dto.getContent();
         this.availableTime = dto.getAvailableTime();
         this.image = dto.getImage();
+        this.isPublic = dto.getIsPublic();
     }
     public void addAttend(Attend attend) {
         this.attends.add(attend);
@@ -85,6 +101,9 @@ public class Event extends BaseEntity {
     public void close() {
         this.closed = true;
         this.closeAt = LocalDateTime.now();
+    }
+    public void setAffiliation() {
+        this.affiliation = this.host.getAffiliation();
     }
 
 }

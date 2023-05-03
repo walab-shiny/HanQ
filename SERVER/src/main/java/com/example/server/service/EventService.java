@@ -31,11 +31,13 @@ public class EventService {
     public EventDto createEvent(EventCreateDto dto, String token) {
         User host = userService.getUserByToken(token);
         List<Tag> tags = tagService.getTagsFromEvent(dto.getTags());
-        Event event = new Event(dto.getName(),LocalDateTime.parse(dto.getOpenAt()),LocalDateTime.parse(dto.getCloseAt()),host,dto.getLocation(),dto.getMaxUsers(),dto.getReportTimeLimit(),dto.getContent(),dto.getAvailableTime(),dto.getImage());
+//        Event event = new Event(dto.getName(),LocalDateTime.parse(dto.getOpenAt()),LocalDateTime.parse(dto.getCloseAt()),host,dto.getLocation(),dto.getMaxUsers(),dto.getReportTimeLimit(),dto.getContent(),dto.getAvailableTime(),dto.getImage());
+        Event event = new Event(dto);
         Event saved = eventRepository.save(event);
         List<EventTag> relations = eventTagService.createRelation(tags,saved);
         saved.setTags(relations);
         saved.setHost(host);
+        saved.setAffiliation();
         return eventRepository.save(saved).toDto(tags);
     }
     @Transactional
@@ -88,7 +90,7 @@ public class EventService {
         }).collect(Collectors.toList());
     }
     public List<EventDto> getAllEvents() {
-        List<Event> events = eventRepository.findAll();
+        List<Event> events = eventRepository.findEventsByClosedIsFalseAndIsPublicIsTrue();
         return events.stream().map(e -> {
             List<EventTag> eventTags = eventTagService.getEventTagsByEventId(e.getId());
             List<Tag> tags = tagService.getTagsFromEventTag(eventTags);
