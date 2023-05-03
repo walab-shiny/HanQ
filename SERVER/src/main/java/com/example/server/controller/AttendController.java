@@ -1,10 +1,7 @@
 package com.example.server.controller;
 
 import com.example.server.dto.*;
-import com.example.server.qr.Result;
 import com.example.server.service.AttendService;
-import com.example.server.service.EventService;
-import com.example.server.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
