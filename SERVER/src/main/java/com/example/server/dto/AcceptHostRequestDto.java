@@ -11,4 +11,5 @@ import org.springframework.lang.Nullable;
 public class AcceptHostRequestDto {
     private int id;
     private String duration;
+    private String affiliation;
 }

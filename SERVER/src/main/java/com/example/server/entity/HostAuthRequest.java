@@ -51,8 +51,9 @@ public class HostAuthRequest extends BaseEntity {
     public void writeResponse(String response) {
         this.response = response;
     }
-    public void accept(User user) {
+    public void accept(User user, String affiliation) {
         this.status = 2;
+        user.setAffiliationFromHostRequest(affiliation);
         user.makeHost();
         user.setIsPending(false);
     }

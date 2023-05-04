@@ -38,6 +38,7 @@ interface IRequest {
   createdAt: string;
   modifiedAt: string;
   user: IUser;
+  affiliation: string;
 }
 
 export default function Main() {
@@ -161,7 +162,7 @@ export default function Main() {
                 <Box
                   sx={{ width: 1, display: 'flex', justifyContent: 'flex-end', mt: 'auto', gap: 2 }}
                 >
-                  <AcceptModal id={request.id} loadData={loadData} />
+                  <AcceptModal id={request.id} loadData={loadData} affiliation={request.affiliation}/>
                   <DeclineModal id={request.id} loadData={loadData} />
                 </Box>
               </Card>

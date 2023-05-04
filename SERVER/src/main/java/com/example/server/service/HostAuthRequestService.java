@@ -38,7 +38,7 @@ public class HostAuthRequestService {
         if(!dto.getDuration().isEmpty()) {
             request.getUser().setHostUntil(dto.getDuration());
         }
-        request.accept(request.getUser());
+        request.accept(request.getUser(),dto.getAffiliation());
         return request.toDto();
     }
     @Transactional

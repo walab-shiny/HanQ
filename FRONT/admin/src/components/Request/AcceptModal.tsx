@@ -15,10 +15,11 @@ interface IFormData {
 
 interface IProps {
   id: number;
+  affiliation:string;
   loadData: () => Promise<void>;
 }
 
-export default function AcceptModal({ id, loadData }: IProps) {
+export default function AcceptModal({ id, loadData, affiliation}: IProps) {
   const { enqueueSnackbar } = useSnackbar();
   const [open, setOpen] = useState(false);
   const handleClickOpen = () => {
@@ -38,7 +39,7 @@ export default function AcceptModal({ id, loadData }: IProps) {
   } = useForm<IFormData>({ defaultValues: { duration: '' } });
   const onValid = async (formData: IFormData) => {
     try {
-      await acceptRequest(id, hasDuration ? formData.duration : '');
+      await acceptRequest(id, hasDuration ? formData.duration : '', affiliation);
       await loadData();
     } catch (error) {
       enqueueSnackbar('문제가 발생했습니다. 다시 시도하세요.', { variant: 'error' });

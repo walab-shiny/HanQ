@@ -79,6 +79,9 @@ public class User extends BaseEntity {
         this.isStudent = false;
         this.isRegistered = true;
     }
+    public void setAffiliationFromHostRequest(String affiliation) {
+        this.affiliation = affiliation;
+    }
     public void setDepartment(Department department) {
         this.department = department;
     }
@@ -111,9 +114,7 @@ public class User extends BaseEntity {
                 dto.setDepartment(this.department.getName());
                 dto.setPicture(this.picture);
             }
-            else {
-                dto.setAffiliation(this.affiliation);
-            }
+            dto.setAffiliation(this.affiliation);
         }
         dto.setToken(this.token);
         dto.setIsRegistered(this.isRegistered);

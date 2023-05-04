@@ -10,10 +10,11 @@ export const getPendingRequests = async () => {
   return response.data;
 };
 
-export const acceptRequest = async (id: number, duration: string) => {
+export const acceptRequest = async (id: number, duration: string, affiliation: string) => {
   const response = await axios.post(`${process.env.REACT_APP_SERVER}/api/admin/requests/accept`, {
     id,
     duration,
+    affiliation
   });
   return response.data;
 };
