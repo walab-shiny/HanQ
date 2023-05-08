@@ -76,7 +76,10 @@ public class EventService {
     }
     @Transactional
     public EventDto getEvent(int id) {
-        return eventRepository.findById(id).orElseThrow().toDto(tagService.getTagsFromEventTag(eventTagService.getEventTagsByEventId(id)));
+        Event event = eventRepository.findById(id).orElseThrow();
+        event.incrementViews();
+        EventDto dto = event.toDto(tagService.getTagsFromEventTag(eventTagService.getEventTagsByEventId(id)));
+        return dto;
     }
 
     public List<EventDto> getAttendedEvents(String token) {

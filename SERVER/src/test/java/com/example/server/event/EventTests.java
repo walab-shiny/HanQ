@@ -4,6 +4,7 @@ import com.example.server.dto.EventCreateDto;
 import com.example.server.dto.EventIdDto;
 import com.example.server.dto.EventDto;
 import com.example.server.dto.EventUpdateDto;
+import com.example.server.entity.Event;
 import com.example.server.repository.EventRepository;
 import com.example.server.service.EventService;
 import com.example.server.service.UserService;
@@ -83,5 +84,15 @@ public class EventTests {
     @Test
     public void affiliationTest() {
         System.out.println("eventService = " + eventService.getEvent(5));
+    }
+
+    @Test
+    @DisplayName("조회수 확인하기")
+    public void viewsTest() {
+        EventDto dto = eventService.getEvent(4);
+        Event event = eventRepository.findById(4).orElseThrow();
+        System.out.println("event = " + dto);
+        assertThat(dto.getViews()).isEqualTo(event.getViews());
+        assertThat(event.getViews()).isEqualTo(2);
     }
 }
