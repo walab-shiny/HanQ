@@ -1,11 +1,9 @@
 package com.example.server.controller;
 
-import com.example.server.dto.EventCreateDto;
-import com.example.server.dto.EventDto;
-import com.example.server.dto.EventIdDto;
-import com.example.server.dto.EventUpdateDto;
+import com.example.server.dto.*;
 import com.example.server.service.EventService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,8 +34,8 @@ public class EventController {
         return ResponseEntity.ok(eventService.getAttendedEvents(token));
     }
     @GetMapping("/{id}")
-    public ResponseEntity<EventDto> getEvent(@PathVariable(name = "id") int id) {
-        return ResponseEntity.ok(eventService.getEvent(id));
+    public ResponseEntity<EventDto> getEvent(@PathVariable(name = "id") int id,@RequestHeader(name = "Authorization") String token) {
+        return ResponseEntity.ok(eventService.getEvent(id, token));
     }
 
     @PostMapping("/update")
@@ -52,6 +50,14 @@ public class EventController {
     @PostMapping("/close")
     public ResponseEntity<EventDto> closeEvent(@RequestBody EventIdDto dto, @RequestHeader(name = "Authorization") String token) {
         return ResponseEntity.ok(eventService.closeEvent(dto,token));
+    }
+    @PostMapping("/password")
+    public ResponseEntity<Integer> setEventPassword(@RequestBody EventPasswordDto dto, @RequestHeader(name = "Authorization") String token) {
+        return ResponseEntity.ok(eventService.setPassword(dto, token));
+    }
+    @PostMapping("/check")
+    public ResponseEntity<Boolean> checkEventPassword(@RequestBody EventPasswordCheckDto dto) {
+        return ResponseEntity.ok(eventService.checkPasswordAndCode(dto));
     }
 
 }

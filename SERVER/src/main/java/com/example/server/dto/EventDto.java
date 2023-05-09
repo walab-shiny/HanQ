@@ -27,4 +27,5 @@ public class EventDto {
     private Boolean isPublic;
     private String affiliation;
     private int views;
+    private String code;
 }

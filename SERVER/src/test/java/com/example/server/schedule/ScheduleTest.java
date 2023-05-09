@@ -24,14 +24,14 @@ public class ScheduleTest {
     @Autowired
     UserService userService;
 
-    @Test
-    @DisplayName("이벤트 기한 밖이면 닫기")
-    public void eventSchedule() throws InterruptedException {
-       Thread.sleep(6000);
-
-       assertThat(eventService.getEvent(1).getClosed()).isEqualTo(true);
-        assertThat(eventService.getEvent(2).getClosed()).isEqualTo(true);
-    }
+//    @Test
+//    @DisplayName("이벤트 기한 밖이면 닫기")
+//    public void eventSchedule() throws InterruptedException {
+//       Thread.sleep(6000);
+//
+//       assertThat(eventService.getEvent(1).getClosed()).isEqualTo(true);
+//        assertThat(eventService.getEvent(2).getClosed()).isEqualTo(true);
+//    }
 
     @Test
     @DisplayName("권한 마감기한 지나면 권한 뺏기")

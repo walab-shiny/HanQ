@@ -1,9 +1,6 @@
 package com.example.server.service;
 
-import com.example.server.dto.EventCreateDto;
-import com.example.server.dto.EventIdDto;
-import com.example.server.dto.EventDto;
-import com.example.server.dto.EventUpdateDto;
+import com.example.server.dto.*;
 import com.example.server.entity.Attend;
 import com.example.server.entity.Event;
 import com.example.server.entity.Tag;
@@ -11,12 +8,14 @@ import com.example.server.entity.User;
 import com.example.server.entity.relation.EventTag;
 import com.example.server.repository.EventRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,6 +25,7 @@ public class EventService {
     private final TagService tagService;
     private final UserService userService;
     private final EventTagService eventTagService;
+    private final AccessCodeService accessCodeService;
 
     @Transactional
     public EventDto createEvent(EventCreateDto dto, String token) {
@@ -38,7 +38,8 @@ public class EventService {
         saved.setTags(relations);
         saved.setHost(host);
         saved.setAffiliation();
-        return eventRepository.save(saved).toDto(tags);
+        accessCodeService.createAccessCode(saved.getId());
+        return saved.toDto(tags);
     }
     @Transactional
     public int deleteEvent(EventIdDto dto, String token) {
@@ -75,10 +76,13 @@ public class EventService {
         }).collect(Collectors.toList());
     }
     @Transactional
-    public EventDto getEvent(int id) {
+    public EventDto getEvent(int id,String token) {
+        User host = userService.getUserByToken(token);
         Event event = eventRepository.findById(id).orElseThrow();
         event.incrementViews();
         EventDto dto = event.toDto(tagService.getTagsFromEventTag(eventTagService.getEventTagsByEventId(id)));
+        if(host.isHostFor(id))
+            dto.setCode(event.getAccessCode().getCode());
         return dto;
     }
 
@@ -124,4 +128,27 @@ public class EventService {
         });
     }
 
+    @Transactional
+    public int setPassword(EventPasswordDto dto,String token) {
+        User host = userService.getUserByToken(token);
+        if(host.isHostFor(dto.getId())) {
+            Event event = eventRepository.findById(dto.getId()).orElseThrow();
+            String encrypted = DigestUtils.sha256Hex(dto.getPassword());
+            event.setPassword(encrypted);
+            return 1;
+        }
+        return 0;
+    }
+
+    @Transactional
+    public Boolean checkPasswordAndCode(EventPasswordCheckDto dto) {
+        Optional<Event> event = eventRepository.findEventByAccessCode_Code(dto.getCode());
+        if(!event.isPresent())
+            return false;
+        if(event.get().getAccessCode().getCode().equals(dto.getCode())) {
+            if(event.get().getPassword().equals(DigestUtils.sha256Hex(dto.getPassword())))
+                return true;
+        }
+        return false;
+    }
 }
