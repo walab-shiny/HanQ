@@ -22,6 +22,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Base64;
 import java.util.List;
 
@@ -49,7 +50,7 @@ public class AttendService {
 //        SimpleDateFormat fromQr = new SimpleDateFormat("yyyyMMddHHmm");
 //        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
 //        String formatted = format.format(fromQr.parse(time));
-        attend.setTaggedAt(LocalDateTime.now());
+        attend.setTaggedAt(LocalDateTime.now(ZoneId.of("Asia/Seoul")));
         User user;
         if(userRepository.existsUserByStudentNum(Long.valueOf(result.getUser_number()))) {
             user = userRepository.findUserByStudentNum(Long.valueOf(result.getUser_number()));
@@ -65,7 +66,7 @@ public class AttendService {
         user.addAttend(attend);
         event.addAttend(attend);
         QrResponseDto responseDto = new QrResponseDto(result);
-        responseDto.setTaggedAt(LocalDateTime.now().toString());
+        responseDto.setTaggedAt(LocalDateTime.now(ZoneId.of("Asia/Seoul")).toString());
         return responseDto;
     }
     public QrApiResponse getQrResponse(String encoded) throws Exception {

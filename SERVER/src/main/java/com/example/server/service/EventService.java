@@ -118,7 +118,7 @@ public class EventService {
     }
 
     @Transactional
-    @Scheduled(fixedDelay = 60000)  // 배포할 때 시간 cron 으로 바꾸기
+    @Scheduled(cron = "0 0 * * * *",zone = "Asia/Seoul")  // 배포할 때 시간 cron 으로 바꾸기
     public void closeEventScheduled() {
         List<Event> events = eventRepository.findEventsByClosedIsFalse();
         events.forEach(e -> {
