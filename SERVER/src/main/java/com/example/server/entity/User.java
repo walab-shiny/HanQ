@@ -144,5 +144,8 @@ public class User extends BaseEntity {
     public void quitHost() {
         this.isHost=false;
     }
+    public boolean isHostFor(int id) {
+        return (this.events.stream().anyMatch(e -> e.getId() == id));
+    }
 
 }

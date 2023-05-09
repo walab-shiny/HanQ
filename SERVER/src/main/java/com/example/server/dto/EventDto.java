@@ -26,4 +26,6 @@ public class EventDto {
     private String image;
     private Boolean isPublic;
     private String affiliation;
+    private int views;
+    private String code;
 }

@@ -1,12 +1,13 @@
 package com.example.server.event;
 
-import com.example.server.dto.EventCreateDto;
-import com.example.server.dto.EventIdDto;
-import com.example.server.dto.EventDto;
-import com.example.server.dto.EventUpdateDto;
+import com.example.server.dto.*;
+import com.example.server.entity.Event;
+import com.example.server.repository.AccessCodeRepository;
 import com.example.server.repository.EventRepository;
+import com.example.server.service.AccessCodeService;
 import com.example.server.service.EventService;
 import com.example.server.service.UserService;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,7 +24,11 @@ public class EventTests {
     @Autowired
     UserService userService;
     @Autowired
-    private EventRepository eventRepository;
+    EventRepository eventRepository;
+    @Autowired
+    AccessCodeService accessCodeService;
+    @Autowired
+    AccessCodeRepository accessCodeRepository;
 
     @Test
     @Order(1)
@@ -68,10 +73,10 @@ public class EventTests {
         assertThat(eventService.getEvents(token).get(1).getName()).isEqualTo("전전경경대전 Private");
         assertThat(eventService.getEvents(token).get(1).getIsPublic()).isEqualTo(true);
     }
-    @Test
-    public void getEvent() {
-        System.out.println("eventService = " + eventService.getEvent(6));
-    }
+//    @Test
+//    public void getEvent() {
+//        System.out.println("eventService = " + eventService.getEvent(6));
+//    }
 
     @Test
     public void getAllEvents() {
@@ -80,8 +85,52 @@ public class EventTests {
         list.forEach(e -> System.out.println("e.getName() = " + e.getName()));
     }
 
+//    @Test
+//    public void affiliationTest() {
+//        System.out.println("eventService = " + eventService.getEvent(5));
+//    }
+
+//    @Test
+//    @DisplayName("조회수 확인하기")
+//    public void viewsTest() {
+//        EventDto dto = eventService.getEvent(4);
+//        Event event = eventRepository.findById(4).orElseThrow();
+//        System.out.println("event = " + dto);
+//        assertThat(dto.getViews()).isEqualTo(event.getViews());
+//        assertThat(event.getViews()).isEqualTo(2);
+//    }
     @Test
-    public void affiliationTest() {
-        System.out.println("eventService = " + eventService.getEvent(5));
+    @DisplayName("랜덤 스트링 생성 및 이벤트 연관관계 설정")
+    public void randomStringTest() {
+        String token = "106748212855095490148";
+        List<Integer> tags = new ArrayList<>();
+        tags.add(1);
+        tags.add(2);
+        EventDto dto = eventService.createEvent(new EventCreateDto("Random String Test","2022-05-05T12:00:00","2022-05-05T12:00:00","평봉필드",500,2,"전산전자공학부 vs 경영경제뭐시기ㅋㅋ 어차피 전전이 이김",15,"",tags,false),token);
+        System.out.println("dto = " + dto);
+        System.out.println("accessCodeRepository = " + accessCodeRepository.findById(1).orElseThrow().toDto());
+    }
+    @Test
+    @DisplayName("연관관계 확인")
+    public void accessCodeEventRelationTest() {
+        assertThat(accessCodeRepository.findById(1).orElseThrow().getEvent().getId()).isEqualTo(6);
+        assertThat(eventRepository.findById(6).orElseThrow().getAccessCode().getId()).isEqualTo(1);
+    }
+    @Test
+    @DisplayName("비밀번호 설정")
+    public void setPasswordTest() {
+        eventService.setPassword(new EventPasswordDto(6,"ime2me"),"106748212855095490148");
+        Event event = eventRepository.findById(6).orElseThrow();
+        assertThat(event.getPassword()).isEqualTo(DigestUtils.sha256Hex("ime2me"));
+    }
+    @Test
+    @DisplayName("코드와 비밀번호 확인")
+    public void checkPasswordTest() {
+        Boolean a = eventService.checkPasswordAndCode(new EventPasswordCheckDto("ROVDxD","ime2me"));
+        Boolean b = eventService.checkPasswordAndCode(new EventPasswordCheckDto("ROVDxd","ime2me"));
+        Boolean c = eventService.checkPasswordAndCode(new EventPasswordCheckDto("ROVDxD","ime2m2"));
+        assertThat(a).isEqualTo(Boolean.TRUE);
+        assertThat(b).isEqualTo(Boolean.FALSE);
+        assertThat(c).isEqualTo(Boolean.FALSE);
     }
 }

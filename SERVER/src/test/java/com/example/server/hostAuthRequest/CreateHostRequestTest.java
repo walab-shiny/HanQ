@@ -51,7 +51,7 @@ public class CreateHostRequestTest {
     @Test
     @Order(3)
     public void acceptRequest() {
-        HostAuthRequestDto dto = hostAuthRequestService.acceptRequest(new AcceptHostRequestDto(1, "2023-03-26"));
+        HostAuthRequestDto dto = hostAuthRequestService.acceptRequest(new AcceptHostRequestDto(1, "2023-03-26",""));
 //        assertThat(userService.getUser(dto.getUserId()).getIsHost()).isEqualTo(true);
 //        assertThat(userService.getUser(dto.getUserId()).getHostUntil()).isEqualTo("2023-03-26");
     }

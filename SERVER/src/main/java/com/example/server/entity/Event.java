@@ -41,10 +41,15 @@ public class Event extends BaseEntity {
     private List<EventTag> tags = new ArrayList<>();
     @OneToMany(mappedBy = "event")
     private List<Attend> attends = new ArrayList<>();
+    @Column(columnDefinition = "TEXT")
     private String content;
     private int availableTime;
     private String image;
     private String affiliation;
+    private int views=0;
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private AccessCode accessCode;
+    private String password;
 
     public Event (String name, LocalDateTime openAt, LocalDateTime closeAt,User host, String location, int maxUsers, int reportTimeLimit, String content, int availableTime, String image){
         this.name=name;
@@ -76,7 +81,7 @@ public class Event extends BaseEntity {
     }
     public EventDto toDto(List<Tag> tags) {
         List<TagDto> tagDtos = tags.stream().map(Tag::toDto).collect(Collectors.toList());
-        return new EventDto(this.id, this.name, this.openAt,this.closeAt,this.closed,this.reportTimeLimit, this.host.getId(), this.location, this.maxUsers, tagDtos, this.content, this.availableTime, this.image,this.isPublic,this.affiliation);
+        return new EventDto(this.id, this.name, this.openAt,this.closeAt,this.closed,this.reportTimeLimit, this.host.getId(), this.location, this.maxUsers, tagDtos, this.content, this.availableTime, this.image,this.isPublic,this.affiliation,this.views,"");
     }
     public void setHost(User user) {
         user.getEvents().add(this);
@@ -104,6 +109,15 @@ public class Event extends BaseEntity {
     }
     public void setAffiliation() {
         this.affiliation = this.host.getAffiliation();
+    }
+    public void incrementViews() {
+        this.views++;
+    }
+    public void setAccessCode(AccessCode accessCode) {
+        this.accessCode = accessCode;
+    }
+    public void setPassword(String password) {
+        this.password = password;
     }
 
 }
