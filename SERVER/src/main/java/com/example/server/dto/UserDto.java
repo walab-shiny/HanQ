@@ -4,6 +4,8 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -25,5 +27,5 @@ public class UserDto {
     private Boolean isPending=false;
     private String picture="";
     private String requestDate="";
-
+    private List<TagDto> tags = new ArrayList<>();
 }

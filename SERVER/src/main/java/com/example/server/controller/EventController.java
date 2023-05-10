@@ -30,7 +30,7 @@ public class EventController {
         return ResponseEntity.ok(eventService.getAllEvents());
     }
     @GetMapping("/attended")
-    public ResponseEntity<List<EventDto>> getAttendedEvents(@RequestHeader(name = "Authorization") String token) {
+    public ResponseEntity<List<AttendedEventDto>> getAttendedEvents(@RequestHeader(name = "Authorization") String token) {
         return ResponseEntity.ok(eventService.getAttendedEvents(token));
     }
     @GetMapping("/{id}")
@@ -56,7 +56,7 @@ public class EventController {
         return ResponseEntity.ok(eventService.setPassword(dto, token));
     }
     @PostMapping("/check")
-    public ResponseEntity<Boolean> checkEventPassword(@RequestBody EventPasswordCheckDto dto) {
+    public ResponseEntity<CheckEventPasswordDto> checkEventPassword(@RequestBody EventPasswordCheckDto dto) {
         return ResponseEntity.ok(eventService.checkPasswordAndCode(dto));
     }
     @GetMapping("/count")
@@ -64,4 +64,8 @@ public class EventController {
         return ResponseEntity.ok(eventService.eventTotalCount());
     }
 
+    @GetMapping("/tagged")
+    public ResponseEntity<List<EventDto>> getTagged(@RequestHeader(name = "Authorization") String token) {
+        return ResponseEntity.ok(eventService.getLikedEvents(token));
+    }
 }

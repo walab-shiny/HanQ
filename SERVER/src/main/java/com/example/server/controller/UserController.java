@@ -44,4 +44,8 @@ public class UserController {
     public ResponseEntity<List<AttendUserDto>> getAttendUsers(@PathVariable(name = "id") int id, @RequestHeader(name = "Authorization") String token) {
         return ResponseEntity.ok(userService.getAttendUsers(id,token));
     }
+    @PostMapping("/update")
+    public ResponseEntity<UserDto> updateUser(@RequestBody UserUpdateDto dto, @RequestHeader(name = "Authorization") String token) {
+        return ResponseEntity.ok(userService.updateUser(dto, token));
+    }
 }
