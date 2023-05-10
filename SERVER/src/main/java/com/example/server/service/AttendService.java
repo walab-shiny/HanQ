@@ -113,4 +113,8 @@ public class AttendService {
         return new AttendMonthlyCountResponse(list.size());
     }
 
+    public AttendCountDto countTotalAttend() {
+        return new AttendCountDto(attendRepository.findAll().size());
+    }
+
 }

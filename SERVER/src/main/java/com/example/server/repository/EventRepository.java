@@ -10,4 +10,5 @@ public interface EventRepository extends JpaRepository<Event,Integer> {
     List<Event> findEventsByClosedIsFalse();
     List<Event> findEventsByClosedIsFalseAndIsPublicIsTrue();
     Optional<Event> findEventByAccessCode_Code(String code);
+
 }

@@ -72,7 +72,9 @@ public class EventService {
         return host.getEvents().stream().map(e -> {
             List<EventTag> eventTags = eventTagService.getEventTagsByEventId(e.getId());
             List<Tag> tags = tagService.getTagsFromEventTag(eventTags);
-            return e.toDto(tags);
+            EventDto dto = e.toDto(tags);
+            dto.setCode(e.getAccessCode().getCode());
+            return dto;
         }).collect(Collectors.toList());
     }
     @Transactional
@@ -150,5 +152,9 @@ public class EventService {
                 return true;
         }
         return false;
+    }
+    @Transactional
+    public EventCountDto eventTotalCount() {
+        return new EventCountDto(eventRepository.findAll().size());
     }
 }

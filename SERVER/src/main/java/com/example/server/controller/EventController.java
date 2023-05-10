@@ -59,5 +59,9 @@ public class EventController {
     public ResponseEntity<Boolean> checkEventPassword(@RequestBody EventPasswordCheckDto dto) {
         return ResponseEntity.ok(eventService.checkPasswordAndCode(dto));
     }
+    @GetMapping("/count")
+    public ResponseEntity<EventCountDto> eventTotalCount() {
+        return ResponseEntity.ok(eventService.eventTotalCount());
+    }
 
 }

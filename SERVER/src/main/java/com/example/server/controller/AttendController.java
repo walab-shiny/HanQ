@@ -34,4 +34,8 @@ public class AttendController {
     public ResponseEntity<AttendMonthlyCountResponse> monthlyCount(@RequestBody AttendMonthlyCountRequest request) {
         return ResponseEntity.ok(attendService.countAttendMonthly(request));
     }
+    @GetMapping("/count")
+    public ResponseEntity<AttendCountDto> countTotal() {
+        return ResponseEntity.ok(attendService.countTotalAttend());
+    }
 }

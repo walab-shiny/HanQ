@@ -9,7 +9,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginCountResponseDto {
-    private int total;
-    private int today;
+public class EventCountDto {
+    private int count;
 }
