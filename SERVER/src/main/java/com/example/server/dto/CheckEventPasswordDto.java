@@ -10,6 +10,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CheckEventPasswordDto {
-    private int id;
+    private EventDto event;
     private boolean result;
 }

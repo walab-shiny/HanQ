@@ -33,6 +33,10 @@ public class EventController {
     public ResponseEntity<List<AttendedEventDto>> getAttendedEvents(@RequestHeader(name = "Authorization") String token) {
         return ResponseEntity.ok(eventService.getAttendedEvents(token));
     }
+    @GetMapping("/list/hot")
+    public ResponseEntity<List<EventDto>> getHotEvents() {
+        return ResponseEntity.ok(eventService.getHotEvents());
+    }
     @GetMapping("/{id}")
     public ResponseEntity<EventDto> getEvent(@PathVariable(name = "id") int id,@RequestHeader(name = "Authorization") String token) {
         return ResponseEntity.ok(eventService.getEvent(id, token));

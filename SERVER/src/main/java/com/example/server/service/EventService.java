@@ -15,10 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -104,15 +101,27 @@ public class EventService {
         for(int i=0;i<result.size();i++) {
             result.get(i).setTaggedTime(dates.get(i));
         }
+        Collections.sort(result,(res1,res2) -> res2.getOpenAt().compareTo(res1.getOpenAt()));
         return result;
     }
     public List<EventDto> getAllEvents() {
         List<Event> events = eventRepository.findEventsByClosedIsFalseAndIsPublicIsTrue();
-        return events.stream().map(e -> {
+        List<EventDto> list = events.stream().map(e -> {
             List<EventTag> eventTags = eventTagService.getEventTagsByEventId(e.getId());
             List<Tag> tags = tagService.getTagsFromEventTag(eventTags);
             return e.toDto(tags);
         }).collect(Collectors.toList());
+        Collections.sort(list, (e1,e2) -> e2.getOpenAt().compareTo(e1.getOpenAt()));
+        return list.stream().collect(Collectors.toList());
+    }
+    public List<EventDto> getHotEvents() {
+        List<Event> events = eventRepository.findEventsByClosedIsFalseAndIsPublicIsTrue();
+        List<EventDto> list = events.stream().map(e -> {
+            List<EventTag> eventTags = eventTagService.getEventTagsByEventId(e.getId());
+            List<Tag> tags = tagService.getTagsFromEventTag(eventTags);
+            return e.toDto(tags);
+        }).collect(Collectors.toList());
+        return list.stream().sorted(Comparator.comparingInt(EventDto::getViews).thenComparing(EventDto::getOpenAt).reversed()).collect(Collectors.toList());
     }
     @Transactional
     public EventDto closeEvent(EventIdDto dto, String token) {
@@ -159,7 +168,7 @@ public class EventService {
         if(event.get().getAccessCode().getCode().equals(dto.getCode())) {
             if(event.get().getPassword().equals(DigestUtils.sha256Hex(dto.getPassword()))) {
                 result.setResult(true);
-                result.setId(event.get().getId());
+                result.setEvent(event.get().toDto(tagService.getTagsFromEventTag(eventTagService.getEventTagsByEventId(event.get().getId()))));
             }
         }
         return result;
@@ -180,10 +189,12 @@ public class EventService {
             temp.addAll(t.getEvents().stream().map(EventTag::getEvent).collect(Collectors.toList()));
         });
         List<Event> events = new ArrayList<>(new HashSet<>(temp));
-        return events.stream().map(e -> {
+        List<EventDto> list = events.stream().map(e -> {
             List<EventTag> eventTags = eventTagService.getEventTagsByEventId(e.getId());
             List<Tag> tags = tagService.getTagsFromEventTag(eventTags);
             return e.toDto(tags);
         }).collect(Collectors.toList());
+        Collections.sort(list, (e1, e2) -> e2.getOpenAt().compareTo(e1.getOpenAt()));
+        return list.stream().collect(Collectors.toList());
     }
 }
