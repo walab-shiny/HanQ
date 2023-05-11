@@ -6,6 +6,7 @@ import com.example.server.entity.Event;
 import com.example.server.entity.Tag;
 import com.example.server.entity.User;
 import com.example.server.entity.relation.EventTag;
+import com.example.server.entity.relation.UserTag;
 import com.example.server.repository.EventRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -30,7 +33,7 @@ public class EventService {
     @Transactional
     public EventDto createEvent(EventCreateDto dto, String token) {
         User host = userService.getUserByToken(token);
-        List<Tag> tags = tagService.getTagsFromEvent(dto.getTags());
+        List<Tag> tags = tagService.getTagsFromList(dto.getTags());
 //        Event event = new Event(dto.getName(),LocalDateTime.parse(dto.getOpenAt()),LocalDateTime.parse(dto.getCloseAt()),host,dto.getLocation(),dto.getMaxUsers(),dto.getReportTimeLimit(),dto.getContent(),dto.getAvailableTime(),dto.getImage());
         Event event = new Event(dto);
         Event saved = eventRepository.save(event);
@@ -57,7 +60,7 @@ public class EventService {
         if(host.getIsHost()) {
             Event updated = eventRepository.findById(dto.getId()).orElseThrow();
             System.out.println("updated = " + updated);
-            List<Tag> tags = tagService.getTagsFromEvent(dto.getTags());
+            List<Tag> tags = tagService.getTagsFromList(dto.getTags());
             eventTagService.deleteRelations(dto.getId());
             List<EventTag> relations = eventTagService.createRelation(tags, updated);
             updated.update(dto);
@@ -72,7 +75,9 @@ public class EventService {
         return host.getEvents().stream().map(e -> {
             List<EventTag> eventTags = eventTagService.getEventTagsByEventId(e.getId());
             List<Tag> tags = tagService.getTagsFromEventTag(eventTags);
-            return e.toDto(tags);
+            EventDto dto = e.toDto(tags);
+            dto.setCode(e.getAccessCode().getCode());
+            return dto;
         }).collect(Collectors.toList());
     }
     @Transactional
@@ -86,15 +91,20 @@ public class EventService {
         return dto;
     }
 
-    public List<EventDto> getAttendedEvents(String token) {
+    public List<AttendedEventDto> getAttendedEvents(String token) {
         User user = userService.getUserByToken(token);
         List<Attend> attends = user.getAttends();
+        List<LocalDateTime> dates = attends.stream().map(Attend::getTaggedAt).collect(Collectors.toList());
         List<Event> events = attends.stream().map(Attend::getEvent).collect(Collectors.toList());
-        return events.stream().map(e -> {
+        List<AttendedEventDto> result =  events.stream().map(e -> {
             List<EventTag> eventTags = eventTagService.getEventTagsByEventId(e.getId());
             List<Tag> tags = tagService.getTagsFromEventTag(eventTags);
-            return e.toDto(tags);
+            return e.toAttendedDto(tags);
         }).collect(Collectors.toList());
+        for(int i=0;i<result.size();i++) {
+            result.get(i).setTaggedTime(dates.get(i));
+        }
+        return result;
     }
     public List<EventDto> getAllEvents() {
         List<Event> events = eventRepository.findEventsByClosedIsFalseAndIsPublicIsTrue();
@@ -141,14 +151,39 @@ public class EventService {
     }
 
     @Transactional
-    public Boolean checkPasswordAndCode(EventPasswordCheckDto dto) {
+    public CheckEventPasswordDto checkPasswordAndCode(EventPasswordCheckDto dto) {
+        CheckEventPasswordDto result = new CheckEventPasswordDto();
         Optional<Event> event = eventRepository.findEventByAccessCode_Code(dto.getCode());
         if(!event.isPresent())
-            return false;
+            result.setResult(false);
         if(event.get().getAccessCode().getCode().equals(dto.getCode())) {
-            if(event.get().getPassword().equals(DigestUtils.sha256Hex(dto.getPassword())))
-                return true;
+            if(event.get().getPassword().equals(DigestUtils.sha256Hex(dto.getPassword()))) {
+                result.setResult(true);
+                result.setId(event.get().getId());
+            }
         }
-        return false;
+        return result;
+    }
+    @Transactional
+    public EventCountDto eventTotalCount() {
+        return new EventCountDto(eventRepository.findAll().size());
+    }
+
+    @Transactional
+    public List<EventDto> getLikedEvents(String token) {
+        User user = userService.getUserByToken(token);
+        List<Tag> tagList = user.getTags().stream().map(UserTag::getTag).collect(Collectors.toList());
+        System.out.println("tagList = " + tagList);
+        List<Event> temp = new ArrayList<>();
+//        tagList.stream().map(tag -> temp.addAll(eventTagService.getEventTagsByTagId(tag.getId()).stream().map(EventTag::getEvent).collect(Collectors.toList())));
+        tagList.forEach(t -> {
+            temp.addAll(t.getEvents().stream().map(EventTag::getEvent).collect(Collectors.toList()));
+        });
+        List<Event> events = new ArrayList<>(new HashSet<>(temp));
+        return events.stream().map(e -> {
+            List<EventTag> eventTags = eventTagService.getEventTagsByEventId(e.getId());
+            List<Tag> tags = tagService.getTagsFromEventTag(eventTags);
+            return e.toDto(tags);
+        }).collect(Collectors.toList());
     }
 }

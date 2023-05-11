@@ -3,6 +3,7 @@ package com.example.server.entity;
 import com.example.server.dto.TagCreateDto;
 import com.example.server.dto.TagDto;
 import com.example.server.entity.relation.EventTag;
+import com.example.server.entity.relation.UserTag;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -20,8 +21,8 @@ public class Tag {
     private String name;
     @OneToMany(mappedBy = "tag")
     private List<EventTag> events;
-    @ManyToOne(fetch = FetchType.LAZY)
-    private User likes;
+    @OneToMany(mappedBy="tag")
+    private List<UserTag> users;
 
     public TagDto toDto() {
         return new TagDto(this.id, this.name);
@@ -29,4 +30,5 @@ public class Tag {
     public Tag(TagCreateDto dto) {
         this.name = dto.getName();
     }
+
 }

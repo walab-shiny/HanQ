@@ -8,6 +8,7 @@ import com.example.server.repository.EventTagRepository;
 import com.example.server.repository.TagRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -18,12 +19,15 @@ public class EventTagService {
     private final EventRepository eventRepository;
     private final TagRepository tagRepository;
 
+    @Transactional
     public List<EventTag> createRelation(List<Tag> tags, Event event) {
         tags.forEach(t -> {
             EventTag eventTag = new EventTag();
             eventTag.setEvent(event);
             eventTag.setTag(t);
-            eventTagRepository.save(eventTag);
+            EventTag saved = eventTagRepository.save(eventTag);
+            t.getEvents().add(saved);
+            event.getTags().add(saved);
         });
         return eventTagRepository.findEventTagByEvent_Id(event.getId());
     }
@@ -33,5 +37,7 @@ public class EventTagService {
     public List<EventTag> getEventTagsByEventId(int id) {
         return eventTagRepository.findEventTagByEvent_Id(id);
     }
-
+    public List<EventTag> getEventTagsByTagId(int id) {
+        return eventTagRepository.findEventTagsByTag_Id(id);
+    }
 }

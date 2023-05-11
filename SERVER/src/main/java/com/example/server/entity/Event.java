@@ -1,9 +1,6 @@
 package com.example.server.entity;
 
-import com.example.server.dto.EventCreateDto;
-import com.example.server.dto.EventDto;
-import com.example.server.dto.EventUpdateDto;
-import com.example.server.dto.TagDto;
+import com.example.server.dto.*;
 import com.example.server.entity.base.BaseEntity;
 import com.example.server.entity.relation.EventTag;
 import lombok.AllArgsConstructor;
@@ -13,6 +10,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,9 +35,9 @@ public class Event extends BaseEntity {
     private User host;
     private String location;
     private int maxUsers;
-    @OneToMany(mappedBy = "event")
+    @OneToMany(mappedBy = "event", fetch = FetchType.LAZY)
     private List<EventTag> tags = new ArrayList<>();
-    @OneToMany(mappedBy = "event")
+    @OneToMany(mappedBy = "event", orphanRemoval = true)
     private List<Attend> attends = new ArrayList<>();
     @Column(columnDefinition = "TEXT")
     private String content;
@@ -82,6 +80,10 @@ public class Event extends BaseEntity {
     public EventDto toDto(List<Tag> tags) {
         List<TagDto> tagDtos = tags.stream().map(Tag::toDto).collect(Collectors.toList());
         return new EventDto(this.id, this.name, this.openAt,this.closeAt,this.closed,this.reportTimeLimit, this.host.getId(), this.location, this.maxUsers, tagDtos, this.content, this.availableTime, this.image,this.isPublic,this.affiliation,this.views,"");
+    }
+    public AttendedEventDto toAttendedDto(List<Tag> tags) {
+        List<TagDto> tagDtos = tags.stream().map(Tag::toDto).collect(Collectors.toList());
+        return new AttendedEventDto(this.id, this.name, this.openAt,this.closeAt,this.closed,this.reportTimeLimit, this.host.getId(), this.location, this.maxUsers, tagDtos, this.content, this.availableTime, this.image,this.isPublic,this.affiliation,this.views,"",LocalDateTime.now(ZoneId.of("Asia/Seoul")));
     }
     public void setHost(User user) {
         user.getEvents().add(this);

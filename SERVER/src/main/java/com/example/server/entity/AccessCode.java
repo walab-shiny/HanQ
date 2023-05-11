@@ -19,7 +19,7 @@ public class AccessCode {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String code;
-    @OneToOne(mappedBy = "accessCode")
+    @OneToOne(mappedBy = "accessCode", fetch = FetchType.LAZY)
     private Event event;
 
     public AccessCode(String code) {

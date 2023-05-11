@@ -1,13 +1,12 @@
 package com.example.server.service;
 
 import com.example.server.dto.*;
-import com.example.server.entity.Attend;
-import com.example.server.entity.Department;
-import com.example.server.entity.Event;
-import com.example.server.entity.User;
+import com.example.server.entity.*;
+import com.example.server.entity.relation.UserTag;
 import com.example.server.repository.DepartmentRepository;
 import com.example.server.repository.EventRepository;
 import com.example.server.repository.UserRepository;
+import com.example.server.repository.UserTagRepository;
 import com.example.server.token.DecodedToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +25,9 @@ public class UserService {
     private final UserRepository userRepository;
     private final DepartmentRepository departmentRepository;
     private final EventRepository eventRepository;
+    private final TagService tagService;
+    private final UserTagRepository userTagRepository;
+    private final UserTagService userTagService;
     @Transactional
     public ResponseEntity<LoginUserDto> login(DecodedToken token) {
         LoginUserDto dto = new LoginUserDto();
@@ -93,5 +95,18 @@ public class UserService {
             if(h.getHostUntil()!= null && h.getHostUntil().isBefore(LocalDate.now()))
                 h.quitHost();
         });
+    }
+    @Transactional
+    public UserDto updateUser(UserUpdateDto dto, String token) {
+        User user = getUserByToken(token);
+        List<Tag> tags = tagService.getTagsFromList(dto.getLikes());
+        List<UserTag> userTags = userTagService.createRelations(tags,user);
+        if(!dto.getPicture().isEmpty())
+            user.setPicture(dto.getPicture());
+        if(!userTags.isEmpty()) {
+            user.setTags(userTags);
+        }
+        UserDto returnDto = user.toDto();
+        return returnDto;
     }
 }

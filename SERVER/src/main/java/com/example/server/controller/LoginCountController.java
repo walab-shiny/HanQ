@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 @CrossOrigin(origins = "*")
@@ -19,22 +20,22 @@ import java.time.format.DateTimeFormatter;
 @RequestMapping("/api/login/count")
 @Slf4j
 public class LoginCountController {
-    private int yesterday=0;
+    private int total=0;
     private int today=0;
     @GetMapping
     public ResponseEntity<LoginCountResponseDto> getLoginCount() {
-        LoginCountResponseDto dto = new LoginCountResponseDto(this.yesterday, this.today);
+        LoginCountResponseDto dto = new LoginCountResponseDto(this.total, this.today);
         return ResponseEntity.ok(dto);
     }
 
     public void incrementLoginCount() {
         this.today++;
-        log.info(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) + ": Login count: " + today);
+        this.total++;
+        log.info(LocalDateTime.now(ZoneId.of("Asia/Seoul")).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) + ": Login count: " + today);
     }
 
     @Scheduled(cron = "0 0 0 * * *", zone = "Asia/Seoul") // 매일 00:00에 돌아가기
     public void nextDay() {
-        this.yesterday = this.today;
         this.today = 0;
     }
 }

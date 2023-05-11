@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginCountResponseDto {
-    private int total;
-    private int today;
+public class CheckEventPasswordDto {
+    private int id;
+    private boolean result;
 }

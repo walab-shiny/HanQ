@@ -3,6 +3,7 @@ package com.example.server.entity;
 import com.example.server.dto.RequestUserDto;
 import com.example.server.dto.UserDto;
 import com.example.server.entity.base.BaseEntity;
+import com.example.server.entity.relation.UserTag;
 import com.example.server.qr.Result;
 import com.example.server.token.DecodedToken;
 import lombok.Getter;
@@ -12,6 +13,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -53,7 +55,7 @@ public class User extends BaseEntity {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "host")
     private List<Event> events = new ArrayList<>();
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="likes")
-    private List<Tag> tags = new ArrayList<>();
+    private List<UserTag> tags = new ArrayList<>();
 
     public User(Result result) {
         this.name = result.getUser_name();
@@ -125,6 +127,9 @@ public class User extends BaseEntity {
             dto.setIsPending(this.isPending);
         if(this.requests.size()!=0)
             dto.setRequestDate(String.valueOf(this.requests.get(this.requests.size()-1).getCreatedAt()));
+        if(!this.tags.isEmpty()) {
+            dto.setTags(tags.stream().map(userTag -> userTag.getTag().toDto()).collect(Collectors.toList()));
+        }
         return dto;
     }
     public RequestUserDto toRequestUserDto() {
@@ -147,5 +152,13 @@ public class User extends BaseEntity {
     public boolean isHostFor(int id) {
         return (this.events.stream().anyMatch(e -> e.getId() == id));
     }
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+    public void setTags(List<UserTag> tags) {
+        this.tags = tags;
+        tags.forEach(t -> t.setLikes(this));
+    }
+
 
 }
