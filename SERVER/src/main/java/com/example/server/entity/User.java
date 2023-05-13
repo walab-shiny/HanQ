@@ -54,9 +54,10 @@ public class User extends BaseEntity {
     private List<Attend> attends = new ArrayList<>();
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "host")
     private List<Event> events = new ArrayList<>();
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="likes")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="user")
     private List<UserTag> tags = new ArrayList<>();
-
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
+    private List<Report> reports = new ArrayList<>();
     public User(Result result) {
         this.name = result.getUser_name();
         this.studentNum = Long.valueOf(result.getUser_number());
@@ -160,7 +161,10 @@ public class User extends BaseEntity {
     }
     public void setTags(List<UserTag> tags) {
         this.tags = tags;
-        tags.forEach(t -> t.setLikes(this));
+        tags.forEach(t -> t.setUser(this));
+    }
+    public void addReport(Report report) {
+        this.reports.add(report);
     }
 
 
