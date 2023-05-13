@@ -133,7 +133,10 @@ public class User extends BaseEntity {
         return dto;
     }
     public RequestUserDto toRequestUserDto() {
-        return new RequestUserDto(this.name,this.picture,this.affiliation,this.email,this.getDepartment().getName(),this.getStudentNum(),this.hostUntil);
+        if(this.isStudent)
+            return new RequestUserDto(this.name,this.picture,this.affiliation,this.email,this.getDepartment().getName(),this.getStudentNum(),this.hostUntil);
+        else
+            return new RequestUserDto(this.name,this.picture,this.affiliation,this.email,"없음",0L,this.hostUntil);
     }
     public void addAttend(Attend attend) {
         this.attends.add(attend);

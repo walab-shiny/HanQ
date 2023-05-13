@@ -33,12 +33,12 @@ public class CreateHostRequestTest {
     public void createRequests() {
         HostAuthRequest authRequest;
         authRequest = hostAuthRequestService.createAuthRequest(
-                new CreateHostRequestDto("전산전자공학부 임원단입니다! 호스트 권한 요청합니다","전산전자공학부임원단",7),"83247847347");
+                new CreateHostRequestDto("전산전자공학부 임원단입니다! 호스트 권한 요청합니다","전산전자공학부임원단",7),"106748212855095490148");
         HostAuthRequestDto dto= authRequest.toDto();
 //        assertThat(userService.getUser(authRequest.getUser().getId()).getId()).isEqualTo(1);
         assertThat(authRequest.getContent()).isEqualTo("전산전자공학부 임원단입니다! 호스트 권한 요청합니다");
         assertThat(authRequest.getAffiliation()).isEqualTo("전산전자공학부임원단");
-        assertThat(authRequest.getHostUntil()).isEqualTo("2023-05-08");
+        assertThat(authRequest.getHostUntil()).isEqualTo("2023-05-20");
         System.out.println("dto = " + dto);
     }
     @Test

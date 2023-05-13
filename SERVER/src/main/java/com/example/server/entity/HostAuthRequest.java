@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.ZoneId;
 
 @Entity
 @Getter
@@ -33,7 +34,7 @@ public class HostAuthRequest extends BaseEntity {
     public HostAuthRequest(CreateHostRequestDto dto) {
         this.content = dto.getContent();
         this.affiliation = dto.getAffiliation();
-        this.hostUntil = LocalDate.now().plusDays(dto.getHostUntil());
+        this.hostUntil = LocalDate.now(ZoneId.of("Asia/Seoul")).plusDays(dto.getHostUntil());
     }
     public HostAuthRequestDto toDto() {
         HostAuthRequestDto dto = new HostAuthRequestDto();
