@@ -29,4 +29,5 @@ public class AttendedEventDto {
     private int views;
     private String code;
     private LocalDateTime taggedTime;
+    private ReportDto report;
 }

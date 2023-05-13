@@ -147,4 +147,9 @@ public class EventTests {
         assertThat(list.size()).isEqualTo(4);
         System.out.println("list = " + list);
     }
+    @Test
+    @DisplayName("참여한 이벤트 소감문 보여주기")
+    public void attendedEventReportTest() {
+
+    }
 }

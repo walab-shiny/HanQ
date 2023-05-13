@@ -1,13 +1,11 @@
 package com.example.server.service;
 
 import com.example.server.dto.*;
-import com.example.server.entity.Attend;
-import com.example.server.entity.Event;
-import com.example.server.entity.Tag;
-import com.example.server.entity.User;
+import com.example.server.entity.*;
 import com.example.server.entity.relation.EventTag;
 import com.example.server.entity.relation.UserTag;
 import com.example.server.repository.EventRepository;
+import com.example.server.repository.ReportRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -29,6 +27,7 @@ public class EventService {
     private final UserService userService;
     private final EventTagService eventTagService;
     private final AccessCodeService accessCodeService;
+    private final ReportRepository reportRepository;
 
     @Transactional
     public EventDto createEvent(EventCreateDto dto, String token) {
@@ -100,7 +99,11 @@ public class EventService {
         List<AttendedEventDto> result =  events.stream().map(e -> {
             List<EventTag> eventTags = eventTagService.getEventTagsByEventId(e.getId());
             List<Tag> tags = tagService.getTagsFromEventTag(eventTags);
-            return e.toAttendedDto(tags);
+            AttendedEventDto ae = e.toAttendedDto(tags);
+            Optional<Report> report = reportRepository.getReportByUser_IdAndEvent_Id(user.getId(),e.getId());
+            if(report.isPresent())
+                ae.setReport(report.get().toDto());
+            return ae;
         }).collect(Collectors.toList());
         for(int i=0;i<result.size();i++) {
             result.get(i).setTaggedTime(dates.get(i));
