@@ -18,7 +18,7 @@ public class UserTag {
     private int id;
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User likes;
+    private User user;
     @ManyToOne
     @JoinColumn(name = "tag_id")
     private Tag tag;

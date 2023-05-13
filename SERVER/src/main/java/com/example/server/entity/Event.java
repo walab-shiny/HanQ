@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+//@ToString
 @Table(name = "events")
 public class Event extends BaseEntity {
     @Id
@@ -39,6 +39,8 @@ public class Event extends BaseEntity {
     private List<EventTag> tags = new ArrayList<>();
     @OneToMany(mappedBy = "event", orphanRemoval = true)
     private List<Attend> attends = new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL,mappedBy = "event")
+    private List<Report> reports = new ArrayList<>();
     @Column(columnDefinition = "TEXT")
     private String content;
     private int availableTime;
@@ -120,6 +122,9 @@ public class Event extends BaseEntity {
     }
     public void setPassword(String password) {
         this.password = password;
+    }
+    public void addReport(Report report) {
+        this.reports.add(report);
     }
 
 }

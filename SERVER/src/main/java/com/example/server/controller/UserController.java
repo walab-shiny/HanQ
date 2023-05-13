@@ -41,8 +41,8 @@ public class UserController {
         return ResponseEntity.ok(userService.getUserByToken(token).toDto());
     }
     @GetMapping("/attend/{id}")
-    public ResponseEntity<List<AttendUserDto>> getAttendUsers(@PathVariable(name = "id") int id, @RequestHeader(name = "Authorization") String token) {
-        return ResponseEntity.ok(userService.getAttendUsers(id,token));
+    public ResponseEntity<List<AttendUserDto>> getAttendUsers(@PathVariable(name = "id") int id) {
+        return ResponseEntity.ok(userService.getAttendUsers(id));
     }
     @PostMapping("/update")
     public ResponseEntity<UserDto> updateUser(@RequestBody UserUpdateDto dto, @RequestHeader(name = "Authorization") String token) {

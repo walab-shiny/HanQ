@@ -24,12 +24,16 @@ public class UserTagService {
     public List<UserTag> createRelations(List<Tag> tags, User user) {
         tags.forEach(t -> {
             UserTag userTag = new UserTag();
-            userTag.setLikes(user);
+            userTag.setUser(user);
             userTag.setTag(t);
             UserTag saved = userTagRepository.save(userTag);
             user.getTags().add(saved);
             t.getUsers().add(saved);
         });
-        return userTagRepository.getUserTagsByLikes_Id(user.getId());
+        return userTagRepository.getUserTagsByUser_id(user.getId());
+    }
+    @Transactional
+    public void deleteRelations(int id) {
+        userTagRepository.deleteUserTagsByUser_Id(id);
     }
 }
