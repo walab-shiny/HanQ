@@ -15,8 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -76,15 +75,11 @@ public class UserService {
         return userRepository.findUserByToken(token);
     }
 
-    public List<AttendUserDto> getAttendUsers(int id, String token) {
-        User host = userRepository.findUserByToken(token);
-        if(host != null && host.getIsHost()) {
-            Event event = eventRepository.findById(id).orElseThrow();
-            List<Attend> attends = event.getAttends();
-            return attends.stream().map(Attend::toAttendUserDto).collect(Collectors.toList());
-        }
-        else
-            return null;
+    public List<AttendUserDto> getAttendUsers(int id) {
+        Event event = eventRepository.findById(id).orElseThrow();
+        List<Attend> attends = event.getAttends();
+        List<AttendUserDto> list = attends.stream().map(Attend::toAttendUserDto).collect(Collectors.toList());
+        return list.stream().distinct().sorted(Comparator.comparing(AttendUserDto::getTaggedAt)).collect(Collectors.toList());
     }
 
     @Transactional
@@ -99,6 +94,7 @@ public class UserService {
     @Transactional
     public UserDto updateUser(UserUpdateDto dto, String token) {
         User user = getUserByToken(token);
+        userTagService.deleteRelations(user.getId());
         List<Tag> tags = tagService.getTagsFromList(dto.getLikes());
         List<UserTag> userTags = userTagService.createRelations(tags,user);
         if(!dto.getPicture().isEmpty())

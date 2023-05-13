@@ -44,5 +44,6 @@ public class Attend extends BaseEntity {
         dto.setMemo(this.memo);
         return dto;
     }
+
 }
 

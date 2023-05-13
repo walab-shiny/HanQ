@@ -46,10 +46,6 @@ public class AttendService {
             return responseDto;
         }
         Attend attend = new Attend();
-//        String time = result.getQr_tagging_time();
-//        SimpleDateFormat fromQr = new SimpleDateFormat("yyyyMMddHHmm");
-//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-//        String formatted = format.format(fromQr.parse(time));
         attend.setTaggedAt(LocalDateTime.now(ZoneId.of("Asia/Seoul")));
         User user;
         if(userRepository.existsUserByStudentNum(Long.valueOf(result.getUser_number()))) {

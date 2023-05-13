@@ -9,17 +9,20 @@ import com.example.server.entity.relation.EventTag;
 import com.example.server.entity.relation.UserTag;
 import com.example.server.repository.EventRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class EventService {
     private final EventRepository eventRepository;
     private final TagService tagService;
@@ -31,7 +34,6 @@ public class EventService {
     public EventDto createEvent(EventCreateDto dto, String token) {
         User host = userService.getUserByToken(token);
         List<Tag> tags = tagService.getTagsFromList(dto.getTags());
-//        Event event = new Event(dto.getName(),LocalDateTime.parse(dto.getOpenAt()),LocalDateTime.parse(dto.getCloseAt()),host,dto.getLocation(),dto.getMaxUsers(),dto.getReportTimeLimit(),dto.getContent(),dto.getAvailableTime(),dto.getImage());
         Event event = new Event(dto);
         Event saved = eventRepository.save(event);
         List<EventTag> relations = eventTagService.createRelation(tags,saved);
@@ -54,15 +56,17 @@ public class EventService {
     @Transactional
     public EventDto updateEvent(EventUpdateDto dto, String token) {
         User host = userService.getUserByToken(token);
-        if(host.getIsHost()) {
+        if(host.isHostFor(dto.getId())) {
             Event updated = eventRepository.findById(dto.getId()).orElseThrow();
+            eventTagService.deleteRelations(dto.getId());
             System.out.println("updated = " + updated);
             List<Tag> tags = tagService.getTagsFromList(dto.getTags());
-            eventTagService.deleteRelations(dto.getId());
             List<EventTag> relations = eventTagService.createRelation(tags, updated);
             updated.update(dto);
             updated.setTags(relations);
-            return updated.toDto(tags);
+            EventDto result = updated.toDto(tags);
+            result.setCode(updated.getAccessCode().getCode());
+            return result;
         }
         return null;
     }
@@ -137,11 +141,12 @@ public class EventService {
     }
 
     @Transactional
-    @Scheduled(cron = "0 0 * * * *",zone = "Asia/Seoul")  // 배포할 때 시간 cron 으로 바꾸기
+    @Scheduled(cron = "0 0 * * * *",zone = "Asia/Seoul")  // 매일 0분 0초
     public void closeEventScheduled() {
+        log.info("in CloseEventScheduler");
         List<Event> events = eventRepository.findEventsByClosedIsFalse();
         events.forEach(e -> {
-                if(e.getCloseAt().isBefore(LocalDateTime.now()))
+                if(e.getCloseAt().isBefore(LocalDateTime.now(ZoneId.of("Asia/Seoul"))))
                     e.close();
 
         });
