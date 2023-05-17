@@ -1,6 +1,8 @@
 package com.example.server.controller;
 
 import com.example.server.dto.*;
+import com.example.server.qr.QrApiResponse;
+import com.example.server.qr.Result;
 import com.example.server.service.AttendService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,10 @@ public class AttendController {
     @PostMapping
     public ResponseEntity<QrResponseDto> createAttend(@RequestBody QrStringDto dto) throws Exception {
         return ResponseEntity.ok(attendService.createAttend(dto));
+    }
+    @PostMapping("/qrInfo")
+    public ResponseEntity<Result> getQrInformation(@RequestBody QrInformationDto dto) throws Exception {
+        return ResponseEntity.ok(attendService.getQrResponse(dto.getQrString()).getResult().get(0));
     }
     @PostMapping("/memo")
     public ResponseEntity<AttendUserDto> createMemo(@RequestBody MemoCreateDto dto, @RequestHeader(name = "Authorization") String token) {
