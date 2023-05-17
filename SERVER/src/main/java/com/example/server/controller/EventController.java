@@ -72,4 +72,9 @@ public class EventController {
     public ResponseEntity<List<EventDto>> getTagged(@RequestHeader(name = "Authorization") String token) {
         return ResponseEntity.ok(eventService.getLikedEvents(token));
     }
+    @GetMapping("/views/{id}")
+    public ResponseEntity<?> increaseViews(@PathVariable int id) {
+        eventService.increaseViews(id);
+        return ResponseEntity.noContent().build();
+    }
 }

@@ -205,4 +205,9 @@ public class EventService {
         Collections.sort(list, (e1, e2) -> e2.getOpenAt().compareTo(e1.getOpenAt()));
         return list.stream().collect(Collectors.toList());
     }
+    @Transactional
+    public void increaseViews(int id) {
+        Event event = eventRepository.findById(id).orElseThrow();
+        event.incrementViews();
+    }
 }

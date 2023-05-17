@@ -7,6 +7,6 @@ import lombok.Setter;
 @Setter
 public class LoginUserDto {
     private int userId;
-    private boolean isRegistered;
-    private boolean isStudent;
+    private Boolean isRegistered;
+    private Boolean isStudent;
 }

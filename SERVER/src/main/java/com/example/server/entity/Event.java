@@ -37,7 +37,7 @@ public class Event extends BaseEntity {
     private int maxUsers;
     @OneToMany(mappedBy = "event", fetch = FetchType.LAZY)
     private List<EventTag> tags = new ArrayList<>();
-    @OneToMany(mappedBy = "event", orphanRemoval = true)
+    @OneToMany(mappedBy = "event", fetch = FetchType.LAZY)
     private List<Attend> attends = new ArrayList<>();
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL,mappedBy = "event")
     private List<Report> reports = new ArrayList<>();
