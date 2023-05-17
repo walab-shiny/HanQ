@@ -197,6 +197,7 @@ public class EventService {
             temp.addAll(t.getEvents().stream().map(EventTag::getEvent).collect(Collectors.toList()));
         });
         List<Event> events = new ArrayList<>(new HashSet<>(temp));
+        events.stream().filter(e -> !e.getClosed() || e.getIsPublic());
         List<EventDto> list = events.stream().map(e -> {
             List<EventTag> eventTags = eventTagService.getEventTagsByEventId(e.getId());
             List<Tag> tags = tagService.getTagsFromEventTag(eventTags);
