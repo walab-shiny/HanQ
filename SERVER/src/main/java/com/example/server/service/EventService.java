@@ -197,14 +197,16 @@ public class EventService {
             temp.addAll(t.getEvents().stream().map(EventTag::getEvent).collect(Collectors.toList()));
         });
         List<Event> events = new ArrayList<>(new HashSet<>(temp));
-        events.stream().filter(e -> !e.getClosed() || e.getIsPublic());
+//        events = events.stream().filter(e -> !e.getClosed() || e.getIsPublic()).collect(Collectors.toList());
         List<EventDto> list = events.stream().map(e -> {
             List<EventTag> eventTags = eventTagService.getEventTagsByEventId(e.getId());
             List<Tag> tags = tagService.getTagsFromEventTag(eventTags);
             return e.toDto(tags);
         }).collect(Collectors.toList());
         Collections.sort(list, (e1, e2) -> e2.getOpenAt().compareTo(e1.getOpenAt()));
-        return list.stream().collect(Collectors.toList());
+        list = list.stream().filter(e -> !e.getClosed()).collect(Collectors.toList());
+        list = list.stream().filter(e -> e.getIsPublic()).collect(Collectors.toList());
+        return list;
     }
     @Transactional
     public void increaseViews(int id) {
