@@ -28,7 +28,7 @@ public class UserService {
     private final UserTagRepository userTagRepository;
     private final UserTagService userTagService;
     @Transactional
-    public ResponseEntity<LoginUserDto> login(DecodedToken token) {
+    public LoginUserDto login(DecodedToken token) {
         LoginUserDto dto = new LoginUserDto();
         User saved;
         if(!userRepository.existsUserByToken(token.getSub())) {
@@ -39,16 +39,16 @@ public class UserService {
             saved = userRepository.findUserByToken(token.getSub());
         }
         dto.setUserId(saved.getId());
-        dto.setRegistered(saved.getIsRegistered());
-        dto.setStudent(saved.getIsStudent());
-        return ResponseEntity.ok(dto);
+        dto.setIsRegistered(saved.getIsRegistered());
+        dto.setIsStudent(saved.getIsStudent());
+        return dto;
     }
     @Transactional
     public User getUser(int id) {
         return userRepository.findById(id).orElseThrow();
     }
     @Transactional
-    public ResponseEntity<UserDto> registerStudent(RegisterStudentDto dto) {
+    public UserDto registerUser(RegisterUserDto dto) {
         User user;
         if(userRepository.existsUserByStudentNum(dto.getStudentNum())) {
             user = userRepository.findUserByStudentNum(dto.getStudentNum());
@@ -59,17 +59,33 @@ public class UserService {
         else {
             user = userRepository.findById(dto.getUserId()).orElseThrow();
         }
-        Department department = departmentRepository.findById(dto.getDepartmentId()).orElseThrow();
-        user.setDepartment(department);
+        if(dto.getDepartmentId()!=0) {
+            Department department = departmentRepository.findById(dto.getDepartmentId()).orElseThrow();
+            user.setDepartment(department);
+        }
+        if(!dto.getAffiliation().isEmpty()) {
+            user.setAffiliation(dto.getAffiliation());
+        }
         user.setStudentNum(dto.getStudentNum());
-        return ResponseEntity.ok(user.toDto());
+        return user.toDto();
     }
-    @Transactional
-    public ResponseEntity<UserDto> registerOther(RegisterOtherDto dto) {
-        User user = userRepository.findById(dto.getUserId()).orElseThrow();
-        user.setAffiliation(dto.getAffiliation());
-        return ResponseEntity.ok(user.toDto());
-    }
+
+//    @Transactional
+//    public ResponseEntity<UserDto> registerOther(RegisterOtherDto dto) {
+////        User user = userRepository.findById(dto.getUserId()).orElseThrow();
+//        User user;
+//        if(userRepository.existsUserByStudentNum(dto.getStudentNum())) {
+//            user = userRepository.findUserByStudentNum(dto.getStudentNum());
+//            User temp = userRepository.findById(dto.getUserId()).orElseThrow();
+//            user.swap(temp);
+//            userRepository.delete(temp);
+//        }
+//        else {
+//            user = userRepository.findById(dto.getUserId()).orElseThrow();
+//        }
+//        user.setAffiliation(dto.getAffiliation());
+//        return ResponseEntity.ok(user.toDto());
+//    }
     @Transactional
     public User getUserByToken(String token) {
         return userRepository.findUserByToken(token);

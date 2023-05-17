@@ -60,6 +60,8 @@ public class User extends BaseEntity {
     private List<Report> reports = new ArrayList<>();
     public User(Result result) {
         this.name = result.getUser_name();
+        if(result.getUser_number().length()!=8)
+            this.isStudent = false;
         this.studentNum = Long.valueOf(result.getUser_number());
     }
     public User(DecodedToken token) {

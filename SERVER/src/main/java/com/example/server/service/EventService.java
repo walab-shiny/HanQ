@@ -197,6 +197,7 @@ public class EventService {
             temp.addAll(t.getEvents().stream().map(EventTag::getEvent).collect(Collectors.toList()));
         });
         List<Event> events = new ArrayList<>(new HashSet<>(temp));
+        events.stream().filter(e -> !e.getClosed() || e.getIsPublic());
         List<EventDto> list = events.stream().map(e -> {
             List<EventTag> eventTags = eventTagService.getEventTagsByEventId(e.getId());
             List<Tag> tags = tagService.getTagsFromEventTag(eventTags);
@@ -204,5 +205,10 @@ public class EventService {
         }).collect(Collectors.toList());
         Collections.sort(list, (e1, e2) -> e2.getOpenAt().compareTo(e1.getOpenAt()));
         return list.stream().collect(Collectors.toList());
+    }
+    @Transactional
+    public void increaseViews(int id) {
+        Event event = eventRepository.findById(id).orElseThrow();
+        event.incrementViews();
     }
 }

@@ -9,8 +9,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RegisterStudentDto {
+public class RegisterUserDto {
     private int userId;
     private Long studentNum;
-    private int departmentId;
+    private int departmentId=0;
+    private String affiliation="";
 }
