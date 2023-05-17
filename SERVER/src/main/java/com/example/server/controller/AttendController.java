@@ -20,7 +20,7 @@ public class AttendController {
     }
     @PostMapping("/qrInfo")
     public ResponseEntity<Result> getQrInformation(@RequestBody QrInformationDto dto) throws Exception {
-        return ResponseEntity.ok(attendService.getQrResponse(dto.getQrString()).getResult().get(0));
+        return ResponseEntity.ok(attendService.getResult(dto.getQrString()));
     }
     @PostMapping("/memo")
     public ResponseEntity<AttendUserDto> createMemo(@RequestBody MemoCreateDto dto, @RequestHeader(name = "Authorization") String token) {
