@@ -80,6 +80,11 @@ public class AttendService {
         QrApiResponse response = getQrResponse(encoded);
         return response.getResult().get(0);
     }
+    public Result getInformation(String qrString) throws Exception {
+        Base64.Encoder encoder = Base64.getEncoder();
+        String encoded = encoder.encodeToString(qrString.getBytes());
+        return getQrResponse(encoded).getResult().get(0);
+    }
     public List<Attend> getAttendsByUserId(int id) {
         return attendRepository.getAttendsByUserId(id);
     }
