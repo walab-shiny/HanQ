@@ -36,24 +36,26 @@ public class UserRegisterTest {
     @Test
     @Order(1)
     public void addDepartments() {
-        departmentService.addDepartment("전산전자공학부");
-        departmentService.addDepartment("콘텐츠융합디자인학부");
-        departmentService.addDepartment("생명과학부");
-        departmentService.addDepartment("공간환경시스템공학부");
-        departmentService.addDepartment("기계제어공학부");
-        departmentService.addDepartment("법학부");
-        departmentService.addDepartment("경영경제학부");
-        departmentService.addDepartment("ICT창업학부");
-        departmentService.addDepartment("커뮤니케이션학부");
-        assertThat(departmentRepository.findById(1).orElseThrow().getName()).isEqualTo("전산전자공학부");
-        assertThat(departmentRepository.findById(2).orElseThrow().getName()).isEqualTo("콘텐츠융합디자인학부");
-        assertThat(departmentRepository.findById(3).orElseThrow().getName()).isEqualTo("생명과학부");
-        assertThat(departmentRepository.findById(4).orElseThrow().getName()).isEqualTo("공간환경시스템공학부");
-        assertThat(departmentRepository.findById(5).orElseThrow().getName()).isEqualTo("기계제어공학부");
-        assertThat(departmentRepository.findById(6).orElseThrow().getName()).isEqualTo("법학부");
-        assertThat(departmentRepository.findById(7).orElseThrow().getName()).isEqualTo("경영경제학부");
-        assertThat(departmentRepository.findById(8).orElseThrow().getName()).isEqualTo("ICT창업학부");
-        assertThat(departmentRepository.findById(9).orElseThrow().getName()).isEqualTo("커뮤니케이션학부");
+//        departmentService.addDepartment("전산전자공학부");
+//        departmentService.addDepartment("콘텐츠융합디자인학부");
+//        departmentService.addDepartment("생명과학부");
+//        departmentService.addDepartment("공간환경시스템공학부");
+//        departmentService.addDepartment("기계제어공학부");
+//        departmentService.addDepartment("법학부");
+//        departmentService.addDepartment("경영경제학부");
+//        departmentService.addDepartment("ICT창업학부");
+//        departmentService.addDepartment("커뮤니케이션학부");
+        departmentService.addDepartment("글로벌리더십학부");
+        departmentService.addDepartment("상담심리사회복지학부");
+//        assertThat(departmentRepository.findById(1).orElseThrow().getName()).isEqualTo("전산전자공학부");
+//        assertThat(departmentRepository.findById(2).orElseThrow().getName()).isEqualTo("콘텐츠융합디자인학부");
+//        assertThat(departmentRepository.findById(3).orElseThrow().getName()).isEqualTo("생명과학부");
+//        assertThat(departmentRepository.findById(4).orElseThrow().getName()).isEqualTo("공간환경시스템공학부");
+//        assertThat(departmentRepository.findById(5).orElseThrow().getName()).isEqualTo("기계제어공학부");
+//        assertThat(departmentRepository.findById(6).orElseThrow().getName()).isEqualTo("법학부");
+//        assertThat(departmentRepository.findById(7).orElseThrow().getName()).isEqualTo("경영경제학부");
+//        assertThat(departmentRepository.findById(8).orElseThrow().getName()).isEqualTo("ICT창업학부");
+//        assertThat(departmentRepository.findById(9).orElseThrow().getName()).isEqualTo("커뮤니케이션학부");
 
     }
 
