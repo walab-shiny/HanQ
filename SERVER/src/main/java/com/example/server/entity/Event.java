@@ -41,7 +41,7 @@ public class Event extends BaseEntity {
     private List<Attend> attends = new ArrayList<>();
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL,mappedBy = "event")
     private List<Report> reports = new ArrayList<>();
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "BLOB")
     private String content;
     private int availableTime;
     private String image;

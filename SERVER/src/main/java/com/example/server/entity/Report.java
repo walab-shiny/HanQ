@@ -15,6 +15,7 @@ public class Report extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(columnDefinition = "BLOB")
     private String content;
     @ManyToOne
     @JoinColumn(name = "event_id")
