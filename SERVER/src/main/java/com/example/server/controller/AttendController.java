@@ -1,12 +1,14 @@
 package com.example.server.controller;
 
 import com.example.server.dto.*;
-import com.example.server.qr.QrApiResponse;
 import com.example.server.qr.Result;
 import com.example.server.service.AttendService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -44,4 +46,5 @@ public class AttendController {
     public ResponseEntity<AttendCountDto> countTotal() {
         return ResponseEntity.ok(attendService.countTotalAttend());
     }
+
 }

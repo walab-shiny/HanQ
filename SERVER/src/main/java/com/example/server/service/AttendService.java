@@ -12,15 +12,14 @@ import com.example.server.repository.UserRepository;
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Base64;
@@ -118,4 +117,7 @@ public class AttendService {
         return new AttendCountDto(attendRepository.findAll().size());
     }
 
+    public List<AttendUserDto> findAttendUsersByPage(int id, Pageable pageable) {
+        return attendRepository.getDistinctByEventId(id,pageable).map(Attend::toAttendUserDto).getContent();
+    }
 }
