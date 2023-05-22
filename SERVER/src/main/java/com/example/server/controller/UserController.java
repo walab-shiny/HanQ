@@ -1,9 +1,11 @@
 package com.example.server.controller;
 
 import com.example.server.dto.*;
+import com.example.server.service.AttendService;
 import com.example.server.service.UserService;
 import com.example.server.token.DecodedToken;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +18,7 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
     private final LoginCountController loginCountController;
+    private final AttendService attendService;
     @PostMapping
     public ResponseEntity<LoginUserDto> login(@RequestBody TokenDto dto) {
         loginCountController.incrementLoginCount();
@@ -38,8 +41,8 @@ public class UserController {
         return ResponseEntity.ok(userService.getUserByToken(token).toDto());
     }
     @GetMapping("/attend/{id}")
-    public ResponseEntity<List<AttendUserDto>> getAttendUsers(@PathVariable(name = "id") int id) {
-        return ResponseEntity.ok(userService.getAttendUsers(id));
+    public ResponseEntity<List<AttendUserDto>> getAttendUsers(@PathVariable(name = "id") int id, Pageable pageable) {
+        return ResponseEntity.ok(attendService.findAttendUsersByPage(id,pageable));
     }
     @PostMapping("/update")
     public ResponseEntity<UserDto> updateUser(@RequestBody UserUpdateDto dto, @RequestHeader(name = "Authorization") String token) {

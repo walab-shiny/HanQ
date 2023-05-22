@@ -25,7 +25,6 @@ public class UserService {
     private final DepartmentRepository departmentRepository;
     private final EventRepository eventRepository;
     private final TagService tagService;
-    private final UserTagRepository userTagRepository;
     private final UserTagService userTagService;
     @Transactional
     public LoginUserDto login(DecodedToken token) {
@@ -70,22 +69,6 @@ public class UserService {
         return user.toDto();
     }
 
-//    @Transactional
-//    public ResponseEntity<UserDto> registerOther(RegisterOtherDto dto) {
-////        User user = userRepository.findById(dto.getUserId()).orElseThrow();
-//        User user;
-//        if(userRepository.existsUserByStudentNum(dto.getStudentNum())) {
-//            user = userRepository.findUserByStudentNum(dto.getStudentNum());
-//            User temp = userRepository.findById(dto.getUserId()).orElseThrow();
-//            user.swap(temp);
-//            userRepository.delete(temp);
-//        }
-//        else {
-//            user = userRepository.findById(dto.getUserId()).orElseThrow();
-//        }
-//        user.setAffiliation(dto.getAffiliation());
-//        return ResponseEntity.ok(user.toDto());
-//    }
     @Transactional
     public User getUserByToken(String token) {
         return userRepository.findUserByToken(token);
