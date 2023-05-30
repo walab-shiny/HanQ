@@ -16,6 +16,8 @@ public class AttendUserDto {
     private Long studentNum;
     private String name;
     private String department="없음";
+    private String major1="";
+    private String major2="";
     private String memo="";
     private LocalDateTime taggedAt;
 

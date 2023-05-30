@@ -12,5 +12,8 @@ import lombok.Setter;
 public class Result {
     private String user_number;
     private String user_name;
+    private String dept_name;
+    private String major1_name;
+    private String major2_name;
     private String qr_tagging_time;
 }
