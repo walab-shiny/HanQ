@@ -51,9 +51,6 @@ public class EventService {
         User host = userService.getUserByToken(token);
         int deleted = eventRepository.findById(dto.getId()).orElseThrow().getId();
         if(host.getIsHost()) {
-            eventTagService.deleteRelations(dto.getId());
-            attendRepository.deleteAllByEvent_Id(dto.getId());
-            accessCodeRepository.deleteAccessCodeByEvent_Id(dto.getId());
             eventRepository.deleteById(dto.getId());
             return deleted;
         }
