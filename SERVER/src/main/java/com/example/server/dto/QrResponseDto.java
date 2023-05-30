@@ -17,6 +17,7 @@ public class QrResponseDto {
     private String major1;
     private String major2;
     private String taggedAt;
+    private int total;
     private Boolean isDuplicate=false;
 
     public QrResponseDto(Result result) {

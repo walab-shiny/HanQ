@@ -74,6 +74,7 @@ public class AttendService {
         event.addAttend(attend);
         QrResponseDto responseDto = new QrResponseDto(result);
         responseDto.setTaggedAt(LocalDateTime.now(ZoneId.of("Asia/Seoul")).toString());
+        responseDto.setTotal(attendRepository.countDistinctByEventId(dto.getEventId()));
         return responseDto;
     }
     public QrApiResponse getQrResponse(String encoded) throws Exception {
@@ -144,7 +145,7 @@ public class AttendService {
 //        Gson gson = new Gson();
 //        QrApiResponse res = gson.fromJson(getResponse.body(), QrApiResponse.class);
 //        Result result = res.getResult().get(0);
-//        int eventId = 9;
+//        int eventId = 4;
 //        if(attendRepository.existsAttendByUserStudentNumAndEventId(Long.valueOf(result.getUser_number()),eventId)) {
 //            QrResponseDto responseDto = new QrResponseDto(result);
 //            responseDto.setIsDuplicate(true);
@@ -175,6 +176,7 @@ public class AttendService {
 //        event.addAttend(attend);
 //        QrResponseDto responseDto = new QrResponseDto(result);
 //        responseDto.setTaggedAt(LocalDateTime.now(ZoneId.of("Asia/Seoul")).toString());
+//        responseDto.setTotal(attendRepository.countDistinctByEventId(eventId));
 //        return responseDto;
 //    }
 }
