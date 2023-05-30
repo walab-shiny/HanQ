@@ -35,11 +35,11 @@ public class Event extends BaseEntity {
     private User host;
     private String location;
     private int maxUsers;
-    @OneToMany(mappedBy = "event", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     private List<EventTag> tags = new ArrayList<>();
-    @OneToMany(mappedBy = "event", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     private List<Attend> attends = new ArrayList<>();
-    @OneToMany(mappedBy = "event", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     private List<Report> reports = new ArrayList<>();
     @Column(columnDefinition = "BLOB")
     private String content;
