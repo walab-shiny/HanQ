@@ -47,6 +47,7 @@ public class AttendService {
         if(attendRepository.existsAttendByUserStudentNumAndEventId(Long.valueOf(result.getUser_number()),dto.getEventId())) {
             QrResponseDto responseDto = new QrResponseDto(result);
             responseDto.setIsDuplicate(true);
+            responseDto.setTotal(attendRepository.countDistinctByEventId(dto.getEventId()));
             return responseDto;
         }
         Attend attend = new Attend();
