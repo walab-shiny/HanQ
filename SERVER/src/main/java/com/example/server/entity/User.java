@@ -37,6 +37,8 @@ public class User extends BaseEntity {
     private String affiliation;
     @OneToOne
     private Department department;
+    private String major1="";
+    private String major2="";
     @Column
     private LocalDate hostUntil;
     @Column
@@ -63,6 +65,7 @@ public class User extends BaseEntity {
         if(result.getUser_number().length()!=8)
             this.isStudent = false;
         this.studentNum = Long.valueOf(result.getUser_number());
+        this.setMajor(result.getMajor1_name(), result.getMajor2_name());
     }
     public User(DecodedToken token) {
         if(token.getName().contains("학부생"))
@@ -167,6 +170,10 @@ public class User extends BaseEntity {
     }
     public void addReport(Report report) {
         this.reports.add(report);
+    }
+    public void setMajor(String m1, String m2) {
+        this.major1 = m1;
+        this.major2 = m2;
     }
 
 

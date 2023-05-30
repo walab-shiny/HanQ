@@ -47,4 +47,9 @@ public class AttendController {
         return ResponseEntity.ok(attendService.countTotalAttend());
     }
 
+//    @GetMapping("/test")
+//    public ResponseEntity<QrResponseDto> deptTest() throws Exception {
+//        return ResponseEntity.ok(attendService.testDept());
+//    }
+
 }

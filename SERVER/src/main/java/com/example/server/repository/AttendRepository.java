@@ -16,6 +16,8 @@ public interface AttendRepository extends JpaRepository<Attend, Integer> {
     Attend getAttendByUser_StudentNumAndEventId(Long number, int eventId);
     List<Attend> getAttendByTaggedAtBetween(LocalDateTime a, LocalDateTime b);
 
+    void deleteAllByEvent_Id(int id);
+
     @Query("select distinct a from Attend a where a.event.id = ?1")
     Page<Attend> getDistinctByEventId(int id, Pageable pageable);
 

@@ -4,6 +4,8 @@ import com.example.server.dto.*;
 import com.example.server.entity.*;
 import com.example.server.entity.relation.EventTag;
 import com.example.server.entity.relation.UserTag;
+import com.example.server.repository.AccessCodeRepository;
+import com.example.server.repository.AttendRepository;
 import com.example.server.repository.EventRepository;
 import com.example.server.repository.ReportRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,12 +24,14 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Slf4j
 public class EventService {
+    private final AttendRepository attendRepository;
     private final EventRepository eventRepository;
     private final TagService tagService;
     private final UserService userService;
     private final EventTagService eventTagService;
     private final AccessCodeService accessCodeService;
     private final ReportRepository reportRepository;
+    private final AccessCodeRepository accessCodeRepository;
 
     @Transactional
     public EventDto createEvent(EventCreateDto dto, String token) {
@@ -48,9 +52,12 @@ public class EventService {
         int deleted = eventRepository.findById(dto.getId()).orElseThrow().getId();
         if(host.getIsHost()) {
             eventTagService.deleteRelations(dto.getId());
+            attendRepository.deleteAllByEvent_Id(dto.getId());
+            accessCodeRepository.deleteAccessCodeByEvent_Id(dto.getId());
             eventRepository.deleteById(dto.getId());
+            return deleted;
         }
-        return deleted;
+        return -1;
     }
     @Transactional
     public EventDto updateEvent(EventUpdateDto dto, String token) {
