@@ -35,7 +35,7 @@ public class User extends BaseEntity {
     private List<HostAuthRequest> requests = new ArrayList<>();
     @Column
     private String affiliation;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Department department;
     private String major1="";
     private String major2="";
