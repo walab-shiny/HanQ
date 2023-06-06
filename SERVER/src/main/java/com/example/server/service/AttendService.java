@@ -3,6 +3,7 @@ package com.example.server.service;
 import com.example.server.controller.TestController;
 import com.example.server.dto.*;
 import com.example.server.entity.Attend;
+import com.example.server.entity.Department;
 import com.example.server.entity.Event;
 import com.example.server.entity.User;
 import com.example.server.qr.QrApiResponse;
@@ -56,10 +57,10 @@ public class AttendService {
         if(userRepository.existsUserByStudentNum(Long.valueOf(result.getUser_number()))) {
             user = userRepository.findUserByStudentNum(Long.valueOf(result.getUser_number()));
             attend.setUser(user);
-            if(user.getDepartment()==null) {
-                user.setDepartment(departmentRepository.findDepartmentByName(result.getDept_name()).orElse(null));
+            if(!user.getDepartment().getName().equals(result.getDept_name())) {
+                user.setDepartment(departmentRepository.findDepartmentByName(result.getDept_name()).orElse(new Department(result.getDept_name())));
             }
-            if(user.getMajor1().isEmpty() || user.getMajor2().isEmpty()) {
+            if(!user.getMajor1().equals(result.getMajor1_name()) || !user.getMajor2().equals(result.getMajor2_name())) {
                 user.setMajor(result.getMajor1_name(), result.getMajor2_name());
             }
         }
@@ -158,16 +159,17 @@ public class AttendService {
 //        if(userRepository.existsUserByStudentNum(Long.valueOf(result.getUser_number()))) {
 //            user = userRepository.findUserByStudentNum(Long.valueOf(result.getUser_number()));
 //            attend.setUser(user);
-//            if(user.getDepartment()==null) {
-//                user.setDepartment(departmentRepository.findDepartmentByName(result.getDept_name()).orElse(null));
+//            if(!user.getDepartment().getName().equals(result.getDept_name())) {
+//                user.setDepartment(departmentRepository.findDepartmentByName(result.getDept_name()).orElse(new Department(result.getDept_name())));
 //            }
-//            if(user.getMajor1().isEmpty() || user.getMajor2().isEmpty()) {
+//            if(!user.getMajor1().equals(result.getMajor1_name()) || !user.getMajor2().equals(result.getMajor2_name())) {
 //                user.setMajor(result.getMajor1_name(), result.getMajor2_name());
 //            }
+//
 //        }
 //        else {
 //            user = new User(result);
-//            user.setDepartment(departmentRepository.findDepartmentByName(result.getDept_name()).orElse(null));
+//            user.setDepartment(departmentRepository.findDepartmentByName(result.getDept_name()).orElse(new Department(result.getDept_name())));
 //            attend.setUser(userRepository.save(user));
 //        }
 //        Event event = eventRepository.findById(eventId).orElseThrow();
