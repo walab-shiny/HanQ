@@ -20,7 +20,7 @@ public class TestController {
         response.setStatus(200);
         response.setDescription("Request Success");
         List<Result> results = new ArrayList<>();
-        results.add(new Result("22000328", "배주영", "상담심리사회복지학부","상담심리학과","사회복지학과","202304110154"));
+        results.add(new Result("22000328", "배주영", "AI융합원","","","202304110154"));
         response.setResult(results);
         return ResponseEntity.ok(response);
     }
