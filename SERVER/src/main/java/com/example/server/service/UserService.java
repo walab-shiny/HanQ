@@ -49,7 +49,7 @@ public class UserService {
     @Transactional
     public UserDto registerUser(RegisterUserDto dto) {
         User user;
-        if(userRepository.existsUserByStudentNum(dto.getStudentNum())) {
+        if(dto.getStudentNum()!=0 && userRepository.existsUserByStudentNum(dto.getStudentNum())) {
             user = userRepository.findUserByStudentNum(dto.getStudentNum());
             User temp = userRepository.findById(dto.getUserId()).orElseThrow();
             user.swap(temp);
